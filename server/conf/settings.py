@@ -34,6 +34,11 @@ from evennia.settings_default import *
 # This is the name of your game. Make it catchy!
 SERVERNAME = "Star Wars: Centennial"
 
+INSTALLED_APPS = INSTALLED_APPS + ("bbs", "jobs", "orgs")
+
+INLINEFUNC_ENABLED=True
+MULTISESSION_MODE=1
+
 # Server ports. If enabled and marked as "visible", the port
 # should be visible to the outside world on a production server.
 # Note that there are many more options available beyond these.
