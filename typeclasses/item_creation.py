@@ -242,7 +242,7 @@ def menu_start_node(caller):
                {"desc": "Create new item", "goto": "create_item_start"},
                {"desc": "Repair an item", "goto": "repair_item_start"})
 
-    if caller.locks.check_lockstring(caller, "dummy:perm(Wizards)"):
+    if caller.locks.check_lockstring(caller, "dummy:perm(Admin)"):
         options += ({"desc": "Add Templates", "goto": "admin_add_template"},
                     {"desc": "Add Component", "goto": "admin_add_component"})
 
