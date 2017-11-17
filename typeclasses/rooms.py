@@ -53,7 +53,7 @@ class Room(DefaultRoom):
              for exit in self.exits:
                  if exit.access(looker, "view"):
                      exits.append("|w<|n|b%s|n|w>|n - %s" % (exit.key, exit.destination))
-        table = evtable.EvTable("|wCharacters and Objects:|n", "|wExits:{n", table=[chars + colored_objects, exits], border=None)
+        table = evtable.EvTable("|wCharacters and Objects:|n", "|wExits:|n", table=[chars + colored_objects, exits], border=None)
         table.reformat_column(0, width=39, align="l")
         message.append(table)
         message.append("\n")
@@ -91,7 +91,7 @@ class Room(DefaultRoom):
             return None
 
     def at_object_receive(self, obj, source_location):
-        if obj.has_player:
+        if obj.has_account:
             weather = self.get_weather()
             if weather:
                 weather_script = evennia.ScriptDB.objects.filter(db_key="weather").first()
