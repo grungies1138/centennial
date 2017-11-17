@@ -88,3 +88,7 @@ class Character(DefaultCharacter):
         for con in visible:
             message.append(con.key)
         return "\n".join(message)
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('characterview:sheet', kwargs={'object_id': self.id})
