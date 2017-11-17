@@ -33,7 +33,7 @@ def menu_start_node(caller):
            "simply browse to it and the option will be available, if possible."
 
     options = ()
-    if caller.locks.check_lockstring(caller, "dummy:perm(Wizards)"):
+    if caller.locks.check_lockstring(caller, "dummy:perm(Admin)"):
         options = ({"desc": "View Orgs",
                     "goto": "admin_view_orgs"},
                    {"desc": "Setup New Org",

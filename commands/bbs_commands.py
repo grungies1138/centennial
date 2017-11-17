@@ -247,7 +247,7 @@ class DeletePostCommand(default_cmds.MuxCommand):
         post_to_delete = board_to_read.db_posts.all()[int(post) - 1]
 
         if self.caller.key in post_to_delete.db_sender or \
-                self.caller.locks.check_lockstring(self.caller, "dummy:perm(Wizards)"):
+                self.caller.locks.check_lockstring(self.caller, "dummy:perm(Admin)"):
             Post.objects.filter(id=post_to_delete.id).delete()
             self.caller.msg("Post successfully deleted.")
         else:
@@ -564,7 +564,7 @@ def menu_start_node(caller):
     options = ({"desc": "Boards",
                 "goto": "list_boards"},)
 
-    if caller.locks.check_lockstring(caller, "dummy:perm(Wizards)"):
+    if caller.locks.check_lockstring(caller, "dummy:perm(Admin)"):
         options += ({"desc": "Administration",
                      "goto": "board_admin"},)
 

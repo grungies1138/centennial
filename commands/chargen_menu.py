@@ -84,9 +84,10 @@ def askTalentSelect(caller):
     for talent in caller.db.talents:
         current_talents += "|y%s|n\n" % titlecase(talent)
 
-    if ((len(caller.db.talents) < 1) or (caller.db.destiny == "talented" and (len(caller.db.talents) < 3))):
+    if (len(caller.db.talents) < 1) or (caller.db.destiny == "talented" and (len(caller.db.talents) < 3)):
         caller.msg(
-            "You have chosen all the talents allows at this point.  After you are IC you will be able to level up and select more.  Thank you.")
+            "You have chosen all the talents allows at this point.  After you are IC you will be able to level up and "
+            "select more.  Thank you.")
         caller.execute_cmd("back")
 
     text = \
@@ -178,7 +179,7 @@ def _parse_talents(caller):
 
 
 def confirm_finalize(caller):
-    text = "Are you {rsure{n you wish to finalize Character Generation? This cannot be undone.  " \
+    text = "Are you |rsure|n you wish to finalize Character Generation? This cannot be undone.  " \
            "Only proceed if you are absolutely sure you wish to close Chargen."
 
     options = ({"key": ("Y", "Yes", "y", "yes"),
@@ -215,35 +216,35 @@ def ask_personal(caller):
     options = ()
 
     if caller.db.fullname:
-        options += ({"desc": "{xSet Fullname{n",
+        options += ({"desc": "|xSet Fullname|n",
                      "goto": "askFullname"},)
     else:
         options += ({"desc": "Set Fullname",
                      "goto": "askFullname"},)
 
     if caller.db.age:
-        options += ({"desc": "{xSet Age{n",
+        options += ({"desc": "|xSet Age|n",
                      "goto": "askAge"},)
     else:
         options += ({"desc": "Set Age",
                      "goto": "askAge"},)
 
     if caller.db.species:
-        options += ({"desc": "{xSet Species{n",
+        options += ({"desc": "|xSet Species|n",
                      "goto": "askSpecies"},)
     else:
         options += ({"desc": "Set Species",
                      "goto": "askSpecies"},)
 
     if caller.db.destiny:
-        options += ({"desc": "{xSet Destiny{n",
+        options += ({"desc": "|xSet Destiny|n",
                      "goto": "askDestiny"},)
     else:
         options += ({"desc": "Set Destiny",
                      "goto": "askDestiny"},)
 
     if caller.db.affiliation:
-        options += ({"desc": "{xSet Starting Affiliation{n",
+        options += ({"desc": "|xSet Starting Affiliation|n",
                      "goto": "askOrg"},)
     else:
         options += ({"desc": "Set Starting Affiliation",
@@ -256,8 +257,8 @@ def ask_personal(caller):
 
 
 def confirm_chargen(caller):
-    text = "Are you sure you want to reset chargen? {wYes{n or {wNo{n\n\n{y*** Warning ***{n This will remove all " \
-           "progress in chargen and reset you back to nohting, just as you started."
+    text = "Are you sure you want to reset chargen? |wYes|n or |wNo|n\n\n|y*** Warning ***|n This will remove all " \
+           "progress in chargen and reset you back to nothing, just as you started."
 
     options = ({"key": ("Y", "Yes", "y", "yes"),
                 "desc": "Yes",
@@ -287,8 +288,8 @@ def reset_chargen(caller):
 
 
 def askSpecies(caller):
-    text = "Please select the species you would like your character to be. type {whelp list species{n to see the list " \
-           "of available species.  {whelp <species>{n to read about a specific selection."
+    text = "Please select the species you would like your character to be. type |whelp list species|n to see the list " \
+           "of available species.  |whelp <species>|n to read about a specific selection."
 
     options = ({"key": "_default",
                 "exec": setSpecies,
@@ -309,7 +310,7 @@ def setSpecies(caller, raw_string):
     if selected_species in list(species.SPECIES.keys()):
         caller.db.species = selected_species
     else:
-        caller.msg("{rError:{n That is not a valid species.")
+        caller.msg("|rError:|n That is not a valid species.")
 
 
 def askOrg(caller):
@@ -349,13 +350,13 @@ def askDestiny(caller):
 
 def setDestiny(caller, raw_string):
     if caller.db.levels > 0:
-        caller.msg("{rYou cannot change your Destiny attribute after you have selected levels.{n")
+        caller.msg("|rYou cannot change your Destiny attribute after you have selected levels.|n")
         return
 
     destiny = raw_string.strip().lower()
 
     if destiny not in DESTINIES:
-        caller.msg("{rThat was not a valid destiny.  Please try again.{n")
+        caller.msg("|rThat was not a valid destiny.  Please try again.|n")
     else:
         caller.db.destiny = destiny
 
@@ -433,7 +434,7 @@ def askLevelSelect(caller):
         num_levels = xp / 100
 
     options = ()
-    text = "You currently have {w%s{n xp.  You have enough for {y%s{n levels.  Please choose the class that you wish " \
+    text = "You currently have |w%s|n xp.  You have enough for |y%s|n levels.  Please choose the class that you wish " \
            "to level in." % (xp, num_levels)
 
     for item in sorted(get_levels(caller)):
@@ -444,7 +445,7 @@ def askLevelSelect(caller):
 
 
 def confirm_class(caller):
-    text = "Are you sure you want to level up in %s? {wYes{n or {wNo{n" % caller.ndb._menutree.selected_level.title()
+    text = "Are you sure you want to level up in %s? |wYes|n or |wNo|n" % caller.ndb._menutree.selected_level.title()
 
     options = ({"key": ("Y", "Yes", "y", "yes"),
                 "desc": "Yes",
@@ -459,10 +460,10 @@ def confirm_class(caller):
 
 def set_class(caller):
     if not caller.db.destiny:
-        caller.msg("{rYou have not selected a Destiny attribute yet.  That must be selected before taking levels.{n")
+        caller.msg("|rYou have not selected a Destiny attribute yet.  That must be selected before taking levels.|n")
         return
     if not caller.db.species:
-        caller.msg("{rYou have not selected a species yet.  That must be selected before taking levels.{n")
+        caller.msg("|rYou have not selected a species yet.  That must be selected before taking levels.|n")
         return
     if not caller.ndb._menutree.selected_level:
         caller.msg("There was a problem.  Report this issue to the admins.")

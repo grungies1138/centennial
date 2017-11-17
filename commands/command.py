@@ -183,12 +183,12 @@ class WhoCommand(default_cmds.MuxCommand):
             else:
                 affiliation = ""
             flag = None
-            if player.locks.check_lockstring(player, "dummy:perm(Wizards)"):
-                flag = "{y!{n"
-            elif player.locks.check_lockstring(player, "dummy:perm(Builders)"):
-                flag = "{g&{n"
-            elif player.locks.check_lockstring(player, "dummy:perm(PlayerHelpers)"):
-                flag = "{r${n"
+            if player.locks.check_lockstring(player, "dummy:perm(Admin)"):
+                flag = "|y!|n"
+            elif player.locks.check_lockstring(player, "dummy:perm(Builder)"):
+                flag = "|g&|n"
+            elif player.locks.check_lockstring(player, "dummy:perm(Helper)"):
+                flag = "|r$|n"
             else:
                 flag = " "
             table.add_row(flag + utils.crop(player.name), utils.time_format(idle, 0),

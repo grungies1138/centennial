@@ -34,7 +34,7 @@ def menu_start_node(caller):
 
     options = ()
 
-    if caller.locks.check_lockstring(caller, "dummy:perm(Wizards)"):
+    if caller.locks.check_lockstring(caller, "dummy:perm(Admin)"):
         new_jobs = Job.objects.filter(db_status__in=['N']).filter(db_viewers__in=[caller])
         options += ({"desc": "View open jobs (%s)" % len(new_jobs),
                                 "goto": "jobs_start"},
@@ -151,7 +151,7 @@ def ask_admin_assign_job(caller):
 def _set_admin_assign_job(caller, caller_input):
     selected_job = caller.ndb._menutree.selected_job.first()
     assignee = caller.search(caller_input.strip())
-    if assignee and caller.locks.check_lockstring(assignee, "dummy:perm(PlayerHelpers)"):
+    if assignee and caller.locks.check_lockstring(assignee, "dummy:perm(Helper)"):
         selected_job.db_assigned_to.add(assignee)
     else:
         caller.msg("That user either does not exist or does not have appropriate permissions to accept job assignments.")
@@ -319,7 +319,7 @@ def _create_job(caller):
         new_job.db_messages.add(new_message)
 
         bucket.db_jobs.add(new_job)
-        notify(caller, "dummy:perm(Builders)", "Job %s created by %s" %
+        notify(caller, "dummy:perm(Builder)", "Job %s created by %s" %
                (new_job.id, new_job.db_viewers.first().key))
     except:
         caller.msg(sys.exc_info()[0])
@@ -394,7 +394,7 @@ def _set_job_add_message(caller, caller_input):
     for owner in selected_job.db_viewers.all():
         notify(caller, "dummy:id(%s)" % owner.id, "Message added to Job %s by %s" % (selected_job.id, caller))
 
-    notify(caller, "dummy:perm(Builders)", "Message added to Job %s by %s" % (selected_job.id, caller))
+    notify(caller, "dummy:perm(Builder)", "Message added to Job %s by %s" % (selected_job.id, caller))
 
 
 #  BUCKETS  #######################
@@ -570,7 +570,7 @@ def create_bucket(caller):
                                        db_sla=int(caller.ndb._menutree.bucket_sla))
     if caller.ndb._menutree.bucket_locks:
         new_bucket.locks.add(caller.ndb._menutree.bucket_locks)
-    notify(caller, "dummy:perm(Builders)", "Bucket %s has been created" % new_bucket.db_key)
+    notify(caller, "dummy:perm(Builder)", "Bucket %s has been created" % new_bucket.db_key)
 
 
 def clear_bucket_create(caller):

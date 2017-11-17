@@ -11,7 +11,8 @@ Item Creation Sytem
 
     1. Components
 
-    Components are the most fundamental piece of the Item Creation system.  Components are the 'parts' used to create items.
+    Components are the most fundamental piece of the Item Creation system.  Components are the 'parts' used to create
+    items.
 
     For example: A sword is made up of a blade, a hilt and a pommel.  Each of these are components.  Thus each of these
     would have a separate entry in the components templates.
@@ -19,10 +20,11 @@ Item Creation Sytem
     Components consist of a few key properties.
 
         Cost:           Cost of all components are combined to calculate the total value of the created item.
-        Categories:     This is a list of the categories the component falls under.  The type of slots it can fill on the item.
+        Categories:     This is a list of the categories the component falls under.  The type of slots it can fill on
+                        the item.
         Mods:           A dictionary of the stat modifiers that the item applies.
-        Size:           The size restriction of the item.  This allows for size groupings to that larger scale components
-                        cannot be added to smaller items in an unrealistic way.
+        Size:           The size restriction of the item.  This allows for size groupings to that larger scale
+                        components cannot be added to smaller items in an unrealistic way.
 
 
 """
@@ -38,13 +40,14 @@ class Component(Object):
     """
     Fundamental element of the Item creation system.
     """
-
     def at_object_creation(self):
         self.db.cost = 0
         self.db.mass = 0
         self.db.categories = []  # The 'type' of the component
-        self.db.mods = {}  # the configurable stat modifiers the item incurs.  Ex: Accuracy: 1, Damage: 5, Dexterity: -10
-        self.db.size = 0  # optional setting to help determine size requirement/restriction on certain components. -1 applies to all sizes.
+        self.db.mods = {}  # the configurable stat modifiers the item incurs.  Ex: Accuracy: 1, Damage: 5, Dexterity:
+        # -10
+        self.db.size = 0  # optional setting to help determine size requirement/restriction on certain components.
+        # -1 applies to all sizes.
         self.db.template = ""
 
 
@@ -210,7 +213,7 @@ class CmdWorkbenchTemplates(default_cmds.MuxCommand):
     help_category = "Items"
 
     def func(self):
-        templates = [t for t in self.obj.db.templates]
+        # templates = [t for t in self.obj.db.templates]
         self.caller.msg(self.obj.db.templates)
 
 
@@ -236,7 +239,8 @@ class CmdWorkbench(default_cmds.MuxCommand):
 
 
 def menu_start_node(caller):
-    text = "Welcome to the Workbench!  Here you will be able to create new or modify existing items.  Please choose from an option below to begin."
+    text = "Welcome to the Workbench!  Here you will be able to create new or modify existing items.  Please choose " \
+           "from an option below to begin."
 
     options = ({"desc": "Improve existing item", "goto": "improve_item_start"},
                {"desc": "Create new item", "goto": "create_item_start"},
@@ -266,7 +270,8 @@ def admin_add_component(caller):
 
 
 def create_item_start(caller):
-    text = "Welcome to the Item Creation system.  Here you will begin crafting a new item from a series of templates.  Below are the template types available at this workbench."
+    text = "Welcome to the Item Creation system.  Here you will begin crafting a new item from a series of templates." \
+           "  Below are the template types available at this workbench."
 
     options = ()
 
@@ -304,7 +309,8 @@ def create_item_select_comp_type(caller):
                 optional.update({item: component_list})
             caller.ndb._menutree.optional = optional
 
-    text = "You have selected the |w%s|n template.  From here, you must choose the components to add to the template to complete the item creation." % caller.ndb._menutree.selected_template
+    text = "You have selected the |w%s|n template.  From here, you must choose the components to add to the template " \
+           "to complete the item creation." % caller.ndb._menutree.selected_template
 
     text += "\n\n|wCurrent |rRequired|w item slots:|n\n"
 
@@ -318,7 +324,9 @@ def create_item_select_comp_type(caller):
 
         text += "Available optional slots: %s" % template.get("optional_count")
 
-    text += "\n\nPlease select the slot you wish to fill.  All required slots must be filled before you will be allowed to proceed to the creation process.  Optional component slots may be left blank.  Select |wCancel|n to deselect your template and start over."
+    text += "\n\nPlease select the slot you wish to fill.  All required slots must be filled before you will be " \
+            "allowed to proceed to the creation process.  Optional component slots may be left blank.  Select " \
+            "|wCancel|n to deselect your template and start over."
 
     options = ()
 
@@ -345,7 +353,8 @@ def cancel_item_create(caller):
 
 def select_comp_slot(caller):
     slot = caller.ndb._menutree.selected_slot
-    text = "Please select the component listed below from those available at this location.  Or choose to install your own."
+    text = "Please select the component listed below from those available at this location.  Or choose to install " \
+           "your own."
 
     options = ()
 
@@ -407,7 +416,8 @@ def install_comp(caller):
                         caller.ndb._menutree.optional[slot] = opt_slot
                     else:
                         raise ValueError(
-                            "|rWarning:|n Optional component slots are full.  If you wish to install this component, you will need to remove another.")
+                            "|rWarning:|n Optional component slots are full.  If you wish to install this component, "
+                            "you will need to remove another.")
                 else:
                     raise ValueError(
                         "|rWarning:|n No empty slots available.  Please remove an item before installing a new one.")
@@ -421,7 +431,8 @@ def install_from_inventory(caller):
 
 
 def improve_item_start(caller):
-    text = "The first step toward improving an item is, of course, selecting the item you want to improve!  Below is a list of the items in your inventory.  Please select the item you wish to modify."
+    text = "The first step toward improving an item is, of course, selecting the item you want to improve!  Below " \
+           "is a list of the items in your inventory.  Please select the item you wish to modify."
 
     options = ()
 
