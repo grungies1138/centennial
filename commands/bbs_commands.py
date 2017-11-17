@@ -3,7 +3,7 @@ import time
 from typeclasses.characters import Character
 from evennia import Command as BaseCommand
 from evennia import default_cmds
-from evennia.utils import create, utils, prettytable, evtable
+from evennia.utils import create, utils, evtable
 from bbs.models import Board, Post, Comment
 from commands.library import titlecase, notify, HEAD_CHAR, SUB_HEAD_CHAR
 from evennia.utils import evmore
