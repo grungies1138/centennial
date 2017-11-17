@@ -5,6 +5,77 @@
     <title>Test</title>
 </head>
 <body>
+    {% extends "base.html" %}
 
+{% block titleblock %}Home{% endblock %}
+
+{% block header_ext %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Welcome {{user}}!</h1>
+
+        <hr />
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-12 col-md-4 mb-3">
+    <div class="card">
+      <h4 class="card-header">Accounts</h4>
+
+      <div class="card-body">
+        <p>
+          There's currently <strong>{{num_accounts_connected}}</strong> connected out of a total of <strong>{{num_accounts_registered}}</strong> account{{num_accounts_registered|pluralize}} registered.
+        </p>
+        <p>
+          Of these, <strong>{{num_accounts_registered_recent}}</strong> were created this week, and <strong>{{num_accounts_connected_recent}}</strong> have connected within the last seven days.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-4 mb-3">
+    <div class="card">
+      <h4 class="card-header text-center">Recently Connected</h4>
+
+      <div class="card-body px-0 py-0">
+        <ul class="list-group">
+          {% for account in accounts_connected_recent %}
+            <li class="list-group-item">{{account.username}}&mdash;<em>{{account.last_login|timesince}} ago</em></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <h4 class="card-header text-center">Evennia</h4>
+
+      <div class="card-body">
+        <p><a href="http://evennia.com">Evennia</a> is an open-source MUD server built in
+        <a href="http://python.org">Python</a>, on top of the
+        <a href="http://twistedmatrix.com">Twisted</a> and
+        <a href="http://djangoproject.com">Django</a> frameworks. This
+        combination of technologies allows for the quick and easy creation
+        of the game of your dreams - as simple or as complex as you like.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
 </body>
 </html>
