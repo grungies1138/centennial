@@ -234,7 +234,7 @@ class CmdInventory(default_cmds.MuxCommand):
         else:
             table = evtable.EvTable(border="header")
             for item in items:
-                table.add_row("|C%s|n" % item.name, item.db.desc or "")
+                table.add_row("|C%s|n" % item.name)
             string = "|wYou are carrying:|n\n%s" % table
         self.caller.msg(string)
 
