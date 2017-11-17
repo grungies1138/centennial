@@ -171,11 +171,11 @@ class WhoCommand(default_cmds.MuxCommand):
     def func(self):
         session_list = SESSIONS.get_sessions()
 
-        table = evtable.EvTable(" {wName:{n", "{wIdle:{n", "{wConn:{n", "{wAffiliation:{n", table=None,
+        table = evtable.EvTable(" |wName:|n", "|wIdle:|n", "|wConn:|n", "|wAffiliation:|n", table=None,
                                 border='header', header_line_char='-', width=78)
 
         for session in session_list:
-            player = session.get_player()
+            player = session.get_account()
             idle = time.time() - session.cmd_last_visible
             conn = time.time() - session.conn_time
             if session.get_puppet():
@@ -199,19 +199,19 @@ class WhoCommand(default_cmds.MuxCommand):
         table.reformat_column(2, width=12)
         table.reformat_column(3, width=30)
 
-        self.caller.msg("{b-{n" * 78)
+        self.caller.msg("|b-|n" * 78)
         self.caller.msg("|yStar Wars: Centennial|n".center(78))
-        self.caller.msg("{b-{n" * 78)
+        self.caller.msg("|b-|n" * 78)
         self.caller.msg(table)
-        self.caller.msg("{b-{n" * 78)
+        self.caller.msg("|b-|n" * 78)
         self.caller.msg("Total Connected: %s" % SESSIONS.player_count())
         whotable = evtable.EvTable("", "", "", header=False, border=None)
         whotable.reformat_column(0, width=26)
         whotable.reformat_column(1, width=26)
         whotable.reformat_column(2, width=26)
-        whotable.add_row("{y!{n - Administrators", "{g&{n - Storytellers", "{r${n - Player Helpers")
+        whotable.add_row("|y!|n - Administrators", "|g&|n - Storytellers", "|r$|n - Player Helpers")
         self.caller.msg(whotable)
-        self.caller.msg("{b-{n" * 78)
+        self.caller.msg("|b-|n" * 78)
 
 
 class CmdInventory(default_cmds.MuxCommand):
@@ -234,8 +234,8 @@ class CmdInventory(default_cmds.MuxCommand):
         else:
             table = evtable.EvTable(border="header")
             for item in items:
-                table.add_row("{C%s{n" % item.name, item.db.desc or "")
-            string = "{wYou are carrying:\n%s" % table
+                table.add_row("|C%s|n" % item.name, item.db.desc or "")
+            string = "|wYou are carrying:|n\n%s" % table
         self.caller.msg(string)
 
 
