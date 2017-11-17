@@ -21,7 +21,7 @@ from commands.bbs_commands import CreateBoardCommand, ViewAllBoardsCommand, Lock
     ViewBoardsCommand, LeaveBoardCommand, DeleteBoardCommand, AddPostCommand, ReadBoardCommand, AddPostCommentCommand, \
     LikeCommand, DeletePostCommand
 from commands.chargen_menu import ChargenMenuCommand
-from commands.vendor_commands import VendorMenuCommand
+# from commands.vendor_commands import VendorMenuCommand
 from commands.job_commands import AddJobCommand
 from commands.mail_commands import CmdMail
 from evennia.commands.default import help
