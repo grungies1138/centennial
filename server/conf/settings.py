@@ -32,7 +32,7 @@ from evennia.settings_default import *
 ######################################################################
 
 # This is the name of your game. Make it catchy!
-SERVERNAME = "centennial"
+SERVERNAME = "Star Wars: Centennial"
 
 # Server ports. If enabled and marked as "visible", the port
 # should be visible to the outside world on a production server.
@@ -56,10 +56,33 @@ WEBSOCKET_CLIENT_PORT = 4005
 # Internal Server-Portal port. Not visible.
 AMP_PORT = 4006
 
+# TIME SETTINGS
+TIME_GAME_EPOCH = 0
+
+TIME_FACTOR = 3
+
+TIME_UNITS = {"sec": 1,
+              "min": 60,
+              "hour": 60 * 60,
+              "day": 60 * 60 * 24,
+              "week": 60 * 60 * 24 * 5,
+              "month": 60 * 60 * 24 * 5 * 7,
+              "year": 60 * 60 * 24 * 5 * 7 * 10 + 60 * 60 * 24 * 5 * 3 + 60 * 60 * 24 * 3}
+
+OLD_REPUBLIC = 799935436800
+
+TREAT_OF_CORUSCANT = 119454566400
+
+RUUSAN_REFORMATION = 35101900800
+
+GREAT_RESYNCHRONIZATION = 4419532800
+
+BATTLE_OF_YAVIN = 3306700800
+
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
 ######################################################################
 try:
     from server.conf.secret_settings import *
 except ImportError:
-    print "secret_settings.py file not found or failed to import."
+    print("secret_settings.py file not found or failed to import.")

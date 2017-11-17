@@ -15,14 +15,17 @@ at_server_cold_start()
 at_server_cold_stop()
 
 """
-
+from evennia import create_script
+from evennia.scripts.models import ScriptDB
+import subprocess
 
 def at_server_start():
     """
     This is called every time the server starts up, regardless of
     how it was shut down.
     """
-    pass
+    if len(ScriptDB.objects.filter(db_key="weather")) == 0:
+        create_script("world.weather.WeatherScript", key="weather", persistent=True, obj=None)
 
 
 def at_server_stop():
@@ -44,7 +47,15 @@ def at_server_reload_stop():
     """
     This is called only time the server stops before a reload.
     """
-    pass
+    print("Starting git pull")
+    process = subprocess.Popen("git pull origin master", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = process.communicate()
+    if out:
+        print(out)
+    if err:
+        print(err)
+
+    print("git pull completed.")
 
 
 def at_server_cold_start():

@@ -8,6 +8,8 @@ creation commands.
 
 """
 from evennia import DefaultCharacter
+from commands.library import header
+from evennia.utils.utils import lazy_property
 
 
 class Character(DefaultCharacter):
@@ -30,4 +32,59 @@ class Character(DefaultCharacter):
     at_post_puppet - Echoes "AccountName has entered the game" to the room.
 
     """
-    pass
+
+    def at_object_creation(self):
+        self.db.xp = 0
+        self.db.level = 0
+        self.db.read_posts = []
+        self.db.talents = []
+        self.scripts.delete(key='endurance')
+        self.scripts.delete(key='health')
+        self.scripts.delete(key='force')
+        self.scripts.delete(key='skills')
+        self.scripts.add('typeclasses.endurance_handler.EnduranceHandler', key='endurance')
+        self.scripts.add('typeclasses.health_handler.HealthHandler', key='health')
+        self.scripts.add('typeclasses.skill_handler.SkillHandler', key='skills')
+        self.endurance.set_character(self)
+        self.endurance.set_max(40)
+        self.health.set_character(self)
+        self.health.set_max_health(40)
+        self.skills.set_character(self)
+
+    def at_post_puppet(self):
+        self.location.msg_contents("%s has connected" % self.key)
+        self.execute_cmd("look")
+        self.execute_cmd("@mail")
+
+    @lazy_property
+    def endurance(self):
+        return [s for s in self.scripts.get(key='endurance') if s.is_valid()][0]
+
+    @lazy_property
+    def force(self):
+        return [s for s in self.scripts.get(key='force') if s.is_valid()][0]
+
+    @lazy_property
+    def health(self):
+        return [s for s in self.scripts.get(key='health') if s.is_valid()][0]
+
+    @lazy_property
+    def skills(self):
+        return [s for s in self.scripts.get(key='skills') if s.is_valid()][0]
+
+    def get_attributes(self):
+        return self.db.attributes
+
+    def return_appearance(self, looker):
+        if not looker:
+            return
+        visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
+
+        message = []
+        message.append(header(self.key))
+        message.append(self.db.desc)
+        message.append(header())
+        message.append("Carrying:")
+        for con in visible:
+            message.append(con.key)
+        return "\n".join(message)
