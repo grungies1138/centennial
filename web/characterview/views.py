@@ -14,4 +14,4 @@ def sheet(request, object_id):
     if not inherits_from(character, settings.BASE_CHARACTER_TYPECLASS):
         raise Http404("I couldn't find a character with that ID. "
                       "Found something else instead.")
-    return render(request, 'character/sheet.html', {'character': character})
+    return render(request, 'characterview/sheet.html', {'character': character})
