@@ -51,7 +51,7 @@ def node_formatter(nodetext, optionstext, caller=None):
 def options_formatter(optionlist, caller=None):
     options = []
     for key, option in optionlist:
-        options.append("{w%s{n: %s" % (key, option))
+        options.append("|w%s|n: %s" % (key, option))
 
     if len(options) > 6:
         if len(options) % 2 > 0:

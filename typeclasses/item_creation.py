@@ -242,6 +242,10 @@ def menu_start_node(caller):
                {"desc": "Create new item", "goto": "create_item_start"},
                {"desc": "Repair an item", "goto": "repair_item_start"})
 
+    if caller.locks.check_lockstring(caller, "dummy:perm(Wizards)"):
+        options += ({"desc": "Add Templates", "goto": "admin_add_template"},
+                    {"desc": "Add Component", "goto": "admin_add_component"})
+
     return text, options
 
 
@@ -250,6 +254,14 @@ def _wrapper(caller, attr, value):
 
 
 def repair_item_start(caller):
+    pass
+
+
+def admin_add_template(caller):
+    pass
+
+
+def admin_add_component(caller):
     pass
 
 
