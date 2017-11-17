@@ -14,7 +14,31 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 """
 
-from evennia import default_cmds
+
+from evennia import default_cmds, CmdSet
+from commands.command import SheetCommand, CheckCommand, OOCCommand, WhoCommand, CmdInventory, CmdPage, TimeCommand
+from commands.bbs_commands import CreateBoardCommand, ViewAllBoardsCommand, LockBoardCommand, JoinBoardCommand, \
+    ViewBoardsCommand, LeaveBoardCommand, DeleteBoardCommand, AddPostCommand, ReadBoardCommand, AddPostCommentCommand, \
+    LikeCommand, DeletePostCommand
+from commands.chargen_menu import ChargenMenuCommand
+from commands.vendor_commands import VendorMenuCommand
+from commands.job_commands import AddJobCommand
+from commands.mail_commands import CmdMail
+from evennia.commands.default import help
+from commands.org_commands import OrgCommand
+from commands.combat_commands import AttackCommand
+
+
+class ChargenCmdSet(default_cmds.CharacterCmdSet):
+    """
+    Commands allowed to be used while in the Chargen Menu
+    """
+    key = "ChargeCmdSet"
+    priority = 2
+
+    def at_cmdset_creation(self):
+        self.add(SheetCommand())
+        self.add(help.CmdHelp())
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -33,6 +57,29 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         #
         # any commands you add below will overload the default ones.
         #
+        self.add(SheetCommand())
+        self.add(CheckCommand())
+        self.add(CmdMail())
+        self.add(CreateBoardCommand())
+        self.add(ViewAllBoardsCommand())
+        self.add(LockBoardCommand())
+        self.add(JoinBoardCommand())
+        self.add(ViewBoardsCommand())
+        self.add(LeaveBoardCommand())
+        self.add(DeleteBoardCommand())
+        self.add(AddPostCommand())
+        self.add(ReadBoardCommand())
+        self.add(AddPostCommentCommand())
+        self.add(DeletePostCommand())
+        self.add(ChargenMenuCommand())
+        self.add(OOCCommand())
+        self.add(LikeCommand())
+        self.add(AddJobCommand())
+        self.add(CmdInventory())
+        self.add(CmdPage())
+        self.add(TimeCommand())
+        self.add(OrgCommand())
+        self.add(AttackCommand())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
@@ -52,6 +99,7 @@ class AccountCmdSet(default_cmds.AccountCmdSet):
         #
         # any commands you add below will overload the default ones.
         #
+        self.add(WhoCommand())
 
 
 class UnloggedinCmdSet(default_cmds.UnloggedinCmdSet):
