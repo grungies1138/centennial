@@ -91,4 +91,4 @@ class Character(DefaultCharacter):
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
-        return reverse('characterview:sheet', kwargs={'object_id': self.id})
+        return reverse('character:sheet', kwargs={'object_id': self.id})
