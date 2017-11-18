@@ -101,3 +101,7 @@ class Guest(DefaultGuest):
     characters are deleted after disconnection.
     """
     pass
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('character:sheet', kwargs={'object_id': self.id})
