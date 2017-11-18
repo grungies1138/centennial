@@ -18,7 +18,7 @@
     <div class="card">
       <div class="card-body">
         {% if user %}
-          <h1 class="card-title">Welcome {{user.puppet.id}}!</h1>
+          <h1 class="card-title">Welcome  (user.puppet or user.db._last_puppet).id!</h1>
         {% else %}
           <h1 class="card-title">Welcome!</h1>
         {% endif %}
@@ -27,9 +27,18 @@
     </div>
   </div>
 </div>
-{{user.get_absolute_url}}
 <hr />
-
+    {% if user %}
+    <div class="row">
+      <div class="col-md-12 col-12">
+        <div class="card">
+          <div class="card-body">
+            <h1>{{(user.puppet or user.db._last_puppet)}}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
 <div class="row">
   <div class="col-12 col-md-4 mb-3">
     <div class="card">
