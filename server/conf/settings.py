@@ -39,6 +39,8 @@ INSTALLED_APPS = INSTALLED_APPS + ("bbs", "jobs", "orgs", "web.character",)
 INLINEFUNC_ENABLED=True
 MULTISESSION_MODE=1
 
+DEBUG=True
+
 # Server ports. If enabled and marked as "visible", the port
 # should be visible to the outside world on a production server.
 # Note that there are many more options available beyond these.
