@@ -28,19 +28,19 @@
         <p>{{user.puppet.db.desc}}</p>
         <br />
         <div class="row">
-          <div class="label col-md-1 col-1"><strong>Age:</strong></div>
-          <div class="label col-md-1 col-1">{{user.puppet.db.age}}</div>
+          <div class="label col-md-1 col-1"><strong>Age: </strong></div>
+          <div>{{user.puppet.db.age}}</div>
 
-          <div class="label col-1"><strong>Level:</strong></div>
-          <div class="label col-1">{{user.puppet.db.level}}</div>
-          <div class="label col-1"><strong>XP:</strong></div>
-          <div class="label col-1">{{user.puppet.db.xp}}</div>
+          <div class="label col-1"><strong>Level: </strong></div>
+          <div>{{user.puppet.db.level}}</div>
+          <div class="label col-1"><strong>XP: </strong></div>
+          <div>{{user.puppet.db.xp}}</div>
         </div>
         <br/>
         <div class="row">
           <div class="col">
             <div class="card">
-            <div class="card-header text-center">Skills</div>
+            <h4 class="card-header text-center">Skills</h4>
               <div class="card-body">
             {% for skill in user.puppet.skills.get_skills %}
               <div class="row">
@@ -55,11 +55,11 @@
             </div>
           <div class="col">
             <div class="card">
-              <div class="card-header text-center">Talents</div>
+              <h4 class="card-header text-center">Talents</h4>
               <div class="card-body">
                 {% for talent in user.puppet.db.talents %}
                 <div class="row">
-                  {{ talent }}
+                  {{ talent.capitalize }}
                 </div>
                 {% endfor %}
               </div>
