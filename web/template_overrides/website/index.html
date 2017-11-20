@@ -39,8 +39,8 @@
         <div class="row">
           <dl>
             {% for skill in user.puppet.skills.get_skills %}
-              <dt class="col-4">{{skill.name}}</dt>
-              <dd class="col-8">{{skill.value}}</dd>
+              <dt class="col-md-4">{{skill.name}}</dt>
+              <dd class="col-md-8">{{skill.value}}</dd>
             {% empty %}
               No skills selected yet.
             {% endfor %}
