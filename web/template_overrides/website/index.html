@@ -38,7 +38,7 @@
         </div>
         <br/>
         <div class="card col-6">
-        <h3>Skills</h3>
+        <h4>Skills</h4>
         {% for skill in user.puppet.skills.get_skills %}
           <div class="row">
             <div class="label col-md-3 col-lg-3 col-xl-3"><strong>{{ skill.name.capitalize }}</strong></div>
@@ -48,7 +48,14 @@
           No skills selected yet.
         {% endfor %}
         </div>
-        <div
+        <div class="card col-6">
+          <h4>Talents</h4>
+          {% for talent in user.puppet.db.talents %}
+            <div class="row">
+              {{ talent }}
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
