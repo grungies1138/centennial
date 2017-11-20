@@ -6,22 +6,15 @@ Commands describe the input the player can do to the game.
 """
 
 import time
-import locale
-import evennia
-from random import randint
 from evennia import Command as BaseCommand
 from evennia import default_cmds, search_object
 from evennia.utils import create, utils, evtable, evform, gametime
-from evennia.comms.models import Msg
 from library import titlecase
 from world import rules
 from evennia.server.sessionhandler import SESSIONS
-from past.builtins import cmp
 from evennia import search_object
 from evennia.contrib import custom_gametime
 from server.conf.settings import TIME_GAME_EPOCH, TIME_FACTOR, TIME_UNITS, GREAT_RESYNCHRONIZATION, BATTLE_OF_YAVIN, OLD_REPUBLIC, TREAT_OF_CORUSCANT, RUUSAN_REFORMATION
-from world.weather import WEATHER
-from typeclasses.characters import Character
 
 
 class SheetCommand(BaseCommand):
