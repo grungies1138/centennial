@@ -39,7 +39,7 @@ class Weapon(Object):
         message.append("|wAccuracy:|n %s" % parse_accuracy(self.accuracy()))
         message.append("|wDamage:|n %s" % parse_damage(self.damage))
         message.append("|wDamage Type: |n %s" % self.damage_type())
-        message.append("|wHealth:|n %s" % self.health())
+        message.append("|wHealth:|n %s" % self.parse_health())
         message.append("|wMass:|n %s" % self.mass())
         message.append("|wRequired Skill:|n %s" % self.db.skill)
 
