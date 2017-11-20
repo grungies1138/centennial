@@ -50,7 +50,7 @@ TELNET_ENABLED = True
 TELNET_PORTS = [4000]
 # (proxy, internal). Only proxy should be visible.
 WEBSERVER_ENABLED = True
-WEBSERVER_PORTS = [(80, 4002)]
+WEBSERVER_PORTS = [(4001, 4002)]
 # Telnet+SSL ports, for supporting clients. Visible.
 SSL_ENABLED = False
 SSL_PORTS = [4003]
