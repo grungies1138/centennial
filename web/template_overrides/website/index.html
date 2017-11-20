@@ -49,8 +49,7 @@
               <div class="card-body">
             {% for skill in user.puppet.skills.get_skills %}
               <div class="row">
-                <div class="label col-md-3 col-lg-3 col-xl-3"><strong>{{ skill.name.capitalize }}</strong></div>
-                <div class="label col">{{ skill.value.capitalize }}</div>
+                <div class="label"><strong>{{ skill.name.capitalize }}: {{ skill.value.capitalize }}</strong></div>
               </div>
             {% empty %}
               No skills selected yet.
