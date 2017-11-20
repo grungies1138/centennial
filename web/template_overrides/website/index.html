@@ -24,22 +24,14 @@
         {% endif %}
         <hr />
       </div>
+      <div class="card-body">
+            <h1>{{user.puppet.name}}</h1>
+            <p>{{user.puppet.db.desc}}</p>
+          </div>
     </div>
   </div>
 </div>
 <hr />
-    {% if user %}
-    <div class="row">
-      <div class="col-md-12 col-12">
-        <div class="card">
-          <div class="card-body">
-            <h1>{{user}}</h1>
-            <p>{{user.puppet.db.desc}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endif %}
 <div class="row">
   <div class="col-12 col-md-4 mb-3">
     <div class="card">
