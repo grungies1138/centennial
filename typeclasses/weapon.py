@@ -50,7 +50,7 @@ class Weapon(Object):
 
     def parse_health(self):
         current = self.db.health
-        max_health = self.db.db.max_health
+        max_health = self.db.max_health
 
         if max_health > 0:
             percent = int(current / max_health * 100)
