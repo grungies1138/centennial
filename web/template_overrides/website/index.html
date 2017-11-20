@@ -38,8 +38,8 @@
         </div>
         <div class="row">
             {% for skill in user.puppet.skills.get_skills %}
-              <div class="label col-md-4 col-lg-4 col-xl-4">{{skill.name}}</div>
-              <div class="label col-md-8 col-lg-8 col-xl-8">{{skill.value}}</div>
+              <div class="label col-md-2 col-lg-2 col-xl-2">{{ skill.name.capitalize }}</div>
+              <div class="label col-md-8 col-lg-8 col-xl-8">{{ skill.value.capitalize }}</div>
             {% empty %}
               No skills selected yet.
             {% endfor %}
