@@ -36,6 +36,7 @@
           <div class="label col-1"><strong>XP:</strong></div>
           <div class="label col-1">{{user.puppet.db.xp}}</div>
         </div>
+        <h3>Skills</h3>
         {% for skill in user.puppet.skills.get_skills %}
           <div class="row">
             <div class="label col-md-2 col-lg-2 col-xl-2"><strong>{{ skill.name.capitalize }}</strong></div>
