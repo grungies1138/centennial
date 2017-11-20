@@ -41,8 +41,8 @@ MULTISESSION_MODE=1
 
 DEBUG=True
 
-PROTOTYPE_MODULES = ["world.prototypes", "world.weapon_prototypes", "world.armor_prototypes", "equipment_prototypes",
-                     "consumable_prototypes"]
+PROTOTYPE_MODULES = ["world.prototypes", "world.weapon_prototypes", "world.armor_prototypes", "world.equipment_prototypes",
+                     "world.consumable_prototypes"]
 
 # Server ports. If enabled and marked as "visible", the port
 # should be visible to the outside world on a production server.
