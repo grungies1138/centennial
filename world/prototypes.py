@@ -37,14 +37,18 @@ See the `@spawn` command and `evennia.utils.spawner` for more info.
 """
 
 DL_17 = {
-    "key": "Blastech DL-17",
+    "key": "DL-17",
     "typeclass": "typeclasses.weapon.Weapon",
     "health": 20,
+    "max_health": 20,
     "skill": "Firearms",
     "accuracy": 30,
     "damage": 15,
-    "damage_type": "energy",
+    "damage_type": "Energy",
     "durability": 10,
-    "mass": 2
+    "mass": 2,
+    "manufacturer": "Blastech Industries"
 }
+
+
 

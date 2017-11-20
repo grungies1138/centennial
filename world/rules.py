@@ -103,7 +103,7 @@ def parse_damage(value):
         return "High"
     elif value >= 25:
         return "Medium-High"
-    elif value >=20:
+    elif value >= 20:
         return "Medium"
     elif value >= 15:
         return "Low-Medium"
