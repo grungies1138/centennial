@@ -59,15 +59,17 @@
           </div>
             </div>
           <div class="col">
-            <div class="card">
+            <div class="col">
+              <div class="card">
               <h4 class="card-header text-center">Talents</h4>
-              <div class="card-body">
+              <div class="card-body col-12">
                 {% for talent in user.puppet.db.talents %}
                 <div class="row">
                   {{ talent.capitalize }}
                 </div>
                 {% endfor %}
               </div>
+            </div>
             </div>
           </div>
         </div>
