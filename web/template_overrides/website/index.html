@@ -19,7 +19,12 @@
       <div class="card-body">
         {% if user %}
           <h1 class="card-title">Welcome  {{user.puppet.name}}!</h1>
-        <div class="card-body">
+        {% else %}
+          <h1 class="card-title">Welcome!</h1>
+        {% endif %}
+        <hr />
+      </div>
+      <div class="card-body">
         <p>{{user.puppet.db.desc}}</p>
         <br />
         <div class="row">
@@ -83,12 +88,6 @@
           </div>
         </div>
       </div>
-        {% else %}
-          <h1 class="card-title">Welcome!</h1>
-        {% endif %}
-        <hr />
-      </div>
-
     </div>
   </div>
 </div>
