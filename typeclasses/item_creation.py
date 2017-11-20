@@ -54,104 +54,104 @@ class Component(Object):
         self.db.template = ""
 
 
-class Weapon(Object):
-    def at_object_creation(self):
-        self.db.modes = []  # Single | Burst | Auto | Stun | Thrown
-        self.db.hands = 1  # 1 or 2 (or more for more odd species and the like)
-        self.db.components = []  # list of the components that comprise this item
-        self.db.skill = ""  # associated skill or stat used in the game system to track the use of this item.
-        self.db.template = ""
-        self.db.health = 0
-
-    def accuracy(self):
-        # Look at components and find all the accuracy related component values and add them together.
-        pass
-
-    def damage(self):
-        # Same as accuracy, but for damage
-        pass
-
-    def damage_type(self):
-        # returns the types of damage dealt by the weapon.  Optional.
-        pass
-
-    def durability(self):
-        # same as accuracy, but for durability
-        pass
-
-    def mass(self):
-        # same as above but for mass
-        pass
-
-
-class Armor(Object):
-    def at_object_creation(self):
-        self.db.destroyed = False
-        self.db.components = []
-        self.db.template = ""
-        self.db.health = 0
-
-    def durability(self):
-        # calculate durability based on components
-        pass
-
-    def protection_type(self):
-        # What types of damage does this armor protect against.
-        pass
-
-    def mass(self):
-        # calculate mass
-        pass
-
-
-class Equipment(Object):
-    def at_object_creation(self):
-        self.db.description = ""
-        self.db.components = []
-        self.db.template = ""
-
-    def function(self):
-        # calculate function from components.  Including associated skills to modify
-        pass
-
-    def durabililty(self):
-        # Calculate durability from components
-        pass
-
-    def mass(self):
-        # calculate mass from components
-        pass
-
-
-class Consumable(Object):
-    def at_object_creation(self):
-        self.db.description = ""
-        self.db.components = []
-        self.db.template = ""
-        self.db.addictive = False
-
-    # Potency can have impact on the strength of the consumable for healing or other effects.
-    # It also has the added benefit of, possibly, being used to measure the chance of addiction.
-    def potency(self):
-        # calculate potency from components
-        pass
-
-    # Quality along with Potency measure the effectiveness of the consumable
-    def quality(self):
-        # calculate quality from components
-        pass
-
-    # Optional property that defines different delivery methods of the consumable.
-    # Delivery methods vary based on theme, but can include:
-    #   Oral (taken by mouth)
-    #   Inhalation (a powder or vapor breathed in through the lungs)
-    #   Injection (requiring some form of injector)
-    #   Suppository (taken rectally)
-    #   Topical ( rubbed onto skin)
-    #   Sublingual (placed under the tongue)
-    def delivery(self):
-        # calculate delivery method from components
-        pass
+# class Weapon(Object):
+#     def at_object_creation(self):
+#         self.db.modes = []  # Single | Burst | Auto | Stun | Thrown
+#         self.db.hands = 1  # 1 or 2 (or more for more odd species and the like)
+#         self.db.components = []  # list of the components that comprise this item
+#         self.db.skill = ""  # associated skill or stat used in the game system to track the use of this item.
+#         self.db.template = ""
+#         self.db.health = 0
+#
+#     def accuracy(self):
+#         # Look at components and find all the accuracy related component values and add them together.
+#         pass
+#
+#     def damage(self):
+#         # Same as accuracy, but for damage
+#         pass
+#
+#     def damage_type(self):
+#         # returns the types of damage dealt by the weapon.  Optional.
+#         pass
+#
+#     def durability(self):
+#         # same as accuracy, but for durability
+#         pass
+#
+#     def mass(self):
+#         # same as above but for mass
+#         pass
+#
+#
+# class Armor(Object):
+#     def at_object_creation(self):
+#         self.db.destroyed = False
+#         self.db.components = []
+#         self.db.template = ""
+#         self.db.health = 0
+#
+#     def durability(self):
+#         # calculate durability based on components
+#         pass
+#
+#     def protection_type(self):
+#         # What types of damage does this armor protect against.
+#         pass
+#
+#     def mass(self):
+#         # calculate mass
+#         pass
+#
+#
+# class Equipment(Object):
+#     def at_object_creation(self):
+#         self.db.description = ""
+#         self.db.components = []
+#         self.db.template = ""
+#
+#     def function(self):
+#         # calculate function from components.  Including associated skills to modify
+#         pass
+#
+#     def durabililty(self):
+#         # Calculate durability from components
+#         pass
+#
+#     def mass(self):
+#         # calculate mass from components
+#         pass
+#
+#
+# class Consumable(Object):
+#     def at_object_creation(self):
+#         self.db.description = ""
+#         self.db.components = []
+#         self.db.template = ""
+#         self.db.addictive = False
+#
+#     # Potency can have impact on the strength of the consumable for healing or other effects.
+#     # It also has the added benefit of, possibly, being used to measure the chance of addiction.
+#     def potency(self):
+#         # calculate potency from components
+#         pass
+#
+#     # Quality along with Potency measure the effectiveness of the consumable
+#     def quality(self):
+#         # calculate quality from components
+#         pass
+#
+#     # Optional property that defines different delivery methods of the consumable.
+#     # Delivery methods vary based on theme, but can include:
+#     #   Oral (taken by mouth)
+#     #   Inhalation (a powder or vapor breathed in through the lungs)
+#     #   Injection (requiring some form of injector)
+#     #   Suppository (taken rectally)
+#     #   Topical ( rubbed onto skin)
+#     #   Sublingual (placed under the tongue)
+#     def delivery(self):
+#         # calculate delivery method from components
+#         pass
 
 
 COMPONENTS = {
