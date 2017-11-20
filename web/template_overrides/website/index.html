@@ -74,7 +74,8 @@
           </div>
         </div>
         <div class="row">
-          <div class="card">
+          <div class="col">
+            <div class="card">
             <h4 class="card-header text-center">Inventory</h4>
             <div class="card-body">
               {% for item in user.puppet.contents %}
@@ -83,6 +84,7 @@
                 No items in inventory.
               {% endfor %}
             </div>
+          </div>
           </div>
         </div>
       </div>
