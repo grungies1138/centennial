@@ -28,13 +28,18 @@
         <p>{{user.puppet.db.desc}}</p>
         <br />
         <div class="row">
-          <div class="label col-md-1 col-1"><strong>Age: </strong></div>
-          <div>{{user.puppet.db.age}}</div>
-
-          <div class="label col-1"><strong>Level: </strong></div>
-          <div>{{user.puppet.db.level}}</div>
-          <div class="label col-1"><strong>XP: </strong></div>
-          <div>{{user.puppet.db.xp}}</div>
+          <div class="col-1">
+            <div class="label"><strong>Age: </strong></div>
+            <div>{{user.puppet.db.age}}</div>
+          </div>
+          <div class="col-1">
+            <div class="label"><strong>Level: </strong></div>
+            <div>{{user.puppet.db.level}}</div>
+          </div>
+          <div class="col-1">
+            <div class="label"><strong>XP: </strong></div>
+            <div>{{user.puppet.db.xp}}</div>
+          </div>
         </div>
         <br/>
         <div class="row">
@@ -63,6 +68,18 @@
                 </div>
                 {% endfor %}
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card">
+            <h4 class="card-header text-center">Inventory</h4>
+            <div class="card-body">
+              {% for item in user.puppet.contents %}
+                <div class="col-4">{{ item.name }}</div>
+              {% empty %}
+                No items in inventory.
+              {% endfor %}
             </div>
           </div>
         </div>
