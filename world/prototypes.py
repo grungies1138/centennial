@@ -36,38 +36,15 @@ See the `@spawn` command and `evennia.utils.spawner` for more info.
 
 """
 
-#from random import randint
-#
-# GOBLIN = {
-# "key": "goblin grunt",
-# "health": lambda: randint(20,30),
-# "resists": ["cold", "poison"],
-# "attacks": ["fists"],
-# "weaknesses": ["fire", "light"]
-# }
-#
-# GOBLIN_WIZARD = {
-# "prototype": "GOBLIN",
-# "key": "goblin wizard",
-# "spells": ["fire ball", "lighting bolt"]
-# }
-#
-# GOBLIN_ARCHER = {
-# "prototype": "GOBLIN",
-# "key": "goblin archer",
-# "attacks": ["short bow"]
-#}
-#
-# This is an example of a prototype without a prototype
-# (nor key) of its own, so it should normally only be
-# used as a mix-in, as in the example of the goblin
-# archwizard below.
-# ARCHWIZARD_MIXIN = {
-# "attacks": ["archwizard staff"],
-# "spells": ["greater fire ball", "greater lighting"]
-#}
-#
-# GOBLIN_ARCHWIZARD = {
-# "key": "goblin archwizard",
-# "prototype" : ("GOBLIN_WIZARD", "ARCHWIZARD_MIXIN")
-#}
+DL_17 = {
+    "key": "Blastech DL-17",
+    "typeclass": "typeclasses.weapon.Weapon",
+    "health": 20,
+    "skill": "Firearms",
+    "accuracy": 30,
+    "damage": 15,
+    "damage_type": "energy",
+    "durability": 10,
+    "mass": 2
+}
+

@@ -15,7 +15,7 @@ Item Creation Sytem
     items.
 
     For example: A sword is made up of a blade, a hilt and a pommel.  Each of these are components.  Thus each of these
-    would have a separate entry in the components templates.
+    would have a separate entry in the item's template.
 
     Components consist of a few key properties.
 
@@ -27,6 +27,9 @@ Item Creation Sytem
                         components cannot be added to smaller items in an unrealistic way.
 
 
+    2. Items and Item Templates
+
+    Item templates are like the schematics that are used to build items.
 """
 
 from typeclasses.objects import Object

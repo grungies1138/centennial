@@ -76,3 +76,37 @@ def price_haggle_check(character, cost):
     else:
         return cost * 0.75
 
+
+def parse_accuracy(value):
+    if value >= 40:
+        return "Low"
+    elif value >= 30:
+        return "Low-Medium"
+    elif value >= 25:
+        return "Medium"
+    elif value >= 20:
+        return "Medium-High"
+    elif value >= 15:
+        return "High"
+    elif value >= 10:
+        return "Very High"
+    else:
+        return "Extremely High"
+
+
+def parse_damage(value):
+    if value >= 40:
+        return "Extremely High"
+    elif value >= 35:
+        return "Very High"
+    elif value >= 30:
+        return "High"
+    elif value >= 25:
+        return "Medium-High"
+    elif value >=20:
+        return "Medium"
+    elif value >= 15:
+        return "Low-Medium"
+    else:
+        return "Low"
+
