@@ -1,5 +1,5 @@
 from typeclasses.objects import Object
-from world.rules import parse_accuracy, parse_damage
+from world.rules import parse_accuracy, parse_damage, parse_item_health
 
 
 class Weapon(Object):
@@ -35,11 +35,11 @@ class Weapon(Object):
     def return_appearance(self, looker):
         message = []
 
-        message.append("|w%s|n" % self.key)
+        message.append("|y%s|n" % self.key)
         message.append("|wAccuracy:|n %s" % parse_accuracy(self.accuracy()))
         message.append("|wDamage:|n %s" % parse_damage(self.db.damage))
         message.append("|wDamage Type: |n %s" % self.damage_type())
-        message.append("|wHealth:|n %s" % self.parse_health())
+        message.append("|wHealth:|n %s" % parse_item_health(self))
         message.append("|wMass:|n %s" % self.mass())
         message.append("|wRequired Skill:|n %s" % self.db.skill)
 
@@ -48,24 +48,4 @@ class Weapon(Object):
             message2.append(unicode(line))
         return "\n".join(message2)
 
-    def parse_health(self):
-        current = self.db.health
-        max_health = self.db.max_health
 
-        if max_health > 0:
-            percent = int(current / max_health * 100)
-        else:
-            percent = 0
-
-        if percent > 75:
-            return '|230Good|n'
-        elif percent > 50:
-            return '|450Damaged|n'
-        elif percent > 25:
-            return '|550Seriously Damaged|n'
-        elif percent > 10:
-            return '|500Critically Damaged|n'
-        elif percent > 0:
-            return '|305Nearly Destroyed|n'
-        else:
-            return '|[300Destroyed|n'

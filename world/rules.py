@@ -110,3 +110,25 @@ def parse_damage(value):
     else:
         return "Low"
 
+
+def parse_item_health(self, target):
+    current = target.db.health
+    max_health = target.db.max_health
+
+    if max_health > 0:
+        percent = int(current / max_health * 100)
+    else:
+        percent = 0
+
+    if percent > 75:
+        return '|230Good|n'
+    elif percent > 50:
+        return '|450Damaged|n'
+    elif percent > 25:
+        return '|550Seriously Damaged|n'
+    elif percent > 10:
+        return '|500Critically Damaged|n'
+    elif percent > 0:
+        return '|305Nearly Destroyed|n'
+    else:
+        return '|[300Destroyed|n'
