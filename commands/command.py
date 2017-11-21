@@ -314,7 +314,7 @@ class CmdWear(default_cmds.MuxCommand):
             self.caller.msg("That is not armor.  Please choose armor to wear and try again.")
             return
 
-        if self.caller.wearing:
+        if self.caller.db.wearing:
             self.caller.msg("You are already wearing armor.  Please +unwear first, then try again.")
             return
 
