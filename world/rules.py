@@ -111,7 +111,7 @@ def parse_damage(value):
         return "Low"
 
 
-def parse_item_health(self, target):
+def parse_item_health(target):
     current = target.db.health
     max_health = target.db.max_health
 

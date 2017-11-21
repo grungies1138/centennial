@@ -26,7 +26,7 @@ class Armor(Object):
         message = []
 
         message.append("|y%s|n" % self.key)
-        message.append("|wHealth:|n %s" % parse_item_health(self))
+        message.append("|wHealth:|n %s" % parse_item_health(self.db.health))
         message.append("|wDurability:|n %s" % parse_damage(self.db.durability))
         types = [type for type in self.protection_types()]
         message.append("|wProtection Types:|n %s" % types)
