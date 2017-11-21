@@ -80,7 +80,7 @@ class SheetCommand(BaseCommand):
         else:
             percent = 0
 
-        target.msg("Current Percentage: %d" % (current / max_health))
+        target.msg("Current Percentage: %d" % (int(current / max_health * 100)))
         target.msg("Max Health: %s" % max_health)
 
         if percent > 75:
