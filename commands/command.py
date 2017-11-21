@@ -259,6 +259,10 @@ class CmdWield(default_cmds.MuxCommand):
             self.caller.msg("That is not a weapon.  Please choose a weapon to wield and try again.")
             return
 
+        if obj.location != self.caller:
+            self.caller.msg("That item is not in your inventory.")
+            return
+
         if self.caller.db.wielding:
             self.caller.msg("You are already wielding a weapon.  Please +unwield first, then try again")
             return
@@ -312,6 +316,10 @@ class CmdWear(default_cmds.MuxCommand):
 
         if not inherits_from(obj, "typeclasses.armor.Armor"):
             self.caller.msg("That is not armor.  Please choose armor to wear and try again.")
+            return
+
+        if obj.location != self.caller:
+            self.caller.msg("That item is not in your inventory.")
             return
 
         if self.caller.db.wearing:
