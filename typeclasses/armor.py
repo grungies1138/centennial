@@ -16,7 +16,7 @@ class Armor(Object):
 
     def protection_types(self):
         # What types of damage does this armor protect against.
-        return self.db.protections_types
+        return self.db.protection_types
 
     def mass(self):
         # calculate mass
