@@ -2,6 +2,7 @@ from evennia import default_cmds
 from evennia.utils.evmenu import EvMenu
 from commands.library import titlecase, notify, node_formatter, options_formatter, exit_message
 from typeclasses.characters import Character
+from world.rules import roll_skill
 
 
 class AttackCommand(default_cmds.MuxCommand):
@@ -18,11 +19,35 @@ class AttackCommand(default_cmds.MuxCommand):
     help_category = "General"
 
     def func(self):
-        EvMenu(self.caller, "commands.combat_commands",
-               startnode="menu_start_node",
-               node_formatter=node_formatter,
-               options_formatter=options_formatter,
-               cmd_on_exit=exit_message)
+        if self.args:
+            target = self.caller.search(self.args)
+            if not target:
+                self.caller.msg("That is not a valid combat target.")
+                return
+
+            challenge = roll_skill(self.caller, self.caller.db.wielding.skill)
+            defense = roll_skill(target, "dodge")
+            self.caller.location.msg_contents("%s attacks %s" % (self.caller.key, target.key))
+            if challenge > defense:
+                calculated_damage = 0
+                if self.caller.db.wielding:
+                    calculated_damage += self.caller.db.wielding.damage
+                if target.db.wearing:
+                    calculated_damage -= target.db.wearing.durability
+                    target.db.wearing.health -= calculated_damage
+                    self.caller.location.msg_contents("%s has hit %s and hit their armor." % (self.caller.key,
+                                                                                              target.key))
+                else:
+                    target.damage(calculated_damage)
+                    self.caller.location.msg_contents("%s has hit %s" % (self.caller.key, target.key))
+            else:
+                self.caller.location.msg_contents("%s has attacked %s and missed." % (self.caller.key, target.key))
+        else:
+            EvMenu(self.caller, "commands.combat_commands",
+                   startnode="menu_start_node",
+                   node_formatter=node_formatter,
+                   options_formatter=options_formatter,
+                   cmd_on_exit=exit_message)
 
 
 def menu_start_node(caller):

@@ -43,5 +43,5 @@ class Armor(Object):
 
     def at_drop(self, dropper):
         if dropper.db.wearing == self:
-            dropper.msg("%s removed from being worn.")
+            dropper.msg("%s removed from being worn." % self.key)
             dropper.db.wearing = None
