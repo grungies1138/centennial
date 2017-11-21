@@ -52,4 +52,7 @@ class Weapon(Object):
             message2.append(unicode(line))
         return "\n".join(message2)
 
-
+    def at_drop(self, dropper):
+        if dropper.db.wielding == self:
+            dropper.db.wielding = None
+            dropper.msg("%s removed from being wielded." % self.key)

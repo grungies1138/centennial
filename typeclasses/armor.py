@@ -40,3 +40,8 @@ class Armor(Object):
         for line in message:
             message2.append(unicode(line))
         return "\n".join(message2)
+
+    def at_drop(self, dropper):
+        if dropper.db.wearing == self:
+            dropper.msg("%s removed from being worn.")
+            dropper.db.wearing = None

@@ -24,7 +24,7 @@ class SheetCommand(BaseCommand):
 
     key = "+sheet"
     aliases = ["she"]
-    lock = "cmd:all()"
+    lock = "cmd:perm(Player)"
     help_category = "General"
 
     def func(self):
@@ -97,7 +97,7 @@ class SheetCommand(BaseCommand):
 class CheckCommand(BaseCommand):
     key = "+check"
     aliases = ["check"]
-    lock = "cmd:all()"
+    lock = "cmd:perm(Player)"
     help_category = "Skills"
 
     def func(self):
@@ -132,7 +132,7 @@ class OOCCommand(default_cmds.MuxCommand):
         if not self.args:
             self.caller.msg("Huh?")
 
-        prefix = "{w<{n|005OOC|n{w>{n"
+        prefix = "|w<|n|005OOC|n|w>|n"
 
         speech = self.args.strip()
 
@@ -319,7 +319,7 @@ class CmdWear(default_cmds.MuxCommand):
             return
 
         self.caller.db.wearing = obj
-        self.caller.msg("You are not protected by your %s" % obj.key)
+        self.caller.msg("You are now protected by your %s" % obj.key)
 
 
 class CmdUnwear(default_cmds.MuxCommand):

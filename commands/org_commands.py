@@ -17,7 +17,7 @@ class OrgCommand(default_cmds.MuxCommand):
 
     key = "+orgs"
     aliases = ["orgs"]
-    lock = "cmd:all()"
+    lock = "cmd:perm(Player)"
     help_category = "General"
 
     def func(self):

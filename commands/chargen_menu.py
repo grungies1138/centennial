@@ -27,7 +27,7 @@ class ChargenMenuCommand(default_cmds.MuxCommand):
 
     key = "+chargen"
     aliases = []
-    locks = "cmd:all()"
+    locks = "cmd:perm(Player)"
     help_category = "Chargen"
 
     def func(self):

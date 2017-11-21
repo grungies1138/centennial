@@ -18,7 +18,7 @@ class AddJobCommand(default_cmds.MuxCommand):
 
     key = "+jobs"
     aliases = ["jobs"]
-    lock = "cmd:all()"
+    lock = "cmd:perm(Player)"
     help_category = "General"
 
     def func(self):
