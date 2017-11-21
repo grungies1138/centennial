@@ -76,7 +76,7 @@ class SheetCommand(BaseCommand):
         max_health = int(target.health.db.max_health)
 
         if max_health > 0:
-            percent = int(current / max_health * 100)
+            percent = current / max_health
         else:
             percent = 0
 
