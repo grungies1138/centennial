@@ -72,8 +72,8 @@ class SheetCommand(BaseCommand):
 
     @staticmethod
     def parse_health(target):
-        current = target.health.get()
-        max_health = target.health.db.max_health
+        current = int(target.health.get())
+        max_health = int(target.health.db.max_health)
 
         if max_health > 0:
             percent = int(current / max_health * 100)
