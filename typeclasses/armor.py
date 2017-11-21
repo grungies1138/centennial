@@ -45,3 +45,16 @@ class Armor(Object):
         if dropper.db.wearing == self:
             dropper.msg("%s removed from being worn." % self.key)
             dropper.db.wearing = None
+
+    def apply_damage(self, value):
+        if value >= self.db.health:
+            self.db.health = 0
+            self.db.destroyed = True
+        else:
+            self.db.health = self.db.health - value
+
+    def repair(self, value):
+        if (self.db.health + value) >= self.db.max_health:
+            self.db.health = self.db.max_health
+        else:
+            self.db.health = self.db.health + value
