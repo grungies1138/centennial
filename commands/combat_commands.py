@@ -38,7 +38,7 @@ class AttackCommand(default_cmds.MuxCommand):
                     self.caller.location.msg_contents("%s has hit %s and hit their armor." % (self.caller.key,
                                                                                               target.key))
                 else:
-                    target.damage(calculated_damage)
+                    target.health.damage(calculated_damage)
                     self.caller.location.msg_contents("%s has hit %s" % (self.caller.key, target.key))
             else:
                 self.caller.location.msg_contents("%s has attacked %s and missed." % (self.caller.key, target.key))
