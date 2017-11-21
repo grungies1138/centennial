@@ -8,7 +8,7 @@ Commands describe the input the player can do to the game.
 import time
 from evennia import Command as BaseCommand
 from evennia import default_cmds, search_object
-from evennia.utils import create, utils, evtable, evform, gametime
+from evennia.utils import create, utils, evtable, evform, gametime, inherits_from
 from library import titlecase
 from world import rules
 from evennia.server.sessionhandler import SESSIONS
@@ -232,6 +232,115 @@ class CmdInventory(default_cmds.MuxCommand):
         self.caller.msg(string)
 
 
+class CmdWield(default_cmds.MuxCommand):
+    """
+    Command to allow the user to wield a weapon from their inventory.
+
+    Usage:
+        +wield <weapon>
+    """
+
+    key = "+wield"
+    locks = "cmd:perm(Player)"
+    help_category = "Combat"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("You must choose a weapon to wield.")
+            return
+
+        obj = self.caller.search(self.args)
+
+        if not obj:
+            self.caller.msg("That is not a valid item.  Please check the name and try again.")
+            return
+
+        if not inherits_from(obj, "typeclasses.weapon.Weapon"):
+            self.caller.msg("That is not a weapon.  Please choose a weapon to wield and try again.")
+            return
+
+        if self.caller.db.wielding:
+            self.caller.msg("You are already wielding a weapon.  Please +unwield first, then try again")
+            return
+
+        self.caller.db.wielding = obj
+        self.caller.msg("You have readied %s for combat" % obj.key)
+
+
+class CmdUnwield(default_cmds.MuxCommand):
+    """
+    Removes a weapon from a wielded state.
+
+    Usage:
+        +unwield
+    """
+
+    key = "+unwield"
+    locks = "cmd:perm(Player)"
+    help_category = "Combat"
+
+    def func(self):
+        if not self.caller.db.wielding:
+            self.caller.msg("You are not currently wielding anything.")
+            return
+        self.caller.db.wielding = None
+        self.caller.msg("You have unwielded your weapon.")
+
+
+class CmdWear(default_cmds.MuxCommand):
+    """
+    Command to put on armor.
+
+    Usage:
+        +wear <armor>
+    """
+
+    key = "+wear"
+    locks = "cmd:perm(Player)"
+    help_category = "Combat"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("You must choose armor to wear.")
+            return
+
+        obj = self.caller.search(self.args)
+
+        if not obj:
+            self.caller.msg("That is not a valid item.  Please check the name and try again.")
+            return
+
+        if not inherits_from(obj, "typeclasses.armor.Armor"):
+            self.caller.msg("That is not armor.  Please choose armor to wear and try again.")
+            return
+
+        if self.caller.wearing:
+            self.caller.msg("You are already wearing armor.  Please +unwear first, then try again.")
+            return
+
+        self.caller.db.wearing = obj
+        self.caller.msg("You are not protected by your %s" % obj.key)
+
+
+class CmdUnwear(default_cmds.MuxCommand):
+    """
+    Command removes worn armor.
+
+    Usage:
+        +unwear
+    """
+
+    key = "+unwear"
+    locks = "cmd:perm(Player)"
+    help_category = "Combat"
+
+    def func(self):
+        if not self.caller.db.wearing:
+            self.caller.msg("You are not currently wearing armor.")
+            return
+        self.caller.db.wearing = None
+        self.caller.msg("You have removed your armor.")
+
 
 class CmdPage(default_cmds.MuxCommand):
     """
@@ -259,7 +368,6 @@ class CmdPage(default_cmds.MuxCommand):
         if 'last' in self.switches:
             self.caller.msg("You last paged: %s" % self.caller.db.last_paged)
             return
-
 
         if '=' not in self.args:
             if not self.caller.db.last_paged:

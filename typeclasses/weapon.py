@@ -1,5 +1,6 @@
 from typeclasses.objects import Object
 from world.rules import parse_accuracy, parse_damage, parse_item_health
+from commands.library import header
 
 
 class Weapon(Object):
@@ -11,6 +12,7 @@ class Weapon(Object):
         self.db.template = ""
         self.db.health = 0
         self.db.max_health = 0
+        self.db.description = ""
 
     def accuracy(self):
         # Look at components and find all the accuracy related component values and add them together.
@@ -36,13 +38,15 @@ class Weapon(Object):
         message = []
 
         message.append("|y%s|n" % self.key)
+        message.append(self.db.description)
+        message.append(header())
         message.append("|wAccuracy:|n %s" % parse_accuracy(self.accuracy()))
         message.append("|wDamage:|n %s" % parse_damage(self.db.damage))
         message.append("|wDamage Type: |n %s" % self.damage_type())
         message.append("|wHealth:|n %s" % parse_item_health(self))
         message.append("|wMass:|n %s" % self.mass())
         message.append("|wRequired Skill:|n %s" % self.db.skill)
-
+        message.append(header())
         message2 = []
         for line in message:
             message2.append(unicode(line))

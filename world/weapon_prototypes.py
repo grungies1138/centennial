@@ -17,7 +17,8 @@ DL_17 = {
     "damage_type": "Energy",
     "durability": 10,
     "mass": 2,
-    "manufacturer": "Blastech Industries"
+    "manufacturer": "Blastech Industries",
+    "description": "Simple blast vest that offers protection to most species vital organs."
 }
 
 DL_44 = {

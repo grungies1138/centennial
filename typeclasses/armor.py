@@ -1,5 +1,6 @@
 from typeclasses.objects import Object
 from world.rules import parse_accuracy, parse_damage, parse_item_health
+from commands.library import header
 
 
 class Armor(Object):
@@ -9,6 +10,7 @@ class Armor(Object):
         self.db.template = ""
         self.db.health = 0
         self.db.max_health = 0
+        self.db.description = ""
 
     def durability(self):
         # calculate durability based on components
@@ -26,12 +28,14 @@ class Armor(Object):
         message = []
 
         message.append("|y%s|n" % self.key)
+        message.append(self.db.description)
+        message.append(header())
         message.append("|wHealth:|n %s" % parse_item_health(self))
         message.append("|wDurability:|n %s" % parse_damage(self.db.durability))
         types = "%s" % ', '.join(t for t in self.protection_types())
         message.append("|wProtection Types:|n %s" % types)
         message.append("|wMass:|n %s" % self.db.mass)
-
+        message.append(header())
         message2 = []
         for line in message:
             message2.append(unicode(line))

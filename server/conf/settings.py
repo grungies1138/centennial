@@ -44,6 +44,9 @@ DEBUG=True
 PROTOTYPE_MODULES = ["world.prototypes", "world.weapon_prototypes", "world.armor_prototypes", "world.equipment_prototypes",
                      "world.consumable_prototypes"]
 
+GUEST_ENABLED = True
+GUEST_LIST = ['Guest1', 'Guest2', 'Guest3', 'Guest4', 'Guest5', 'Guest6', 'Guest7', 'Guest8', 'Guest9']
+
 # Server ports. If enabled and marked as "visible", the port
 # should be visible to the outside world on a production server.
 # Note that there are many more options available beyond these.
