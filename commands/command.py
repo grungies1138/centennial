@@ -80,6 +80,9 @@ class SheetCommand(BaseCommand):
         else:
             percent = 0
 
+        target.msg("Current Percentage: %s" % percent)
+        target.msg("Max Health: %s" % max_health)
+
         if percent > 75:
             return '|230Good|n'
         elif percent > 50:
