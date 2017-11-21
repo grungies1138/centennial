@@ -31,9 +31,9 @@ class AttackCommand(default_cmds.MuxCommand):
             if challenge > defense:
                 calculated_damage = 0
                 if self.caller.db.wielding:
-                    calculated_damage = calculated_damage + self.caller.db.wielding.damage
+                    calculated_damage = calculated_damage + self.caller.db.wielding.damage()
                 if target.db.wearing:
-                    calculated_damage = calculated_damage - target.db.wearing.durability
+                    calculated_damage = calculated_damage - target.db.wearing.durability()
                     target.db.wearing.health = target.db.wearing.health - calculated_damage
                     self.caller.location.msg_contents("%s has hit %s and hit their armor." % (self.caller.key,
                                                                                               target.key))
