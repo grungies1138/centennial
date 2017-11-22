@@ -76,9 +76,13 @@ class SheetCommand(BaseCommand):
         max_health = float(target.health.db.max_health)
 
         if max_health > 0:
-            percent = current / max_health
+            percent = int(current / max_health * 100)
         else:
             percent = 0
+
+        target.msg("Current: %s" % current)
+        target.msg("Max Health: %s" % max_health)
+        target.msg("Percent: %s" % percent)
 
         if percent > 75:
             return '|230Good|n'
