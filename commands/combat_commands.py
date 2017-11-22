@@ -34,11 +34,11 @@ class AttackCommand(default_cmds.MuxCommand):
                     calculated_damage = calculated_damage + self.caller.db.wielding.damage()
                 if target.db.wearing and not target.db.wearing.db.destroyed:
                     calculated_damage = calculated_damage - target.db.wearing.durability()
-                    target.db.wearing.apply_damage(self.parse_hit(calculated_damage))
+                    target.db.wearing.apply_damage(self.parse_hit(challenge, defense, calculated_damage))
                     self.caller.location.msg_contents("%s has hit %s and hit their armor." % (self.caller.key,
                                                                                               target.key))
                 else:
-                    target.health.damage(self.parse_hit(calculated_damage))
+                    target.health.damage(self.parse_hit(challenge, defense, calculated_damage))
                     self.caller.location.msg_contents("%s has hit %s" % (self.caller.key, target.key))
             else:
                 self.caller.location.msg_contents("%s has attacked %s and missed." % (self.caller.key, target.key))
