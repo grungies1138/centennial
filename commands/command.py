@@ -65,7 +65,9 @@ class SheetCommand(BaseCommand):
         self.caller.msg(row_separator)
         self.caller.msg(talents_table)
         self.caller.msg(row_separator)
-        self.caller.msg("|wHealth:|n %s|-|-|wEndurance:|n %s / %s" % (self.parse_health(self.caller), self.caller.endurance.get(), self.caller.endurance.db.max_endurance))
+        self.caller.msg("|wHealth:|n %s|-|-|wEndurance:|n %s / %s" % (self.parse_health(self.caller),
+                                                                      self.caller.endurance.get(),
+                                                                      self.caller.endurance.db.max_endurance))
         self.caller.msg("|wWielding:|n %s|-|-|wWearing:|n %s" % (self.caller.db.wielding, self.caller.db.wearing))
         self.caller.msg(row_separator)
 
@@ -79,10 +81,6 @@ class SheetCommand(BaseCommand):
             percent = int(current / max_health * 100)
         else:
             percent = 0
-
-        target.msg("Current: %s" % current)
-        target.msg("Max Health: %s" % max_health)
-        target.msg("Percent: %s" % percent)
 
         if percent > 75:
             return '|230Good|n'

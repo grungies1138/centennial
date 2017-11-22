@@ -86,7 +86,12 @@ class Character(DefaultCharacter):
         message.append(header())
         message.append("Carrying:")
         for con in visible:
-            message.append(con.key)
+            if self.db.wearing == con:
+                message.append("%s |230[Wearing]|n" % con.key)
+            elif self.db.wielding == con:
+                message.append("%s |230[Wielding]|n" % con.key)
+            else:
+                message.append(con.key)
         return "\n".join(message)
 
     def get_absolute_url(self):
