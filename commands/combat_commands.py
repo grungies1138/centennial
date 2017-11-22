@@ -34,11 +34,11 @@ class AttackCommand(default_cmds.MuxCommand):
                     calculated_damage = calculated_damage + self.caller.db.wielding.damage()
                 if target.db.wearing and not target.db.wearing.db.destroyed:
                     calculated_damage = calculated_damage - target.db.wearing.durability()
-                    target.db.wearing.apply_damage(calculated_damage)
+                    target.db.wearing.apply_damage(self.parse_hit(calculated_damage))
                     self.caller.location.msg_contents("%s has hit %s and hit their armor." % (self.caller.key,
                                                                                               target.key))
                 else:
-                    target.health.damage(calculated_damage)
+                    target.health.damage(self.parse_hit(calculated_damage))
                     self.caller.location.msg_contents("%s has hit %s" % (self.caller.key, target.key))
             else:
                 self.caller.location.msg_contents("%s has attacked %s and missed." % (self.caller.key, target.key))
@@ -48,6 +48,20 @@ class AttackCommand(default_cmds.MuxCommand):
                    node_formatter=node_formatter,
                    options_formatter=options_formatter,
                    cmd_on_exit=exit_message)
+
+    def parse_hit(self, challenge, defense, damage):
+        difference = challenge - defense
+
+        if difference >= 40:
+            return damage * 2
+        elif difference >= 30:
+            return damage * 1.5
+        elif difference >= 20:
+            return damage
+        elif difference >= 10:
+            return damage * .75
+        else:
+            return damage * .5
 
 
 def menu_start_node(caller):
@@ -106,3 +120,5 @@ def _online_characters(viewer=None):
         characters = [char for char in characters if char != viewer]
 
     return characters
+
+
