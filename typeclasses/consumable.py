@@ -1,6 +1,7 @@
 from typeclasses.objects import Object
 from commands.library import header
 from world.rules import parse_accuracy, parse_damage, parse_item_health
+from evennia.utils import delay
 
 
 class Consumable(Object):
@@ -48,7 +49,10 @@ class Consumable(Object):
     def return_appearance(self, looker):
         message = []
 
-        message.append("|y%s|n" % self.key)
+        if looker.locks.check_lockstring(looker, "dummy:perm(Admin)"):
+            message.append("|y%s|n (%s)" % (self.key, self.id))
+        else:
+            message.append("|y%s|n" % self.key)
         message.append(self.db.description)
         message.append(header())
         message.append("|wPotency:|n %s" % self.parse_potency(self.potency()))
@@ -75,3 +79,7 @@ class Consumable(Object):
             return "Low"
         else:
             return "Very Low"
+
+    def activate(self, target):
+        target.health.set_heal_status('medkit')
+

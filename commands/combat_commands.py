@@ -27,19 +27,22 @@ class AttackCommand(default_cmds.MuxCommand):
 
             challenge = roll_skill(self.caller, self.caller.db.wielding.db.skill)
             defense = roll_skill(target, "dodge")
-            self.caller.location.msg_contents("%s attacks %s" % (self.caller.key, target.key))
+            # self.caller.location.msg_contents("%s attacks %s" % (self.caller.key, target.key))
             if challenge > defense:
                 calculated_damage = 0
                 if self.caller.db.wielding:
                     calculated_damage = calculated_damage + self.caller.db.wielding.damage()
+                else:
+                    calculated_damage = calculated_damage + self.caller.skills.get("melee") / 40
                 if target.db.wearing and not target.db.wearing.db.destroyed:
                     calculated_damage = calculated_damage - target.db.wearing.durability()
                     target.db.wearing.apply_damage(self.parse_hit(challenge, defense, calculated_damage))
-                    self.caller.location.msg_contents("%s has hit %s and hit their armor." % (self.caller.key,
-                                                                                              target.key))
+                    self.caller.location.msg_contents("%s has attacked %s and hit their armor." %
+                                                      (self.caller.key, target.key))
                 else:
                     target.health.damage(self.parse_hit(challenge, defense, calculated_damage))
-                    self.caller.location.msg_contents("%s has hit %s" % (self.caller.key, target.key))
+                    self.caller.location.msg_contents("%s has attacked %s and hit for damage." % (self.caller.key,
+                                                                                                  target.key))
             else:
                 self.caller.location.msg_contents("%s has attacked %s and missed." % (self.caller.key, target.key))
         else:
@@ -120,5 +123,3 @@ def _online_characters(viewer=None):
         characters = [char for char in characters if char != viewer]
 
     return characters
-
-

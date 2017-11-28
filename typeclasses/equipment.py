@@ -12,6 +12,7 @@ class Equipment(Object):
 
     def function(self):
         # calculate function from components.  Including associated skills to modify
+        # Return a dictionary of type: {"skill1": "mod", "skill2": "mod", etc...}
         return self.db.function
 
     def durability(self):

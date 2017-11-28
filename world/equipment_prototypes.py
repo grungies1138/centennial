@@ -7,3 +7,4 @@ MACROBINOCULARS = {
     "mass": 1,
     "manufacturer": "Aeramaxis Technologies"
 }
+

@@ -148,6 +148,68 @@ class OOCCommand(default_cmds.MuxCommand):
             self.caller.location.msg_contents("%s %s says, \"%s\"" % (prefix, self.caller.name, speech))
 
 
+class CmdUseEquipment(default_cmds.MuxCommand):
+    """
+    Ues Equipment which effects a skill check with the equipment's modification.
+
+    Usage:
+        +use <item>
+
+    """
+
+    key = "+use"
+    lock = "cmd:perm(Player)"
+    help_category = "General"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("You must choose an item to use")
+            return
+
+        item = self.caller.search(self.args)
+        equipment = None
+        consumable = None
+
+        if inherits_from(item, "typeclasses.equipment.Equipment"):
+            equipment = item
+        elif inherits_from(item, "typeclasses.consumable.Consumable"):
+            consumable = item
+
+        if not equipment:
+            self.caller.msg("That is not a valid item.  Please check the name and try again.")
+            return
+
+        if not inherits_from(equipment, "typeclasses.equipment.Equipment"):
+            self.caller.msg("That is not a piece equipment or a consumable.  Please select one and try again.")
+            return
+
+        if equipment not in self.caller.contents:
+            self.caller.msg("That item is not in your inventory.")
+            return
+
+        func = equipment.function()
+
+        func_skills = func.get("skills")
+        health_mod = func.get("health")
+
+        if func_skills:
+            for skill in func_skills.keys():
+                self.notify_room(skill, self.caller.skills.get(skill))
+
+        if health_mod:
+            self.caller.health.heal(health_mod)
+            self.caller.location.msg_contents("%s has used a %s to heal themselves." % (self.caller.key, equipment.key))
+
+    def notify_room(self, skill, value):
+        players = self.caller.location.contents
+
+        for player in players:
+            if self.caller.locks.check_lockstring(player, "dummy:perm(Admin)"):
+                player.msg("%s checked %s: %s (%s)" % (self.caller.key, skill, rules.parse_skill_check(value), value))
+            else:
+                player.msg("%s checked %s: %s" % (self.caller.key, skill, rules.parse_skill_check(value)))
+
+
 class WhoCommand(default_cmds.MuxCommand):
     """
     Shows the currently connected players.

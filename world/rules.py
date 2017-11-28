@@ -15,7 +15,7 @@ def roll_skill(character, skill):
     endurance = character.endurance.get()
     skill_value = skill + endurance
 
-    #  Determine initial number of d100.  #
+    #  Determine initial number of d100.
     bonus_chance = int(skill_value % 40)
     die_number = int(skill_value / 40)
 
@@ -28,13 +28,13 @@ def roll_skill(character, skill):
     for x in range(0, die_number):
         results.append(randint(1, 100))
 
-    # Sort the rolls from highest to lowest.  #
+    # Sort the rolls from highest to lowest.
     if skill_value < 1:
         results.sort()
     else:
         results.sort(reverse=True)
 
-    # Returns the highest of the dice rolls from the results list.  #
+    # Returns the highest of the dice rolls from the results list.
     if len(results) > 0:
         return results[0]
     else:
@@ -42,11 +42,11 @@ def roll_skill(character, skill):
 
 
 def challenge_skill(challenger, defender, c_skill, d_skill):
-    c_skill_value = roll_skill(challenger, c_skill)
-    d_skill_value = roll_skill(defender, d_skill)
+    c_skill_roll = roll_skill(challenger, c_skill)
+    d_skill_roll = roll_skill(defender, d_skill)
 
-    success_rate = (c_skill - d_skill)
-    combat_roll = c_skill_value - d_skill_value
+    success_rate = (challenger.skills.get(c_skill) - defender.skills.get(d_skill))
+    combat_roll = c_skill_roll - d_skill_roll
 
     return combat_roll - success_rate / 20
 
@@ -132,3 +132,16 @@ def parse_item_health(target):
         return '|305Nearly Destroyed|n'
     else:
         return '|[300Destroyed|n'
+
+
+def parse_skill_check(value):
+    if value >= 90:
+        return "Heroic success"
+    elif value >= 75:
+        return "Difficult Success"
+    elif value >= 50:
+        return "Moderate Success"
+    elif value >= 25:
+        return "Easy Success"
+    else:
+        return "Failure"
