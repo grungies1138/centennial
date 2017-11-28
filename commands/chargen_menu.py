@@ -358,6 +358,11 @@ def setDestiny(caller, raw_string):
     if destiny not in DESTINIES:
         caller.msg("|rThat was not a valid destiny.  Please try again.|n")
     else:
+        force_scripts = caller.scripts.get("force")
+        if force_scripts:
+            for script in force_scripts:
+                caller.scripts.delete(script)
+
         caller.db.destiny = destiny
 
         if destiny == "experience":
@@ -383,7 +388,7 @@ def setDestiny(caller, raw_string):
         if destiny == "force":
             caller.scripts.add('typeclasses.force_handler.ForceHandler', key='force')
 
-        caller.msg("Destiny Attibute set to %s" % destiny.title())
+        caller.msg("Destiny Attribute set to %s" % destiny.title())
 
 
 def askAge(caller):
