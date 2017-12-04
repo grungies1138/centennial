@@ -18,28 +18,27 @@
     <div class="card">
       <div class="card-body">
         {% if user %}
-          <h1 class="card-title">Welcome {{user.db.last_puppet.db.fullname}}!</h1>
-          <p class="card">{{user.last_puppet}}</p>
+          <h1 class="card-title">Welcome {{user.last_puppet.db.fullname}}!</h1>
         {% else %}
           <h1 class="card-title">Welcome!</h1>
         {% endif %}
         <hr />
       </div>
       <div class="card-body">
-        <p>{{user.puppet.db.desc}}</p>
+        <p>{{user.last_puppet.db.desc}}</p>
         <br />
         <div class="row">
           <div class="col-1">
             <div class="label"><strong>Age: </strong></div>
-            <div>{{user.puppet.db.age}}</div>
+            <div>{{user.last_puppet.db.age}}</div>
           </div>
           <div class="col-1">
             <div class="label"><strong>Level: </strong></div>
-            <div>{{user.puppet.db.level}}</div>
+            <div>{{user.last_puppet.db.level}}</div>
           </div>
           <div class="col-1">
             <div class="label"><strong>XP: </strong></div>
-            <div>{{user.puppet.db.xp}}</div>
+            <div>{{user.last_puppet.db.xp}}</div>
           </div>
         </div>
         <br/>
@@ -48,7 +47,7 @@
             <div class="card">
             <h4 class="card-header text-center">Skills</h4>
               <div class="card-body">
-            {% for skill in user.puppet.skills.get_skills %}
+            {% for skill in user.last_puppet.skills.get_skills %}
               <div class="row">
                 <div class="label"><strong>{{ skill.name.capitalize }}: </strong>{{ skill.value.capitalize }}</div>
               </div>
@@ -64,7 +63,7 @@
               <div class="card">
               <h4 class="card-header text-center">Talents</h4>
               <div class="card-body col-12">
-                {% for talent in user.puppet.db.talents %}
+                {% for talent in user.last_puppet.db.talents %}
                 <div class="row">
                   {{ talent.capitalize }}
                 </div>
@@ -80,7 +79,7 @@
             <div class="card">
             <h4 class="card-header text-center">Inventory</h4>
             <div class="card-body">
-              {% for item in user.puppet.contents %}
+              {% for item in user.last_puppet.contents %}
                 <div class="col-4">{{ item.name }}</div>
               {% empty %}
                 No items in inventory.
