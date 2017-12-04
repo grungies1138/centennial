@@ -96,6 +96,9 @@ class Account(DefaultAccount):
         from django.core.urlresolvers import reverse
         return reverse('character:sheet', kwargs={'object_id': self.id})
 
+    def last_puppet(self):
+        return self.db._last_puppet
+
 
 class Guest(DefaultGuest):
     """
