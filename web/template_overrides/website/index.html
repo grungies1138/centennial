@@ -19,7 +19,7 @@
       <div class="card-body">
         {% if user %}
           <h1 class="card-title">Welcome {{user.db.last_puppet.db.fullname}}!</h1>
-          <p class="well">{{user.db._last_puppet}}</p>
+          <p class="card">{{user}}</p>
         {% else %}
           <h1 class="card-title">Welcome!</h1>
         {% endif %}
