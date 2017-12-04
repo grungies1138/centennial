@@ -17,12 +17,11 @@
   <div class="col">
     <div class="card">
         {% if user %}
-          <h1 class="card-title">Welcome {{user.last_puppet.db.fullname}}!</h1>
+          <h1 class="card-header">Welcome {{user.last_puppet.db.fullname}}!</h1>
         {% else %}
-          <h1 class="card-title">Welcome!</h1>
+          <h1 class="card-header">Welcome!</h1>
         {% endif %}
       <div class="card-body">
-        <hr />
         <p>{{user.last_puppet.db.desc}}</p>
       </div>
       <div class="card-body">
