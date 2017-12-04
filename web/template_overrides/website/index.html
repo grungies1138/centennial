@@ -78,8 +78,7 @@
             <h4 class="card-header text-center">Inventory</h4>
             <div class="card-body">
               {% for item in user.last_puppet.contents %}
-                {{ item }}
-                {% if item.id == user.last_puppet.db.wearing.id %}
+                {% if item == user.last_puppet.db.wearing.key %}
                   <div class="col-4">{{ item.name }}  <span class="badge danger">Wearing</span></div>
                 {% else %}
                   <div class="col-4">{{ item.name }}</div>
