@@ -79,9 +79,9 @@
             <div class="card-body">
               {% for item in user.last_puppet.contents %}
                 {% if item.key == user.last_puppet.db.wearing.key %}
-                  <div class="col-4">{{ item.name }}  <span class="badge badge-secondary text-danger">Wearing</span></div>
+                  <div class="col-4">{{ item.name }}  <span class="badge badge-secondary">Wearing</span></div>
                 {% elif item.key == user.last_puppet.db.wielding.key %}
-                  <div class="col-4">{{ item.name }}  <span class="badge badge-secondary text-danger">Wielding</span></div>
+                  <div class="col-4">{{ item.name }}  <span class="badge badge-secondary">Wielding</span></div>
                 {% else %}
                   <div class="col-4">{{ item.name }}</div>
                 {% endif %}
