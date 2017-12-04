@@ -81,7 +81,7 @@
                 {% if item == user.last_puppet.db.wearing.key %}
                   <div class="col-4">{{ item.name }}  <span class="badge text-primary">Wearing</span></div>
                 {% else %}
-                  <div class="col-4">{{ item.name }}</div>
+                  <div class="col-4 text-warning">{{ item.name }}</div>
                 {% endif %}
               {% empty %}
                 No items in inventory.
