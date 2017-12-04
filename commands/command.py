@@ -798,5 +798,3 @@ class TimeCommand(default_cmds.MuxCommand):
             date_string += "%s" % month
 
         return date_string
-
-
