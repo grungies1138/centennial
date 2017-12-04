@@ -80,7 +80,7 @@
             <h4 class="card-header text-center">Inventory</h4>
             <div class="card-body">
               {% for item in user.last_puppet.contents %}
-                <div class="col-4">{{ item.name }}</div>
+                <div class="col-4">{{ item.name }} {% if item == user.last_puppet.db.wearing %} <span class="badge danger">Wearing</span> {% endif %}</div>
               {% empty %}
                 No items in inventory.
               {% endfor %}
