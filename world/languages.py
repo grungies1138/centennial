@@ -1,4 +1,4 @@
-from evennia.contrib import rplanguages
+from evennia.contrib import rplanguage
 
 
 def setup_languages():
@@ -10,5 +10,5 @@ def add_binary():
     vowels = "oei"
     grammar = "cvvv cvv cvvcv cvvcvv cvvvc cvvvcvv cvvc"
     word_length_variance = 4
-    rplanguages.add_language(key='Binary', phonemes=phonemes, grammar=grammar,
+    rplanguage.add_language(key='Binary', phonemes=phonemes, grammar=grammar,
                              word_length_variance=word_length_variance, vowels=vowels)
