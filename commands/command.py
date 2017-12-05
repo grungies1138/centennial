@@ -9,7 +9,7 @@ import time
 from evennia import Command as BaseCommand
 from evennia import default_cmds, search_object
 from evennia.utils import create, utils, evtable, evform, gametime, inherits_from
-from library import titlecase
+from library import titlecase, header
 from world import rules
 from evennia.server.sessionhandler import SESSIONS
 from evennia import search_object
@@ -261,7 +261,7 @@ class WhoCommand(default_cmds.MuxCommand):
         self.caller.msg("|b-|n" * 78)
         self.caller.msg(table)
         self.caller.msg("|b-|n" * 78)
-        self.caller.msg("Total Connected: %s" % SESSIONS.player_count())
+        self.caller.msg("Total Connected: %s" % SESSIONS.account_count())
         whotable = evtable.EvTable("", "", "", header=False, border=None)
         whotable.reformat_column(0, width=26)
         whotable.reformat_column(1, width=26)
@@ -798,3 +798,33 @@ class TimeCommand(default_cmds.MuxCommand):
             date_string += "%s" % month
 
         return date_string
+
+
+class CmdRepose(default_cmds.MuxCommand):
+    """
+    Command to view the last few poses made in the current room
+
+    Usage:
+        +repose
+    """
+
+    key = "+repose"
+    locks = "cmd:perm(Player)"
+
+    def func(self):
+        location = self.caller.location
+        poses = location.db.poses
+
+        message = []
+        message.append("Pose list for %s" % location.key)
+        message.append("|b%s|n" % header())
+
+        for pose in poses:
+            message.append("|w%s|n|-%s" % (pose.get('name'), pose.get('time')))
+            message.append(pose.get('pose'))
+            message.append(header())
+
+        message2 = []
+        for line in message:
+            message2.append(unicode(line))
+        self.caller.msg("\n".join(message2))

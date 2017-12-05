@@ -17,7 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 from evennia import default_cmds, CmdSet
 from commands.command import SheetCommand, CheckCommand, OOCCommand, WhoCommand, CmdInventory, CmdPage, TimeCommand, \
-    CmdWield, CmdUnwield, CmdWear, CmdUnwear
+    CmdWield, CmdUnwield, CmdWear, CmdUnwear, CmdRepose
 from commands.bbs_commands import CreateBoardCommand, ViewAllBoardsCommand, LockBoardCommand, JoinBoardCommand, \
     ViewBoardsCommand, LeaveBoardCommand, DeleteBoardCommand, AddPostCommand, ReadBoardCommand, AddPostCommentCommand, \
     LikeCommand, DeletePostCommand
@@ -85,6 +85,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdUnwield())
         self.add(CmdWear())
         self.add(CmdUnwear())
+        self.add(CmdRepose())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
