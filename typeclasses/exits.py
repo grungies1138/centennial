@@ -35,3 +35,12 @@ class Exit(DefaultExit):
                                         defined, in which case that will simply be echoed.
     """
     pass
+
+
+class ICExit(Exit):
+    """
+    Exit specifically used in the IC Launchpad for setting the character IC.
+    """
+
+    def at_after_traverse(self, traveller, source_loc):
+        traveller.db.status = 'IC'

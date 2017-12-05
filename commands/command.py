@@ -848,5 +848,6 @@ class CmdOOC(default_cmds.MuxCommand):
         if self.caller.db.status == 'IC':
             self.caller.db.ic_location = self.caller.location
             self.caller.move_to("Limbo")
+            self.caller.db.status == 'OOC'
         else:
             self.caller.msg("You are already OOC.  type |w+ic|n to return to the IC world.")
