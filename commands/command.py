@@ -828,3 +828,25 @@ class CmdRepose(default_cmds.MuxCommand):
         for line in message:
             message2.append(unicode(line))
         self.caller.msg("\n".join(message2))
+
+
+class CmdOOC(default_cmds.MuxCommand):
+    """
+    Send the character to the OOC area.
+
+    Usage:
+        +ooc
+    """
+
+    key = "+ooc"
+    locks = "cmd:perm(Player)"
+
+    def func(self):
+        if not self.caller.db.ic_location:
+            self.caller.msg("You do not have an IC Location.  To enter the IC world, proceed to the IC Launchpad.")
+
+        if self.caller.db.status == 'IC':
+            self.caller.db.ic_location = self.caller.location
+            self.caller.move_to("Limbo")
+        else:
+            self.caller.msg("You are already OOC.  type |w+ic|n to return to the IC world.")
