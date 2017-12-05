@@ -11,4 +11,4 @@ def add_binary():
     grammar = "cvvv cvv cvvcv cvvcvv cvvvc cvvvcvv cvvc"
     word_length_variance = 4
     rplanguage.add_language(key='Binary', phonemes=phonemes, grammar=grammar,
-                            word_length_variance=word_length_variance, vowels=vowels)
+                            word_length_variance=word_length_variance, vowels=vowels, force=True)
