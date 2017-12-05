@@ -852,3 +852,25 @@ class CmdOOC(default_cmds.MuxCommand):
             self.caller.db.status = 'OOC'
         else:
             self.caller.msg("You are already OOC.  type |w+ic|n to return to the IC world.")
+
+
+class CmdIC(default_cmds.MuxCommand):
+    """
+    Send the character back to the IC realm
+
+    Usage:
+        +ic
+    """
+
+    key = "+ic"
+    locks = "cmd:perm(Player)"
+
+    def func(self):
+        if self.caller.db.status == 'IC':
+            self.caller.msg("You are not OOC. type |w+ooc|n to move to the OOC realm")
+        if not self.caller.db.ic_location:
+            self.caller.msg("You have no IC location.  If you are seeing this area and have already been in the IC "
+                            "realm, please contact a staff member.")
+        self.caller.move_to(self.caller.db.ic_location)
+        self.caller.db.status = 'IC'
+
