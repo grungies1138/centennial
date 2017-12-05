@@ -7,7 +7,7 @@ def setup_languages():
 
 def add_binary():
     phonemes = "w b d t oe, ee, oo, e, o, a, wh, dw, bw"
-    vowels = "oei"
+    vowels = "oea"
     grammar = "cvvv cvv cvvcv cvvcvv cvvvc cvvvcvv cvvc c v cc vv ccvvc ccvvccvv "
     word_length_variance = 4
     rplanguage.add_language(key='Binary', phonemes=phonemes, grammar=grammar,
