@@ -847,7 +847,7 @@ class CmdOOC(default_cmds.MuxCommand):
 
         if self.caller.db.status == 'IC':
             self.caller.db.ic_location = self.caller.location
-            limbo = self.caller.search("#0")
+            limbo = self.caller.search("Limbo", global_search=True)
             self.caller.move_to(limbo)
             self.caller.db.status = 'OOC'
         else:
