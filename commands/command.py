@@ -103,17 +103,19 @@ class CheckCommand(BaseCommand):
     help_category = "Skills"
 
     def func(self):
-        attributes = self.caller.get_attributes()
         command_input = self.args.strip()
-        die_roll = rules.roll_skill(self.caller, command_input)
+
         if not command_input:
             self.caller.msg("You must select a skill to check")
             return
-        if command_input in attributes:
-            self.caller.msg("You rolled %d" % die_roll)
-        else:
-            self.caller.msg("{r%s ERROR:{n %s is not a valid input.  Please try again." % (self.key.upper(),
-                                                                                           command_input))
+        die_roll = rules.roll_skill(self.caller, command_input)
+
+        if not die_roll:
+            self.caller.msg("There was an error.  Please try again.  If this error persists, please contact a staff "
+                            "member.")
+            return
+
+        self.caller.msg("You rolled %d" % die_roll)
 
 
 class OOCCommand(default_cmds.MuxCommand):
@@ -902,7 +904,3 @@ class CmdJoin(default_cmds.MuxCommand):
         char.location.msg_contents("%s will be joining this location in 5 seconds." % self.caller.key)
         yield 5
         self.caller.move_to(char.location)
-
-    def move(self, mover, location):
-        mover.move_to(location)
-
