@@ -105,7 +105,7 @@ def _set_admin_view_job(caller, caller_input):
 def admin_view_job(caller):
     selected_job = caller.ndb._menutree.selected_job.first()
     if selected_job:
-        text = '{wJob Summary:{n %s \n{wAssigned To:{n %s\n{wStatus:{n %s\n{wBucket:{n %s\n' % \
+        text = '|wJob Summary:|n %s \n|wAssigned To:|n %s\n|wStatus:|n %s\n|wBucket:|n %s\n' % \
                (selected_job.db_key, selected_job.db_assigned_to.first(), selected_job.db_status,
                 selected_job.db_bucket.db_key)
         for message in selected_job.db_messages.all():
@@ -223,7 +223,7 @@ def jobs_start(caller):
 
 
 def add_job(caller):
-    table = evtable.EvTable("ID","Name", "Description", border="header", header_line_char='-')
+    table = evtable.EvTable("ID", "Name", "Description", border="header", header_line_char='-')
     bucket_list = Bucket.objects.all()
     for bucket in bucket_list:
         table.add_row(bucket.id,bucket.db_key, bucket.db_description)
@@ -334,7 +334,7 @@ def _set_view_job(caller, caller_input):
 def view_job(caller):
     selected_job = caller.ndb._menutree.selected_job.first()
     if selected_job:
-        text = '{wJob Summary:{n %s \n{wAssigned To:{n %s\n{wStatus:{n %s\n{wBucket:{n %s\n' % \
+        text = '|wJob Summary:|n %s \n|wAssigned To:|n %s\n|wStatus:|n %s\n|wBucket:|n %s\n' % \
             (selected_job.db_key, selected_job.db_assigned_to.first(), parse_status(selected_job.db_status), selected_job.db_bucket.db_key)
         for message in selected_job.db_messages.all():
             text += "-" * 78 + "\nSender: %s   Date Sent: %s \n\n%s\n\n" % \
@@ -425,7 +425,7 @@ def delete_bucket(caller):
     table.reformat_column(3, width=5, align="r")
 
     text = str(table) + "\n\nEnter the ID of the Bucket you would like to delete. Or select Done to return to the " \
-                        "previous menu.\n\n{rWARNING: Buckets with open jobs will not be deleted.{n"
+                        "previous menu.\n\n|rWARNING: Buckets with open jobs will not be deleted.|n"
 
     options = ({"key": "_default",
                 "exec": attempt_bucket_delete,
@@ -442,7 +442,7 @@ def attempt_bucket_delete(caller, caller_input):
     if input:
         bucket_to_delete = Bucket.objects.filter(id=input).first()
         if bucket_to_delete.db_jobs and bucket_to_delete.db_jobs.exclude(db_status__in=['C']).count() > 0:
-                caller.msg("{r*** WARNING ***{n You cannot delete a bucket with open jobs.  Close those jobs and try "
+                caller.msg("|r*** WARNING ***|n You cannot delete a bucket with open jobs.  Close those jobs and try "
                            "again.")
         else:
             bucket_to_delete.delete()
