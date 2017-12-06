@@ -8,7 +8,7 @@ Commands describe the input the player can do to the game.
 import time
 from evennia import Command as BaseCommand
 from evennia import default_cmds, search_object
-from evennia.utils import create, utils, evtable, evform, gametime, inherits_from
+from evennia.utils import create, utils, evtable, evform, gametime, inherits_from, delay
 from library import titlecase, header
 from world import rules
 from evennia.server.sessionhandler import SESSIONS
@@ -844,6 +844,7 @@ class CmdOOC(default_cmds.MuxCommand):
     def func(self):
         if not self.caller.db.ic_location:
             self.caller.msg("You do not have an IC Location.  To enter the IC world, proceed to the IC Launchpad.")
+            return
 
         if self.caller.db.status == 'IC':
             self.caller.db.ic_location = self.caller.location
@@ -868,9 +869,40 @@ class CmdIC(default_cmds.MuxCommand):
     def func(self):
         if self.caller.db.status == 'IC':
             self.caller.msg("You are not OOC. type |w+ooc|n to move to the OOC realm")
+            return
         if not self.caller.db.ic_location:
             self.caller.msg("You have no IC location.  If you are seeing this area and have already been in the IC "
                             "realm, please contact a staff member.")
+            return
         self.caller.move_to(self.caller.db.ic_location)
         self.caller.db.status = 'IC'
+
+
+class CmdJoin(default_cmds.MuxCommand):
+    """
+    Allows an admin to join a character's current location.
+
+    Usage:
+        +join <character>
+    """
+
+    key = "+join"
+    locks = "cmd:perm(Admin)"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("You must define a character to join.")
+            return
+        char = self.caller.search(self.args, global_search=True)
+        if not char:
+            self.caller.msg("That is not a valid character.  Please try again.")
+            return
+
+        self.caller.msg("Joining %s in 5 seconds." % char.key)
+        char.location.msg_contents("%s will be joining this location in 5 seconds." % self.caller.key)
+        delay(5)
+        self.caller.move_to(char.location)
+
+    def move(self, mover, location):
+        mover.move_to(location)
 

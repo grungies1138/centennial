@@ -6,7 +6,7 @@ def setup_languages():
 
 
 def add_binary():
-    phonemes = "w b d p t oe ee oo e o a aa wh dw bw E EE O OO A AA B"
+    phonemes = "w b d p t ooo eee ee oo e o a aa aaa wh dw bw E EE O OO A AA B"
     vowels = "oea"
     grammar = "cvvv cvv cvvcv cvvcvv cvvvc cvvvcvv cvvc c v cc vv ccvvc ccvvccvv "
     word_length_variance = 4
