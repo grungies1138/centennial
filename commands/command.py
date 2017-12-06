@@ -900,7 +900,7 @@ class CmdJoin(default_cmds.MuxCommand):
 
         self.caller.msg("Joining %s in 5 seconds." % char.key)
         char.location.msg_contents("%s will be joining this location in 5 seconds." % self.caller.key)
-        delay(5)
+        yield 5
         self.caller.move_to(char.location)
 
     def move(self, mover, location):
