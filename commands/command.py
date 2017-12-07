@@ -904,3 +904,22 @@ class CmdJoin(default_cmds.MuxCommand):
         char.location.msg_contents("%s will be joining this location in 5 seconds." % self.caller.key)
         yield 5
         self.caller.move_to(char.location)
+
+
+class CmdPose(default_cmds.MuxCommand):
+    """
+    Used to diplay to the room the actions of the character.
+
+    Usage:
+        +pose <text>
+    """
+
+    key = "+pose"
+    locks = "cmd:perm(Player)"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("Use |w+pose <text>|n to pose.")
+            return
+
+        self.caller.loation.msg_contents("|/%s|/" % self.args)
