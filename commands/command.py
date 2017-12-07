@@ -911,8 +911,8 @@ class CmdPose(default_cmds.MuxCommand):
     Used to display to the room the actions of the character.  No name is prepended.
 
     Text formatting help:
-        |/ - carriage return
-        |- - tab
+        ||/ - carriage return
+        ||- - tab
 
     Usage:
         +pose <text>
