@@ -14,7 +14,8 @@ from world import rules
 from evennia.server.sessionhandler import SESSIONS
 from evennia import search_object
 from evennia.contrib import custom_gametime
-from server.conf.settings import TIME_GAME_EPOCH, TIME_FACTOR, TIME_UNITS, GREAT_RESYNCHRONIZATION, BATTLE_OF_YAVIN, OLD_REPUBLIC, TREAT_OF_CORUSCANT, RUUSAN_REFORMATION
+from server.conf.settings import TIME_GAME_EPOCH, TIME_FACTOR, TIME_UNITS, GREAT_RESYNCHRONIZATION, BATTLE_OF_YAVIN, \
+    OLD_REPUBLIC, TREAT_OF_CORUSCANT, RUUSAN_REFORMATION
 
 
 class SheetCommand(BaseCommand):
