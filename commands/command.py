@@ -922,4 +922,4 @@ class CmdPose(default_cmds.MuxCommand):
             self.caller.msg("Use |w+pose <text>|n to pose.")
             return
 
-        self.caller.loation.msg_contents("|/%s|/" % self.args)
+        self.caller.location.msg_contents("|/%s|/" % self.args)
