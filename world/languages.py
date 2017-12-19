@@ -3,6 +3,7 @@ from evennia.contrib import rplanguage
 
 def setup_languages():
     add_binary()
+    add_ryl()
 
 
 def add_binary():
@@ -12,3 +13,13 @@ def add_binary():
     word_length_variance = 4
     rplanguage.add_language(key='Binary', phonemes=phonemes, grammar=grammar,
                             word_length_variance=word_length_variance, vowels=vowels, force=True)
+
+
+def add_ryl():
+    phonemes = "rhy rh ry mh a b c d e f g h i j k l m n o p q r s t u v w x y z th sh"
+    vowels = "aeiouy"
+    grammar = "ccv cvv ccvv cccv cv v cvvv ccvvv cvvcv ccvvcv ccvvccvv ccvcvvv"
+    word_length_variance = 3
+    rplanguage.add_language(key='Ryl', phonemes=phonemes, grammar=grammar, word_length_variance=word_length_variance,
+                            vowels=vowels, force=True)
+

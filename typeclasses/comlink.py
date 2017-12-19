@@ -19,7 +19,7 @@ class ComlinkHandler(DefaultScript):
         self.desc = "Script to handle all of the comlink communications."
 
     def join_frequency(self, freq):
-
+        pass
 
 
 class ComlinkCmdSet(CmdSet):

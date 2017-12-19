@@ -684,7 +684,8 @@ def admin_edit_branches(caller):
 
 def admin_edit_desc(caller):
     selected_org = caller.ndb._menutree.selected_org
-    text = "|wCurrent Description:|n %s\n\nPlease enter the new description you wish to display.\n\n|yNote:|n Do not start the description with the word 'cancel'." % selected_org.db_desc
+    text = "|wCurrent Description:|n %s\n\nPlease enter the new description you wish to display.\n\n|yNote:|n Do not " \
+           "start the description with the word 'cancel'." % selected_org.db_desc
     options = ({"key": "_default",
                 "exec": admin_set_edit_description,
                 "goto": "admin_edit_selected_org"},
