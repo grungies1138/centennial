@@ -90,6 +90,7 @@ def askLanguageSelect(caller):
 
     if character_languages:
         for lang in all_languages:
+            print lang
             if lang not in character_languages:
                 available.append(lang)
     else:
