@@ -26,9 +26,9 @@ def add_ryl():
 
 
 def add_shyriiwook():
-    phonemes = "wh wrr grr ah aa oo ugh ee arr a e o"
+    phonemes = "wh wrr wr grr gr ah aa oo ugh ee arr a e o"
     vowels = "aeo"
-    grammar = "ccv ccvv ccvvv ccvvvv cccv cccvv cccvvv cccvvvv ccvcc ccvccc ccvvcc ccvvvcc ccvvvccc"
+    grammar = "ccv ccvv ccvvv ccvvvv cccv cccvv cccvvv cccvvvv ccvcc ccvccc ccvvcc ccvvvcc ccvvvccc cccvvvcc cccvvvccc"
     word_length_variance = 5
     rplanguage.add_language(key='Shyriiwook', phonemes=phonemes, vowels=vowels, grammar=grammar,
                             word_length_variance=word_length_variance, force=True)
