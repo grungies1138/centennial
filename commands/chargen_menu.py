@@ -90,7 +90,6 @@ def askLanguageSelect(caller):
 
     if character_languages:
         for lang in all_languages:
-            print lang
             if lang not in character_languages:
                 available.append(lang)
     else:
@@ -105,11 +104,11 @@ def askLanguageSelect(caller):
     for lang in available:
         available_text += titlecase(lang).strip() + ", "
 
-    text = \
-    """
-    Languages are the way that various aliens communicate throughout the Galaxy.  You can choose as many languages as 
-    you have Destiny Pool Points(DPP).  You are granted one language per DPP spent.  Those with the 
-    Translator destiny are granted two languages per point.
+    text = """
+    Languages are the way that various aliens communicate throughout the Galaxy.  
+    You can choose as many languages as you have Destiny Pool Points(DPP).  You 
+    are granted one language per DPP spent.  Those with the Translator destiny 
+    are granted two languages per point.
     
     You currently have %s Destiny Pool points.
     
