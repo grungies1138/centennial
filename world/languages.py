@@ -13,7 +13,7 @@ def add_binary():
     vowels = "oea"
     grammar = "cvvv cvv cvvcv cvvcvv cvvvc cvvvcvv cvvc c v cc vv ccvvc ccvvccvv "
     word_length_variance = 4
-    rplanguage.add_language(key='Binary', phonemes=phonemes, grammar=grammar,
+    rplanguage.add_language(key='binary', phonemes=phonemes, grammar=grammar,
                             word_length_variance=word_length_variance, vowels=vowels, force=True)
 
 
@@ -22,17 +22,17 @@ def add_ryl():
     vowels = "aeiouy"
     grammar = "ccv cvv ccvv cccv cv v cvvv ccvvv cvvcv ccvvcv ccvvccvv ccvcvvv"
     word_length_variance = 3
-    rplanguage.add_language(key='Ryl', phonemes=phonemes, grammar=grammar, word_length_variance=word_length_variance,
+    rplanguage.add_language(key='ryl', phonemes=phonemes, grammar=grammar, word_length_variance=word_length_variance,
                             vowels=vowels, force=True)
 
 
 def add_shyriiwook():
-    phonemes = "wh wrr wr grr gr ah aa oo ugh ee arr a e o w g r rh"
-    vowels = "aeo"
+    phonemes = "wh wrr wr grr gr ah aa oo ugh ee arr a e o w g r rh ii"
+    vowels = "aeoi"
     grammar = "ccv ccvv ccvvv ccvvvv cccv cccvv cccvvv cccvvvv ccvcc ccvccc ccvvcc ccvvvcc ccvvvccc cccvvvcc " \
               "cccvvvccc cv cc c v"
     word_length_variance = 3
-    rplanguage.add_language(key='Shyriiwook', phonemes=phonemes, vowels=vowels, grammar=grammar,
+    rplanguage.add_language(key='shyriiwook', phonemes=phonemes, vowels=vowels, grammar=grammar,
                             word_length_variance=word_length_variance, force=True)
 
 
@@ -41,5 +41,5 @@ def add_huttese():
     vowels = "aeiou"
     grammar = "cvv ccvv ccvvc ccvvcc ccvvccv cvvc cvvcv cvvcvcc ccvvcvcc cc vv c v"
     word_length_variance = 2
-    rplanguage.add_language(key='Huttese', phonemes=phonemes, vowels=vowels, grammar=grammar,
+    rplanguage.add_language(key='huttese', phonemes=phonemes, vowels=vowels, grammar=grammar,
                             word_length_variance=word_length_variance, force=True)

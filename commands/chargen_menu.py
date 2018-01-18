@@ -84,7 +84,7 @@ def menu_start_node(caller):
 
 
 def askLanguageSelect(caller):
-    all_languages = rplanguage.available_languages()
+    all_languages = rplanguage.LanguageHandler.objects.get(db_key='language_handler').db.language_storage.keys()
     character_languages = caller.db.languages
     available = []
 
@@ -115,6 +115,11 @@ def askLanguageSelect(caller):
     Available languages:
     %s
     """ % (caller.db.destiny_pool, current_text, available_text)
+
+    options = ({"desc": "Go Back",
+                "key": "back"})
+
+    return text, options
 
 
 def askTalentSelect(caller):
