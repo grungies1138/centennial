@@ -18,6 +18,8 @@ at_server_cold_stop()
 from evennia import create_script
 from evennia.scripts.models import ScriptDB
 import subprocess
+from world import languages
+
 
 def at_server_start():
     """
@@ -26,6 +28,7 @@ def at_server_start():
     """
     if len(ScriptDB.objects.filter(db_key="weather")) == 0:
         create_script("world.weather.WeatherScript", key="weather", persistent=True, obj=None)
+    languages.setup_languages()
 
 
 def at_server_stop():
