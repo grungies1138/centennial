@@ -96,7 +96,7 @@ def askLanguageSelect(caller):
     else:
         available = all_languages
 
-    available.remove('default')
+    #available.remove('default')
 
     current_text = ""
     if character_languages:
