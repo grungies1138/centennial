@@ -27,7 +27,7 @@ def add_ryl():
 
 
 def add_shyriiwook():
-    phonemes = "wh wrr wr grr gr ah aa oo ugh ee arr a e o"
+    phonemes = "wh wrr wr grr gr ah aa oo ugh ee arr a e o w g r rh"
     vowels = "aeo"
     grammar = "ccv ccvv ccvvv ccvvvv cccv cccvv cccvvv cccvvvv ccvcc ccvccc ccvvcc ccvvvcc ccvvvccc cccvvvcc " \
               "cccvvvccc cv cc c v"
