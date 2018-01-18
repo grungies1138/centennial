@@ -18,7 +18,7 @@ def add_binary():
 
 
 def add_ryl():
-    phonemes = "rhy rh ry mh a b c d e f g h i j k l m n o p q r s t u v w x y z th sh"
+    phonemes = "rhy rh ry mh a b c d e f g h i j k l m n o p q r s t u v w x y z th sh ou au ao ay yu uy"
     vowels = "aeiouy"
     grammar = "ccv cvv ccvv cccv cv v cvvv ccvvv cvvcv ccvvcv ccvvccvv ccvcvvv"
     word_length_variance = 3
