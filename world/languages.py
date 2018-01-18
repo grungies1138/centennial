@@ -37,7 +37,7 @@ def add_shyriiwook():
 
 
 def add_huttese():
-    phonemes = "bh sh d b s wh w h a e i o u wh w"
+    phonemes = "bh sh d b s wh w h a e i o u aa ao ou wh w"
     vowels = "aeiou"
     grammar = "cvv ccvv ccvvc ccvvcc ccvvccv cvvc cvvcv cvvcvcc ccvvcvcc cc vv c v"
     word_length_variance = 2
