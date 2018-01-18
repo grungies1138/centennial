@@ -85,6 +85,7 @@ def menu_start_node(caller):
 
 def askLanguageSelect(caller):
     all_languages = rplanguage.LanguageHandler.objects.get(db_key='language_handler').db.language_storage.keys()
+    caller.msg(str(all_languages))
     character_languages = caller.db.languages
     available = []
 
