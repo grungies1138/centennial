@@ -74,7 +74,7 @@ def menu_start_node(caller):
         options += ({"desc": "Talents", "goto": "askTalentSelect"},)
 
     if caller.db.destiny_pool > 0:
-        options += ({"desc": "Languages", "goto": "askLanguageSelect"})
+        options += ({"desc": "Languages", "goto": "askLanguageSelect"},)
 
     options += ({"desc": "Reset Chargen", "goto": "confirm_chargen"},)
 
