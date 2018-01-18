@@ -4,6 +4,7 @@ from evennia.contrib import rplanguage
 def setup_languages():
     add_binary()
     add_ryl()
+    add_shyriiwook()
 
 
 def add_binary():
