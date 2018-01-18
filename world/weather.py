@@ -5,19 +5,22 @@ from typeclasses.characters import Character
 from world import rules
 
 WEATHER = {
-    "tatooine": [
-        {"desc": "sunny and hot", "probability": 85, "survival": 0, "message": ""},
-        {"desc": "windy", "probability": 95, "survival": 25,
-         "message": "A cross wind picks up.  The wind causes debris to hit you.", "damage": 2},
-        {"desc": "sandstorm", "probability": 100, "survival": 90,
-         "message": "A sandstorm whips up.  The stinging sand tears at your skin.", "damage": 10}],
-    "abregado-rae": [
-        {"desc": "warm with a light breeze", "probability": 60, "survival": 0, "message": ""},
-        {"desc": "light showers", "probability": 80, "survival": 0, "message": ""},
-        {"desc": "thunderstorms", "probability": 90, "survival": 10, "message": "You are pelted with hail and debris.",
-         "damage": 2},
-        {"desc": "severe thunderstorms", "probability": 100, "survival": 40,
-         "message": "Lightning strikes nearby and causes burns.", "damage": 10}]
+    "tatooine": {
+        "mos eisley": [
+            {"desc": "sunny and hot", "probability": 85, "survival": 0, "message": ""},
+            {"desc": "windy", "probability": 95, "survival": 25,
+             "message": "A cross wind picks up.  The wind causes debris to hit you.", "damage": 2},
+            {"desc": "sandstorm", "probability": 100, "survival": 90,
+             "message": "A sandstorm whips up.  The stinging sand tears at your skin.", "damage": 10}]},
+    "abregado-rae": {
+        "starport": [
+            {"desc": "warm with a light breeze", "probability": 60, "survival": 0, "message": ""},
+            {"desc": "light showers", "probability": 80, "survival": 0, "message": ""},
+            {"desc": "thunderstorms", "probability": 90, "survival": 10,
+             "message": "You are pelted with hail and debris.", "damage": 2},
+            {"desc": "severe thunderstorms", "probability": 100, "survival": 40,
+             "message": "Lightning strikes nearby and causes burns.", "damage": 10}]
+    }
 }
 
 
@@ -35,7 +38,7 @@ class WeatherScript(DefaultScript):
             probability = randint(0, 100)
             planet = master.tags.get(category="planet")
             prev_weather = master.db.weather
-            weather = next(item for item in WEATHER.get(planet) if item.get("probability") >= probability)
+            weather = next(item for item in WEATHER.get(planet).get(zone) if item.get("probability") >= probability)
 
             if prev_weather == weather:
                 continue

@@ -14,6 +14,7 @@ from world import classes, species
 from commands.library import titlecase, node_formatter, options_formatter
 from world.destinies import DESTINIES
 from world.talents import TALENTS, FORCE_TALENTS
+from evennia.contrib import rplanguage
 
 
 class ChargenMenuCommand(default_cmds.MuxCommand):
@@ -68,15 +69,52 @@ def menu_start_node(caller):
     if (caller.db.xp >= 100) or (caller.db.xp >= 90 and caller.db.destiny == "experience"):
         options += ({"desc": "Select Classes to level up in.", "goto": "askLevelSelect"},)
 
-    if caller.db.level > 0 and (
-        (len(caller.db.talents) < 1) or (caller.db.destiny == "talented" and (len(caller.db.talents) < 3))):
+    if caller.db.level > 0 and ((len(caller.db.talents) < 1) or
+                                (caller.db.destiny == "talented" and (len(caller.db.talents) < 3))):
         options += ({"desc": "Talents", "goto": "askTalentSelect"},)
+
+    if caller.db.destiny_pool > 0:
+        options += ({"desc": "Languages", "goto": "askLanguageSelect"})
 
     options += ({"desc": "Reset Chargen", "goto": "confirm_chargen"},)
 
     options += ({"desc": "Finalize", "goto": "confirm_finalize"},)
 
     return text, options
+
+
+def askLanguageSelect(caller):
+    all_languages = rplanguage.available_languages()
+    character_languages = caller.db.languages
+    available = []
+
+    if character_languages:
+        available = list(set(all_languages) - set(character_languages))
+    else:
+        available = all_languages
+
+    current_text = ""
+    for lang in character_languages:
+        current_text += "|y%s|n\n" % titlecase(lang)
+
+    available_text = ""
+    for lang in available:
+        available_text += titlecase(lang).strip() + ", "
+
+    text = \
+    """
+    Languages are the way that various aliens communicate throughout the Galaxy.  You can choose as many languages as 
+    you have Destiny Pool Points(DPP).  You are granted one language per DPP spent.  Those with the 
+    Translator destiny are granted two languages per point.
+    
+    You currently have %s Destiny Pool points.
+    
+    Currently selected languages:
+    %s
+    
+    Available languages:
+    %s
+    """ % (caller.db.destiny_pool, current_text, available_text)
 
 
 def askTalentSelect(caller):
@@ -93,7 +131,8 @@ def askTalentSelect(caller):
     text = \
         """
         Below you will see a list of talents that you are qualified to take.  PLEASE CHOOSE CAREFULLY.  
-        |whelp Talents|n for more detail.\n\nCurrent Talents:\n%s\n\n You currently have |w%s|n Destiny Points to spend.\n\n
+        |whelp Talents|n for more detail.\n\nCurrent Talents:\n%s\n\n You currently have |w%s|n Destiny Points to spend.
+        \n\n
         """ % (current_talents, caller.db.destiny_pool)
 
     text += "Available Talents:\n"
