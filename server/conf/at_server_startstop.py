@@ -28,7 +28,7 @@ def at_server_start():
     """
     if len(ScriptDB.objects.filter(db_key="weather")) == 0:
         create_script("world.weather.WeatherScript", key="weather", persistent=True, obj=None)
-    languages.setup_languages()
+    #languages.setup_languages()
 
 
 def at_server_stop():
