@@ -5,6 +5,7 @@ def setup_languages():
     add_binary()
     add_ryl()
     add_shyriiwook()
+    add_huttese()
 
 
 def add_binary():
@@ -29,6 +30,14 @@ def add_shyriiwook():
     phonemes = "wh wrr wr grr gr ah aa oo ugh ee arr a e o"
     vowels = "aeo"
     grammar = "ccv ccvv ccvvv ccvvvv cccv cccvv cccvvv cccvvvv ccvcc ccvccc ccvvcc ccvvvcc ccvvvccc cccvvvcc cccvvvccc"
-    word_length_variance = 5
+    word_length_variance = 3
     rplanguage.add_language(key='Shyriiwook', phonemes=phonemes, vowels=vowels, grammar=grammar,
+                            word_length_variance=word_length_variance, force=True)
+
+def add_huttese():
+    phonemes = "bh sh d b s wh w h a e i o u wh w"
+    vowels = "aeiou"
+    grammar = "cvv ccvv ccvvc ccvvcc ccvvccv cvvc cvvcv cvvcvcc ccvvcvcc"
+    word_length_variance = 2
+    rplanguage.add_language(key='Huttese', phonemes=phonemes, vowels=vowels, grammar=grammar,
                             word_length_variance=word_length_variance, force=True)
