@@ -89,7 +89,9 @@ def askLanguageSelect(caller):
     available = []
 
     if character_languages:
-        available = list(set(all_languages) - set(character_languages))
+        for lang in all_languages:
+            if lang not in character_languages:
+                available.append(lang)
     else:
         available = all_languages
 
