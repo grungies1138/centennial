@@ -153,7 +153,7 @@ def purchase_language(caller, caller_input):
         caller.msg("You do not have enough Destiny Points to purchase that language.")
         return
 
-    if isinstance(caller.db.languages, list):
+    if type(caller.db.languages) is list:
         caller.db.languages.append(selected_language)
     else:
         caller.db.languages = []
