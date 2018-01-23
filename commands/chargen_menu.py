@@ -84,8 +84,7 @@ def menu_start_node(caller):
 
 
 def askLanguageSelect(caller):
-    all_languages = rplanguage.LanguageHandler.objects.get(db_key='language_handler').db.language_storage.keys()
-    caller.msg(str(all_languages))
+    all_languages = rplanguage.available_languages()
     character_languages = caller.db.languages
     available = []
 
@@ -95,8 +94,6 @@ def askLanguageSelect(caller):
                 available.append(lang)
     else:
         available = all_languages
-
-    #available.remove('default')
 
     current_text = ""
     if character_languages:
@@ -108,10 +105,12 @@ def askLanguageSelect(caller):
         available_text += titlecase(lang).strip() + ", "
 
     text = """
-    Languages are the way that various aliens communicate throughout the Galaxy.  
+    Languages are the way that various species communicate throughout the Galaxy.  
     You can choose as many languages as you have Destiny Pool Points(DPP).  You 
     are granted one language per DPP spent.  Those with the Translator destiny 
-    are granted two languages per point.
+    are granted two languages per point.  (NOTE: for those with the Translator 
+    destiny, each language costs .5 Destiny points.  Any fractional points left
+    at chargen completion will be lost.)
     
     You currently have %s Destiny Pool points.
     
@@ -120,12 +119,54 @@ def askLanguageSelect(caller):
     
     Available languages:
     %s
+    
+    Please enter the language you would like to purchase.
     """ % (caller.db.destiny_pool, current_text, available_text)
 
-    options = ({"desc": "Go Back",
-                "key": "back"})
+    options = ({"key": "_default",
+                "exec": purchase_language,
+                "goto": "askLanguageSelect"},
+               {"desc": "Unlearn Language",
+                "key": "unlearn",
+                "goto": "ask_unlearn_language"},
+               {"desc": "Go Back",
+                "key": "back",
+                "goto": "menu_start_node"})
 
     return text, options
+
+
+def purchase_language(caller, caller_input):
+    selected_language = caller_input.lower().strip()
+    all_languages = rplanguage.LanguageHandler.objects.get(db_key='language_handler').db.language_storage.keys()
+    character_languages = caller.db.languages
+
+    if selected_language in character_languages:
+        caller.msg("You already have that language:  Please choose another.")
+        return
+
+    if selected_language not in all_languages:
+        caller.msg("That is not a valid language")
+        return
+
+    if caller.db.destiny_pool == 0:
+        caller.msg("You do not have enough Destiny Points to purchase that language.")
+        return
+
+    if isinstance(caller.db.languages, list):
+        caller.db.languages.append(selected_language)
+    else:
+        caller.db.languages = []
+        caller.db.languages.append(selected_language)
+
+    if caller.db.destiny == 'translator':
+        caller.db.destiny_pool -= .5
+        caller.db.max_dp -= .5
+    else:
+        caller.db.destiny_pool -= 1
+        caller.db.max_dp -= 1
+
+    caller.msg("You have selected %s" % titlecase(selected_language))
 
 
 def askTalentSelect(caller):
@@ -187,6 +228,7 @@ def purchase_talent(caller, caller_input):
     caller.db.talents.append(str(selected_talent))
     if (len(caller.db.talents) >= 1) or (len(caller.db.talents) >= 3 and caller.db.destiny == "talented"):
         caller.db.destiny_pool -= 1
+        caller.db.max_dp -= 1
 
     caller.msg("You have selected %s." % titlecase(selected_talent))
 
@@ -331,6 +373,7 @@ def reset_chargen(caller):
     del caller.db.fullname
     del caller.db.destiny
     del caller.db.destiny_pool
+    del caller.db.max_dp
     caller.db.talents = []
     caller.skills.clear_skills()
 
@@ -431,8 +474,10 @@ def setDestiny(caller, raw_string):
             caller.db.free_talents = 1
 
         if destiny == "destined":
+            caller.db.max_dp = 15
             caller.db.destiny_pool = 15
         else:
+            caller.db.max_dp = 10
             caller.db.destiny_pool = 10
 
         if destiny == "force":
