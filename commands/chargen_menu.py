@@ -141,7 +141,7 @@ def purchase_language(caller, caller_input):
     all_languages = rplanguage.LanguageHandler.objects.get(db_key='language_handler').db.language_storage.keys()
     character_languages = caller.db.languages
 
-    if selected_language in character_languages:
+    if character_languages and selected_language in character_languages:
         caller.msg("You already have that language:  Please choose another.")
         return
 
