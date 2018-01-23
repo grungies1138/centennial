@@ -138,7 +138,7 @@ def askLanguageSelect(caller):
 
 def purchase_language(caller, caller_input):
     selected_language = caller_input.lower().strip()
-    all_languages = rplanguage.LanguageHandler.objects.get(db_key='language_handler').db.language_storage.keys()
+    all_languages = rplanguage.available_languages()
     character_languages = caller.db.languages
 
     if character_languages and selected_language in character_languages:
