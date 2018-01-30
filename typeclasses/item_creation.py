@@ -244,24 +244,29 @@ class CmdWorkbenchTemplates(default_cmds.MuxCommand):
 """
 Item Menu Workflow
 
-Build Item
-    View Available Templates
-    Choose Template
-        Choose Component (one options for each component type in the template)
-            Install component from inventory
-                Skill Check to determine success or failure
-            Purchase Component
-Upgrade Item
-    Choose Item
-        Choose Component to Remove
+User
+    Build Item
+        View Available Templates
+        Choose Template
+            Choose Component (one options for each component type in the template)
+                Install component from inventory
+                    Skill Check to determine success or failure
+                Purchase Component
+    Upgrade Item
+        Choose Item
+            Choose Component to Remove
+                Skill check to determine success or failure
+            Choose Component to Install
+                Skill check to determine success or failure
+    Repair Item
+        Choose Item
             Skill check to determine success or failure
-        Choose Component to Install
-            Skill check to determine success or failure
-Repair Item
-    Choose Item
-        Skill check to determine success or failure
-Purchase Item?
-
+    Purchase Item?
+    
+Owner
+    Add templates
+    Add components
+    Add inventory
 """
 
 
