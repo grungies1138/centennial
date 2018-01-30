@@ -25,10 +25,13 @@ class ComlinkHandler(DefaultScript):
 class ComlinkCmdSet(CmdSet):
     key = "ComlinkCmdSet"
 
+    def at_cmdset_creation(self):
+        self.add(ComlinkCmd())
+
 
 class Comlink(Object):
     def at_object_creation(self):
-        self.cmdset.add(commands.comlink_cmdset.ComlinkCmdSet)
+        self.cmdset.add(ComlinkCmdSet)
 
 
 class ComlinkCmd(default_cmds.MuxCommand):
@@ -41,9 +44,9 @@ class ComlinkCmd(default_cmds.MuxCommand):
             |yNOTE:|n the selected frequency must be in the frequency list
             on the comlink device.
 
-        |w+comlink/add <0000-9999>|n - This adds the given frequency to the
-            list of tuned frequencies for this comlink.  Up to 5 frequencies
-            can be saved at a time.
+        |w+comlink/add <0000-9999>[=<label>]|n - This adds the given frequency to the
+            list of tuned frequencies for this comlink with an optional label.  Up to
+            5 frequencies can be saved at a time.
 
         |w+comlink/remove <0000-9999>|n - This removes the given frequency
             from the the list of tuned frequencies on the device.

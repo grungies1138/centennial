@@ -98,7 +98,7 @@ def askLanguageSelect(caller):
     current_text = ""
     if character_languages:
         for lang in character_languages:
-            current_text += "|y%s|n\n" % titlecase(lang)
+            current_text += "|y%s|n, " % titlecase(lang)
 
     available_text = ""
     for lang in available:

@@ -6,6 +6,7 @@ from evennia.utils.ansi import ANSIString, ANSI_PARSER
 from evennia.utils import evtable, create
 from evennia.server.sessionhandler import SESSIONS
 from evennia.utils import evtable
+from evennia.contrib import rplanguage
 
 HEAD_CHAR = "|015-|n"
 SUB_HEAD_CHAR = "-"
@@ -79,3 +80,7 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in xrange(0, len(l), n):
         yield l[i:i + n]
+
+
+def translate(text, language):
+    return rplanguage.obfuscate_language(text, key=language, level=1.0)
