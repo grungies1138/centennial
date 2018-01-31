@@ -145,8 +145,8 @@ def ask_unlearn_language(caller):
     if char_langs:
         # char_langs_text = ["%s, " % titlecase(x) if ind < len(char_langs)-1 else "%s" % titlecase(x) for ind, x in
         #                    enumerate(char_langs)]
-        for ind, lang in char_langs:
-            if ind < len(char_langs) -1:
+        for ind, lang in enumerate(char_langs):
+            if ind < len(char_langs) - 1:
                 char_langs_text += "%s, " % titlecase(lang)
             else:
                 char_langs_text += "%s" % titlecase(lang)
