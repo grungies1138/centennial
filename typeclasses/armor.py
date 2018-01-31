@@ -1,16 +1,14 @@
 from typeclasses.objects import Object
 from world.rules import parse_accuracy, parse_damage, parse_item_health
 from commands.library import header
+from typeclasses.item_creation import Item
 
 
-class Armor(Object):
+class Armor(Item):
     def at_object_creation(self):
         self.db.destroyed = False
-        self.db.components = []
-        self.db.template = ""
         self.db.health = 0
         self.db.max_health = 0
-        self.db.description = ""
 
     def durability(self):
         # calculate durability based on components

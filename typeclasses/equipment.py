@@ -1,9 +1,10 @@
 from typeclasses.objects import Object
 from commands.library import header
 from world.rules import parse_accuracy, parse_damage, parse_item_health
+from typeclasses.item_creation import Item
 
 
-class Equipment(Object):
+class Equipment(Item):
     def at_object_creation(self):
         self.db.description = ""
         self.db.components = []
@@ -24,16 +25,9 @@ class Equipment(Object):
         return self.db.mass
 
     def return_appearance(self, looker):
-        message = []
-
-        message.append("|y%s|n" % self.key)
-        message.append(self.db.description)
-        message.append(header())
-        message.append("|wRequired Skill:|n %s" % self.db.required_skill)
-        message.append("|wFunction:|n %s" % parse_damage(self.function))
-        message.append("|wDurability:|n %s" % parse_damage(self.durability))
-        message.append("|wMass:|n %s" % self.mass())
-        message.append(header())
+        message = ["|y%s|n" % self.key, self.db.description, header(),
+                   "|wRequired Skill:|n %s" % self.db.required_skill, "|wFunction:|n %s" % parse_damage(self.function),
+                   "|wDurability:|n %s" % parse_damage(self.durability), "|wMass:|n %s" % self.mass(), header()]
 
         message2 = []
         for line in message:

@@ -1,18 +1,16 @@
 from typeclasses.objects import Object
 from world.rules import parse_accuracy, parse_damage, parse_item_health
 from commands.library import header
+from typeclasses.item_creation import Item
 
 
-class Weapon(Object):
+class Weapon(Item):
     def at_object_creation(self):
         self.db.modes = []  # Single | Burst | Auto | Stun | Thrown
         self.db.hands = 1  # 1 or 2 (or more for more odd species and the like)
-        self.db.components = []  # list of the components that comprise this item
         self.db.skill = ""  # associated skill or stat used in the game system to track the use of this item.
-        self.db.template = ""
         self.db.health = 0
         self.db.max_health = 0
-        self.db.description = ""
 
     def accuracy(self):
         # Look at components and find all the accuracy related component values and add them together.
@@ -35,18 +33,12 @@ class Weapon(Object):
         return self.db.mass
 
     def return_appearance(self, looker):
-        message = []
+        message = ["|y%s|n" % self.key, self.db.description, header(),
+                   "|wAccuracy:|n %s" % parse_accuracy(self.accuracy()),
+                   "|wDamage:|n %s" % parse_damage(self.db.damage), "|wDamage Type: |n %s" % self.damage_type(),
+                   "|wHealth:|n %s" % parse_item_health(self), "|wMass:|n %s" % self.mass(),
+                   "|wRequired Skill:|n %s" % self.db.skill, header()]
 
-        message.append("|y%s|n" % self.key)
-        message.append(self.db.description)
-        message.append(header())
-        message.append("|wAccuracy:|n %s" % parse_accuracy(self.accuracy()))
-        message.append("|wDamage:|n %s" % parse_damage(self.db.damage))
-        message.append("|wDamage Type: |n %s" % self.damage_type())
-        message.append("|wHealth:|n %s" % parse_item_health(self))
-        message.append("|wMass:|n %s" % self.mass())
-        message.append("|wRequired Skill:|n %s" % self.db.skill)
-        message.append(header())
         message2 = []
         for line in message:
             message2.append(unicode(line))

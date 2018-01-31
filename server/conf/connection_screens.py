@@ -33,7 +33,7 @@ CONNECTION_SCREEN = """
  If you have spaces in your username, enclose it in quotes.
  Enter |whelp|n for more info. |wlook|n will re-show this screen.
 |b==============================================================|n
-Star Wars is a registered trademark and © 1977 Lucasfilm Ltd. All 
-rights reserved.
+Star Wars is a registered trademark and © 1977 Lucasfilm Ltd. 
+All rights reserved.
 """ \
     .format(settings.SERVERNAME)

@@ -2,13 +2,11 @@ from typeclasses.objects import Object
 from commands.library import header
 from world.rules import parse_accuracy, parse_damage, parse_item_health
 from evennia.utils import delay
+from typeclasses.item_creation import Item
 
 
-class Consumable(Object):
+class Consumable(Item):
     def at_object_creation(self):
-        self.db.description = ""
-        self.db.components = []
-        self.db.template = ""
         self.db.addictive = False
 
     # Potency can have impact on the strength of the consumable for healing or other effects.

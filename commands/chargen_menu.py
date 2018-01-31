@@ -125,15 +125,44 @@ def askLanguageSelect(caller):
 
     options = ({"key": "_default",
                 "exec": purchase_language,
-                "goto": "askLanguageSelect"},
-               {"desc": "Unlearn Language",
-                "key": "unlearn",
+                "goto": "askLanguageSelect"})
+    if character_languages is not None and len(character_languages) > 0:
+        options += ({"desc": "Unlearn Language",
+                     "key": "unlearn",
+                     "goto": "ask_unlearn_language"},)
+
+    options += ({"desc": "Go Back",
+                "key": "back",
+                "goto": "menu_start_node"},)
+
+    return text, options
+
+
+def ask_unlearn_language(caller):
+    char_langs = caller.db.languages
+
+    if char_langs:
+        char_langs_text = ["%s, " % x if ind < len(char_langs)-1 else "%s" % x for ind, x in
+                           enumerate(char_langs)]
+
+    text = "Please select the language you wish to unlearn.\n\nCurrently learned languages:\n%s" % char_langs_text
+
+    options = ({"key": "_default",
+                "exec": unlearn_language,
                 "goto": "ask_unlearn_language"},
                {"desc": "Go Back",
                 "key": "back",
-                "goto": "menu_start_node"})
+                "goto": "askLanguageSelect"})
 
     return text, options
+
+
+def unlearn_language(caller, caller_input):
+    selected_language = caller_input.strip().lower()
+    if selected_language in caller.db.languages:
+        caller.db.languages.remove(selected_language)
+    else:
+        caller.msg("That is not one of your learned languages.")
 
 
 def purchase_language(caller, caller_input):
