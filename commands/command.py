@@ -50,7 +50,7 @@ class SheetCommand(BaseCommand):
         message.append("-" * 78)
 
         titled_languages = []
-        if hasattr(self.caller, "db.languages"):
+        if hasattr(self.caller.db.languages, "append"):
             for lang in self.caller.db.languages:
                 titled_languages.append(titlecase(lang))
 
