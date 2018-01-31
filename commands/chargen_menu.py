@@ -142,7 +142,7 @@ def ask_unlearn_language(caller):
     char_langs = caller.db.languages
 
     if char_langs:
-        char_langs_text = ["%s, " % x if ind < len(char_langs)-1 else "%s" % x for ind, x in
+        char_langs_text = ["%s, " % titlecase(x) if ind < len(char_langs)-1 else "%s" % titlecase(x) for ind, x in
                            enumerate(char_langs)]
 
     text = "Please select the language you wish to unlearn.\n\nCurrently learned languages:\n%s" % char_langs_text
