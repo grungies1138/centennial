@@ -52,7 +52,10 @@ class SheetCommand(BaseCommand):
         titled_languages = []
         if hasattr(self.caller.db.languages, "append"):
             for lang in self.caller.db.languages:
-                titled_languages.append(titlecase(lang))
+                if lang == self.caller.db.spoken_lang:
+                    titled_languages.append("%s |c*|n" % titlecase(lang))
+                else:
+                    titled_languages.append(titlecase(lang))
 
         titled_talents = []
 
@@ -72,6 +75,7 @@ class SheetCommand(BaseCommand):
         self.caller.msg(table)
         self.caller.msg(row_separator)
         self.caller.msg(talents_table)
+        self.caller.msg("|c*|n indicates the currently spoken language.")
         self.caller.msg(row_separator)
         self.caller.msg("|wHealth:|n %s|-|-|wEndurance:|n %s / %s" % (self.parse_health(self.caller),
                                                                       self.caller.endurance.get(),
