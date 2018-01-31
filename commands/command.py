@@ -75,8 +75,8 @@ class SheetCommand(BaseCommand):
         self.caller.msg(table)
         self.caller.msg(row_separator + "\n")
         self.caller.msg(talents_table)
-        self.caller.msg("\n|c*|n indicates the currently spoken language.\n")
-        self.caller.msg(row_separator + "\n")
+        self.caller.msg("\n|c*|n indicates the currently spoken language.")
+        self.caller.msg(row_separator)
         self.caller.msg("|wHealth:|n %s|-|-|wEndurance:|n %s / %s" % (self.parse_health(self.caller),
                                                                       self.caller.endurance.get(),
                                                                       self.caller.endurance.db.max_endurance))
