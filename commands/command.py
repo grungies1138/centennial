@@ -29,7 +29,7 @@ class SheetCommand(BaseCommand):
     help_category = "General"
 
     def func(self):
-        row_separator = "\n" + "-" * 78
+        row_separator = "-" * 78
         self.caller.msg("------------------------------ Character Sheet ------------------------------")
         table = evtable.EvTable("|wSkill Name:|n", "|wSkill Level:|n", table=None, border=None,
                                 pad_width=0, width=78)
@@ -73,10 +73,10 @@ class SheetCommand(BaseCommand):
 
         self.caller.msg("\n".join(message))
         self.caller.msg(table)
-        self.caller.msg(row_separator)
+        self.caller.msg(row_separator + "\n")
         self.caller.msg(talents_table)
-        self.caller.msg("|c*|n indicates the currently spoken language.")
-        self.caller.msg(row_separator)
+        self.caller.msg("\n|c*|n indicates the currently spoken language.\n")
+        self.caller.msg(row_separator + "\n")
         self.caller.msg("|wHealth:|n %s|-|-|wEndurance:|n %s / %s" % (self.parse_health(self.caller),
                                                                       self.caller.endurance.get(),
                                                                       self.caller.endurance.db.max_endurance))
