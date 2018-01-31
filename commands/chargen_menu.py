@@ -125,7 +125,7 @@ def askLanguageSelect(caller):
 
     options = ({"key": "_default",
                 "exec": purchase_language,
-                "goto": "askLanguageSelect"})
+                "goto": "askLanguageSelect"},)
     if character_languages is not None and len(character_languages) > 0:
         options += ({"desc": "Unlearn Language",
                      "key": "unlearn",
