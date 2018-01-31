@@ -49,17 +49,23 @@ class SheetCommand(BaseCommand):
                        .format(self.caller.db.fullname, self.caller.db.age, self.caller.db.level, level_string))
         message.append("-" * 78)
 
+        titled_languages = []
+        for lang in self.caller.db.languages:
+            titled_languages.append(titlecase(lang))
 
         titled_talents = []
 
         for talent in self.caller.db.talents:
             titled_talents.append(titlecase(talent))
 
-        talents_table = evtable.EvTable("|wTalents:|n", border=None)
-        for talent in titled_talents:
-            talents_table.add_row(talent)
+        talents_table = evtable.EvTable("|wTalents:|n", "|wLanguages:|n", border=None,
+                                        table=[titled_talents, titled_languages])
+        # for talent in titled_talents:
+        #     talents_table.add_row(talent)
 
         talents_table.reformat_column(0, width=26)
+        talents_table.reformat_column(1, width=26)
+
 
         self.caller.msg("\n".join(message))
         self.caller.msg(table)
