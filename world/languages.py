@@ -1,5 +1,18 @@
 from evennia.contrib import rplanguage
 
+"""
+Language List:
+
+    Basic
+    Binary
+    Ryl
+    Huttese
+    Shyriiwook
+    Duros
+    Rodian
+    Trandoshan
+    
+"""
 
 def setup_languages():
     add_binary()
@@ -37,7 +50,7 @@ def add_shyriiwook():
 
 
 def add_huttese():
-    phonemes = "bh sh d b s wh w h a e i o u aa ao ou wh w"
+    phonemes = "bh sh d b s wh w h a e i o u aa ao ou wh"
     vowels = "aeiou"
     grammar = "cvv ccvv ccvvc ccvvcc ccvvccv cvvc cvvcv cvvcvcc ccvvcvcc cc vv c v"
     word_length_variance = 2

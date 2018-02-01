@@ -73,7 +73,7 @@ class SheetCommand(BaseCommand):
 
         self.caller.msg("\n".join(message))
         self.caller.msg(table)
-        self.caller.msg(row_separator + "\n")
+        self.caller.msg(row_separator)
         self.caller.msg(talents_table)
         self.caller.msg("\n|c*|n indicates the currently spoken language.")
         self.caller.msg(row_separator)

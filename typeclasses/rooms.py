@@ -13,6 +13,7 @@ from commands.library import header, titlecase
 from evennia.utils import evtable
 from world.weather import WeatherScript
 
+
 class Room(DefaultRoom):
     """
     Rooms are like any Object, except their location is None
@@ -51,9 +52,9 @@ class Room(DefaultRoom):
             colored_objects.append("|135%s|n" % obj.key)
         exits = []
         if self.exits:
-             for exit in self.exits:
-                 if exit.access(looker, "view"):
-                     exits.append("|w<|n|b%s|n|w>|n - %s" % (exit.key, exit.destination))
+            for exit in self.exits:
+                if exit.access(looker, "view"):
+                    exits.append("|w<|n|b%s|n|w>|n - %s" % (exit.key, exit.destination))
         table = evtable.EvTable("|wCharacters and Objects:|n", "|wExits:|n", table=[chars + colored_objects, exits], border=None)
         table.reformat_column(0, width=39, align="l")
         message.append(table)
@@ -99,6 +100,6 @@ class Room(DefaultRoom):
                 weather_script.test_player_survival(obj, self, weather)
 
     def add_pose(self, sender, text):
-        pose = {'name': sender, 'time': datetime.now(), 'pose': text}
+        pose = {'name': sender, 'time': datetime.datetime.now(), 'pose': text}
 
         self.db.poses.append(pose)
