@@ -637,7 +637,7 @@ def set_class(caller):
         caller.db.level += 1
         chosen_species = caller.db.species
 
-        for key, amount in species.SPECIES[chosen_species].items():
+        for key, amount in species.SPECIES.get(chosen_species).get('skills'):
             caller.skills.add(name=key, base=amount)
         caller.msg("You have leveled up in %s" % caller.ndb._menutree.selected_level.title())
 
