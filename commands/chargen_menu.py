@@ -435,7 +435,7 @@ def setSpecies(caller, raw_string):
     caller.msg("Selected Species: %s" % titlecase(selected_species))
     if selected_species in list(species.SPECIES.keys()):
         caller.db.species = selected_species
-        species_langs = selected_species.get('languages')
+        species_langs = species.SPECIES.get('languages')
         if hasattr(species_langs, "append"):
             caller.db.languages = species_langs
             caller.db.spoken_lang = species_langs[0]
