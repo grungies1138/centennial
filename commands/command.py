@@ -943,10 +943,11 @@ class CmdPose(default_cmds.MuxCommand):
 
         spoken = self.caller.db.spoken_lang
 
+        chars = []
+        speakers = []
+        nonspeakers = []
         chars = [char for char in self.caller.location.contents if char.is_typeclass(Character, exact=False)]
-        chars.append(self.caller)
-        print(str(chars))
-        speakers = [char if spoken in char.db.languages else '' for char in chars]
+        speakers = [char for char in chars if ]
         nonspeakers = [char if char not in speakers else '' for char in chars]
 
         pose = ""
@@ -959,8 +960,9 @@ class CmdPose(default_cmds.MuxCommand):
         for char in speakers:
             char.msg("|/%s|/" % self.args)
 
-        for char in nonspeakers:
-            char.msg("|/%s|/" % pose)
+        if nonspeakers:
+            for char in nonspeakers:
+                char.msg("|/%s|/" % pose)
         #self.caller.location.add_pose(self.caller.key, self.args)
 
     def translate(self, match):
