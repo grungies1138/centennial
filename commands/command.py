@@ -16,6 +16,7 @@ from evennia import search_object
 from evennia.contrib import custom_gametime
 from server.conf.settings import TIME_GAME_EPOCH, TIME_FACTOR, TIME_UNITS, GREAT_RESYNCHRONIZATION, BATTLE_OF_YAVIN, \
     OLD_REPUBLIC, TREAT_OF_CORUSCANT, RUUSAN_REFORMATION
+from evennia.contrib import rplanguage
 
 
 class SheetCommand(BaseCommand):
@@ -939,3 +940,31 @@ class CmdPose(default_cmds.MuxCommand):
             return
 
         self.caller.location.msg_contents("|/%s|/" % self.args)
+        self.caller.location.add_pose(self.caller.key, self.args)
+
+
+class CmdSpeak(default_cmds.MuxCommand):
+    """
+    Sets the currently spoken languages.
+
+    Usage:
+
+    """
+
+    key = "+speak"
+    locks = "cmd:perm(Player)"
+
+    def func(self):
+        if not self.args:
+            self.caller.msg("Use |w+speak <language>|n to change your spoken language.")
+            return
+
+        if self.args.strip().lower() not in self.caller.db.languages:
+            self.caller.msg("You do not know that language.  Please check your +sheet and try again.")
+            return
+
+        if self.args.strip().lower() == self.caller.db.spoken_lang:
+            self.caller.msg("You are already speaking that language.")
+            return
+
+        self.caller.db.spoken_lang = self.args.strip().lower()
