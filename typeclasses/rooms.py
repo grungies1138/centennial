@@ -26,6 +26,7 @@ class Room(DefaultRoom):
     """
     def at_object_creation(self):
         self.ndb.room_messages = {}
+        self.db.poses = []
 
     def return_appearance(self, looker):
         zonemaster = self.get_zonemaster()
