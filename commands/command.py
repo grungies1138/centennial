@@ -941,8 +941,9 @@ class CmdPose(default_cmds.MuxCommand):
             return
 
         if self.caller.db.spoken_lang != 'basic':
-            m = re.search(r'(["\'])(?:(?=(\\?))\2.)*?\1', self.args)
-            print m.groups()
+            m = re.findall(r'(["\'])(?:(?=(\\?))\2.)*?\1', self.args)
+            for item in m:
+                print item
         #self.caller.location.msg_contents("|/%s|/" % self.args)
         #self.caller.location.add_pose(self.caller.key, self.args)
 
