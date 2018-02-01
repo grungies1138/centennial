@@ -947,8 +947,8 @@ class CmdPose(default_cmds.MuxCommand):
         speakers = []
         nonspeakers = []
         chars = [char for char in self.caller.location.contents if char.is_typeclass(Character, exact=False)]
-        speakers = [char for char in chars if ]
-        nonspeakers = [char if char not in speakers else '' for char in chars]
+        speakers = [char for char in chars if spoken in char.db.languages ]
+        nonspeakers = [char for char in chars if char not in speakers]
 
         pose = ""
 
