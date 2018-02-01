@@ -18,6 +18,7 @@ from server.conf.settings import TIME_GAME_EPOCH, TIME_FACTOR, TIME_UNITS, GREAT
     OLD_REPUBLIC, TREAT_OF_CORUSCANT, RUUSAN_REFORMATION
 from evennia.contrib import rplanguage
 import re
+from typeclasses.characters import Character
 
 
 class SheetCommand(BaseCommand):
@@ -942,7 +943,8 @@ class CmdPose(default_cmds.MuxCommand):
 
         spoken = self.caller.db.spoken_lang
 
-        chars = [char for char in self.caller.location.contents if char.is_typeclass('Character', exact=False)]
+        chars = [char for char in self.caller.location.contents if char.is_typeclass(Character, exact=False)]
+        chars.append(self.caller)
         print(str(chars))
         speakers = [char if spoken in char.db.languages else '' for char in chars]
         nonspeakers = [char if char not in speakers else '' for char in chars]
