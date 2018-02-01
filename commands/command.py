@@ -839,14 +839,16 @@ class CmdRepose(default_cmds.MuxCommand):
             if pose.get('language') in self.caller.db.languages:
                 message.append(pose.get('pose'))
             else:
-                message.append(rplanguage.obfuscate_language(pose.get('pose'), language=pose.get('language'),
-                                                             level=1.0))
+                message.append(re.sub(r'"(.*?)"', self.translate, self.args))
             message.append(header())
 
         message2 = []
         for line in message:
             message2.append(unicode(line))
         self.caller.msg("\n".join(message2))
+
+    def translate(self, match):
+        return rplanguage.obfuscate_language(match.group(), language=self.caller.db.spoken_lang.lower(), level=1.0)
 
 
 class CmdOOC(default_cmds.MuxCommand):
