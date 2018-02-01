@@ -940,9 +940,24 @@ class CmdPose(default_cmds.MuxCommand):
             self.caller.msg("Use |w+pose <text>|n to pose.")
             return
 
+        spoken = self.caller.db.spoken_lang
+
+        chars = self.caller.location.online_characters()
+        speakers = [char if spoken in char.db.languages else '' for char in chars]
+        nonspeakers = [char if char not in speakers for char in chars]
+
+        pose = ""
+
         if self.caller.db.spoken_lang != 'basic':
-            print(re.sub(r'"(.*?)"', self.translate, self.args))
-        #self.caller.location.msg_contents("|/%s|/" % self.args)
+            pose =re.sub(r'"(.*?)"', self.translate, self.args)
+        else:
+            pose = self.args
+
+        for char in speakers:
+            char.msg("|/%s|/" % self.args)
+
+        for char in nonspeakers:
+            char.msg("|/%s|/" % pose)
         #self.caller.location.add_pose(self.caller.key, self.args)
 
     def translate(self, match):
