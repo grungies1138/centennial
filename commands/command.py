@@ -17,6 +17,7 @@ from evennia.contrib import custom_gametime
 from server.conf.settings import TIME_GAME_EPOCH, TIME_FACTOR, TIME_UNITS, GREAT_RESYNCHRONIZATION, BATTLE_OF_YAVIN, \
     OLD_REPUBLIC, TREAT_OF_CORUSCANT, RUUSAN_REFORMATION
 from evennia.contrib import rplanguage
+import re
 
 
 class SheetCommand(BaseCommand):
@@ -939,8 +940,11 @@ class CmdPose(default_cmds.MuxCommand):
             self.caller.msg("Use |w+pose <text>|n to pose.")
             return
 
-        self.caller.location.msg_contents("|/%s|/" % self.args)
-        self.caller.location.add_pose(self.caller.key, self.args)
+        if self.caller.db.spoken_lang != 'basic':
+            m = re.search(r'(["\'])(?:(?=(\\?))\2.)*?\1', self.args)
+            print(str(m))
+        #self.caller.location.msg_contents("|/%s|/" % self.args)
+        #self.caller.location.add_pose(self.caller.key, self.args)
 
 
 class CmdSpeak(default_cmds.MuxCommand):
@@ -968,3 +972,4 @@ class CmdSpeak(default_cmds.MuxCommand):
             return
 
         self.caller.db.spoken_lang = self.args.strip().lower()
+        self.caller.msg("Spoken language set to %s" % titlecase(self.args.strip().lower()))
