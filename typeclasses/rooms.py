@@ -55,7 +55,8 @@ class Room(DefaultRoom):
             for exit in self.exits:
                 if exit.access(looker, "view"):
                     exits.append("|w<|n|b%s|n|w>|n - %s" % (exit.key, exit.destination))
-        table = evtable.EvTable("|wCharacters and Objects:|n", "|wExits:|n", table=[chars + colored_objects, exits], border=None)
+        table = evtable.EvTable("|wCharacters and Objects:|n", "|wExits:|n", table=[chars + colored_objects, exits],
+                                border=None)
         table.reformat_column(0, width=39, align="l")
         message.append(table)
         message.append("\n")
@@ -99,7 +100,7 @@ class Room(DefaultRoom):
                 weather_script = evennia.ScriptDB.objects.filter(db_key="weather").first()
                 weather_script.test_player_survival(obj, self, weather)
 
-    def add_pose(self, sender, text):
-        pose = {'name': sender, 'time': datetime.datetime.now(), 'pose': text}
+    def add_pose(self, sender, text, language):
+        pose = {'name': sender, 'time': datetime.datetime.now(), 'pose': text, 'language': language}
 
         self.db.poses.append(pose)

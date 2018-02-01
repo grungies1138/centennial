@@ -832,13 +832,15 @@ class CmdRepose(default_cmds.MuxCommand):
         location = self.caller.location
         poses = location.db.poses
 
-        message = []
-        message.append("Pose list for %s" % location.key)
-        message.append("|b%s|n" % header())
+        message = ["Pose list for %s" % location.key, "|b%s|n" % header()]
 
         for pose in poses:
             message.append("|w%s|n|-%s" % (pose.get('name'), pose.get('time')))
-            message.append(pose.get('pose'))
+            if pose.get('language') in self.caller.db.languages:
+                message.append(rplanguage.obfuscate_language(pose.get('pose'), language=pose.get('language'),
+                                                             level=1.0))
+            else:
+                message.append(pose.get('pose'))
             message.append(header())
 
         message2 = []
@@ -963,7 +965,7 @@ class CmdPose(default_cmds.MuxCommand):
         if nonspeakers:
             for char in nonspeakers:
                 char.msg("|/%s|/" % pose)
-        #self.caller.location.add_pose(self.caller.key, self.args)
+        self.caller.location.add_pose(self.caller.key, self.args, spoken)
 
     def translate(self, match):
         return rplanguage.obfuscate_language(match.group(), language=self.caller.db.spoken_lang.lower(), level=1.0)
