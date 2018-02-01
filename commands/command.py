@@ -946,7 +946,7 @@ class CmdPose(default_cmds.MuxCommand):
         #self.caller.location.add_pose(self.caller.key, self.args)
 
     def translate(self, match):
-        return rplanguage.obfuscate_language(match, language=self.caller.db.spoken_lang, level=1.0)
+        return rplanguage.obfuscate_language(match.group(), language=self.caller.db.spoken_lang.lower(), level=1.0)
 
 
 class CmdSpeak(default_cmds.MuxCommand):
