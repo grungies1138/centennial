@@ -828,6 +828,8 @@ class CmdRepose(default_cmds.MuxCommand):
     key = "+repose"
     locks = "cmd:perm(Player)"
 
+    language = ""
+
     def func(self):
         location = self.caller.location
         poses = location.db.poses
@@ -836,7 +838,8 @@ class CmdRepose(default_cmds.MuxCommand):
 
         for pose in poses:
             message.append("|w%s|n|-%s" % (pose.get('name'), pose.get('time')))
-            if pose.get('language') in self.caller.db.languages:
+            self.language = pose.get('language')
+            if self.language in self.caller.db.languages:
                 message.append(pose.get('pose'))
             else:
                 message.append(re.sub(r'"(.*?)"', self.translate, self.args))
@@ -848,7 +851,7 @@ class CmdRepose(default_cmds.MuxCommand):
         self.caller.msg("\n".join(message2))
 
     def translate(self, match):
-        return rplanguage.obfuscate_language(match.group(), language=self.caller.db.spoken_lang.lower(), level=1.0)
+        return rplanguage.obfuscate_language(match.group(), language=self.language, level=1.0)
 
 
 class CmdOOC(default_cmds.MuxCommand):
