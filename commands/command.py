@@ -842,7 +842,7 @@ class CmdRepose(default_cmds.MuxCommand):
             if self.language in self.caller.db.languages:
                 message.append(pose.get('pose'))
             else:
-                message.append(re.sub(r'"(.*?)"', self.translate, self.args))
+                message.append(re.sub(r'"(.*?)"', self.translate, pose.get('pose')))
             message.append(header())
 
         message2 = []
@@ -954,7 +954,7 @@ class CmdPose(default_cmds.MuxCommand):
         speakers = []
         nonspeakers = []
         chars = [char for char in self.caller.location.contents if char.is_typeclass(Character, exact=False)]
-        speakers = [char for char in chars if spoken in char.db.languages ]
+        speakers = [char for char in chars if spoken in char.db.languages]
         nonspeakers = [char for char in chars if char not in speakers]
 
         pose = ""
