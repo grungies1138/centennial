@@ -941,13 +941,12 @@ class CmdPose(default_cmds.MuxCommand):
             return
 
         if self.caller.db.spoken_lang != 'basic':
-            print re.findall(r'"(.*?)"', self.args)
-            # regex = re.compile(r'(["\'])(?:(?=(\\?))\2.)*?\1')
-            # m = regex.findall(self.args)
-            # for item in m:
-            #     print item
+            print(re.sub(r'"(.*?)"', self.translate, self.args))
         #self.caller.location.msg_contents("|/%s|/" % self.args)
         #self.caller.location.add_pose(self.caller.key, self.args)
+
+    def translate(self, match):
+        return rplanguage.obfuscate_language(match, key=self.caller.db.spoken_lang, level=1.0)
 
 
 class CmdSpeak(default_cmds.MuxCommand):
