@@ -409,6 +409,8 @@ def reset_chargen(caller):
     del caller.db.max_dp
     caller.db.talents = []
     caller.skills.clear_skills()
+    caller.db.languages = []
+    del caller.db.spoken_lang
 
     caller.msg("All levels have been removed and attributes have been reset.  Please begin again.")
 
