@@ -15,6 +15,7 @@ to be modified.
 from evennia import DefaultChannel
 from world.channel_colors import COLORS
 
+
 class Channel(DefaultChannel):
     """
     Working methods:
@@ -72,7 +73,7 @@ class Channel(DefaultChannel):
         Hook method. Detects if the sender is posing, and modifies the
         message accordingly.
         Args:
-            msgob (Msg or TempMsg): The message to analyze for a pose.
+            msgobj (Msg or TempMsg): The message to analyze for a pose.
             sender_string (str): The name of the sender/poser.
         Returns:
             string (str): A message that combines the `sender_string`

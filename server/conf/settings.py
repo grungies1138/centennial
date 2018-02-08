@@ -36,10 +36,10 @@ SERVERNAME = "Star Wars: Centennial"
 
 INSTALLED_APPS = INSTALLED_APPS + ("bbs", "jobs", "orgs", "web.character",)
 
-INLINEFUNC_ENABLED=True
-MULTISESSION_MODE=1
+INLINEFUNC_ENABLED = True
+MULTISESSION_MODE = 1
 
-DEBUG=True
+DEBUG = True
 
 PROTOTYPE_MODULES = ["world.prototypes", "world.weapon_prototypes", "world.armor_prototypes", "world.equipment_prototypes",
                      "world.consumable_prototypes"]
