@@ -190,7 +190,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
             if "broadcast" in self.switches:
                 pass
             if "list" in self.switches:
-                table = evtable.EvTable("Frequency:", "Password", border=header)
+                table = evtable.EvTable("Frequency:", "Password", border="header")
                 table.reformat_column(0, width=12)
                 for freq in self.obj.frequencies():
                     password = [pwd for pwd in self.obj.db.passwords if freq.get("password")]
