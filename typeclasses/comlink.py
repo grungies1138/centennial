@@ -11,7 +11,7 @@ from typeclasses.characters import Character
 from evennia import default_cmds, CmdSet, DefaultScript
 from evennia.comms.models import TempMsg, ChannelDB
 from evennia.utils import create, evtable
-from command.library import header
+from commands.library import header
 import re
 
 
