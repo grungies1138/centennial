@@ -197,7 +197,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 table.reformat_column(0, width=12)
                 for freq in self.obj.frequencies():
                     password = [pwd for pwd in self.obj.db.passwords if freq.get("password")]
-                    table.add_row(freq, password)
+                    table.add_row(freq.key, password)
 
                 self.caller.msg(unicode(table))
                 return
