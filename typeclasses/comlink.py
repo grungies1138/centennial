@@ -165,12 +165,12 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 if not self.args:
                     self.caller.msg(comlink_prefix + "Usage: |w+comlink/add <0000-9999>")
                 if self.parse_freq(self.args):
-                    self.add_frequency(self.args)
+                    self.obj.add_frequency(self.args)
                 else:
                     self.caller.msg("Invalid Frequency number.  Please try again.")
             if "remove" in self.switches:
                 if self.parse_freq(self.args):
-                    self.remove_frequency(self.args)
+                    self.obj.remove_frequency(self.args)
                 else:
                     self.caller.msg("Invalid Frequency number.  Please try again.")
             if "encrypt" in self.switches:
@@ -184,8 +184,8 @@ class ComlinkCmd(default_cmds.MuxCommand):
             if "list" in self.switches:
                 table = evtable.EvTable("Frequency:", "Password", border=None)
                 table.reformat_column(0, width=6)
-                for freq in self.frequencies():
-                    password = [pwd for pwd in self.db.passwords if freq.get("password")]
+                for freq in self.obj.frequencies():
+                    password = [pwd for pwd in self.obj.db.passwords if freq.get("password")]
                     table.add_row(freq, password)
 
                 self.caller.msg(unicode(table))
