@@ -49,7 +49,7 @@ class Comlink(Object):
         pass
 
     def frequencies(self):
-        return [freq for freq in Frequency.objects.get_subscriptions(self)]
+        return [freq for freq in Frequency.objects.all()]
 
     def add_frequency(self, freq):
         if len(self.frequencies()) < 5:
@@ -61,7 +61,7 @@ class Comlink(Object):
                 else:
                     self.message_holder("There was a problem adding the frequency.  Contact a staff member.")
             else:
-                lockstring = "send:all();listen:all();"
+                lockstring = "send:all();listen:all()"
                 new_freq = create.create_channel(freq, typeclass="comlink.Frequency", locks=lockstring)
                 CHANNELHANDLER.update()
                 if new_freq.connect(self):
