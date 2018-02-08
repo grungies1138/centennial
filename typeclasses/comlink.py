@@ -10,7 +10,8 @@ from typeclasses.channels import Channel
 from typeclasses.characters import Character
 from evennia import default_cmds, CmdSet, DefaultScript
 from evennia.comms.models import TempMsg, ChannelDB
-from evennia.utils import create
+from evennia.utils import create, evtable
+import re
 
 
 def find_frequency(freq):
@@ -40,6 +41,7 @@ class Comlink(Object):
     def at_object_creation(self):
         self.cmdset.add(ComlinkCmdSet)
         self.db.speaker = False
+        self.db.passwords = []
 
     def at_msg_receive(self, msg, from_obj=None, **kwargs):
         pass
@@ -57,7 +59,7 @@ class Comlink(Object):
                 else:
                     self.message_holder("There was a problem adding the frequency.  Contact a staff member.")
             else:
-                new_freq = create.create_channel(freq, typeclass=Frequency)
+                new_freq = create.create_channel(freq, typeclass="comlink.Frequency")
                 if new_freq.connect(self):
                     self.message_holder("Frequency added.")
                 else:
@@ -91,10 +93,24 @@ class Comlink(Object):
                 self.location.msg(prefix + message)
 
     def encrypt(self, freq, password):
-        pass
+        frequency = find_frequency(freq)
+
+        if frequency:
+            if frequency in self.frequencies():
+                self.db.passwords.append({"frequency": freq, "password": password})
+            else:
+                self.message_holder("That frequency is not saved on your comlink.")
+        else:
+            self.message_holder("There was a problem setting a password on that frequency.  Contact a staff member.")
 
     def decrypt(self, freq):
-        pass
+        frequency = [fq for fq in self.db.passwords if fq.get("frequency") == freq]
+
+        if frequency:
+            self.db.password.remove(frequency)
+            self.message_holder("Frequency decrypted.")
+        else:
+            self.message_holder("Frequency not found.")
 
 
 class ComlinkCmd(default_cmds.MuxCommand):
@@ -102,14 +118,14 @@ class ComlinkCmd(default_cmds.MuxCommand):
     Allows usage of the comlink device.
 
     Usage:
-        |w+comlink <character or frequency>=[: or ;]<message>|n - this
-            command sends a message to the character or frequency selected.
-            |yNOTE:|n the selected frequency must be in the frequency list
+        |w+comlink <character list or frequency>=[: or ;]<message>|n - this
+            command sends a message to the character or characters (space
+            separated list) or frequency selected. |yNOTE:|n the selected frequency must be in the frequency list
             on the comlink device.
 
-        |w+comlink/add <0000-9999>[=<label>]|n - This adds the given frequency to the
-            list of tuned frequencies for this comlink with an optional label.  Up to
-            5 frequencies can be saved at a time.
+        |w+comlink/add <0000-9999>|n - This adds the given frequency
+            to the list of tuned frequencies for this comlink.  Up to 5
+            frequencies can be saved at a time.
 
         |w+comlink/remove <0000-9999>|n - This removes the given frequency
             from the the list of tuned frequencies on the device.
@@ -137,3 +153,58 @@ class ComlinkCmd(default_cmds.MuxCommand):
         |w+comlink/list|n - Displays the current list of frequencies and associated
             passwords if applicable.
     """
+
+    key = "+comlink"
+    locks = "cmd:perm(Player)"
+    help_category = "Comlinks"
+
+    def func(self):
+        comlink_prefix = "|rComlink:|n "
+        if self.switches:
+            if "add" in self.switches:
+                if not self.args:
+                    self.caller.msg(comlink_prefix + "Usage: |w+comlink/add <0000-9999>")
+                if self.parse_freq(self.args):
+                    self.add_frequency(self.args)
+                else:
+                    self.caller.msg("Invalid Frequency number.  Please try again.")
+            if "remove" in self.switches:
+                if self.parse_freq(self.args):
+                    self.remove_frequency(self.args)
+                else:
+                    self.caller.msg("Invalid Frequency number.  Please try again.")
+            if "encrypt" in self.switches:
+                pass
+            if "decipher" in self.switches:
+                pass
+            if "decrypt" in self.switches:
+                pass
+            if "broadcast" in self.switches:
+                pass
+            if "list" in self.switches:
+                table = evtable.EvTable("Frequency:", "Password", border=None)
+                table.column_format(0, width=6)
+                for freq in self.frequencies():
+                    password = [pwd for pwd in self.db.passwords if freq.get("password")]
+                    table.add_row(freq, password)
+
+                self.caller.msg(unicode(table))
+
+            if "slice" in self.switches:
+                self.caller.msg(comlink_prefix + "Not yet implemented.")
+        else:
+            if "=" in self.args:
+                pass
+            else:
+                pass
+
+    @staticmethod
+    def parse_freq(freq_string):
+        if len(freq_string) > 4:
+            return False
+        match = re.match(r"[0-9]{1,4}", freq_string)
+        if match:
+            if len(match.groups()) > 1:
+                return False
+            else:
+                return True
