@@ -49,7 +49,7 @@ class Comlink(Object):
         pass
 
     def frequencies(self):
-        return [freq for freq in Frequency.objects.all() if freq == self]
+        return [freq for freq in Frequency.objects.all()]
 
     def add_frequency(self, freq):
         if len(self.frequencies()) < 5:
