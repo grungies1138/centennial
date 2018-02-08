@@ -9,14 +9,15 @@ from typeclasses.objects import Object
 from typeclasses.channels import Channel
 from typeclasses.characters import Character
 from evennia import default_cmds, CmdSet, DefaultScript
-from evennia.comms.models import TempMsg, ChannelDB
+from evennia.comms.models import TempMsg
 from evennia.utils import create, evtable
+from evennia.comms.channelhandler import CHANNELHANDLER
 # from commands.library import header
 import re
 
 
 def find_frequency(freq):
-    frequencies = ChannelDB.objects.channel_search(freq)
+    frequencies = Frequency.objects.channel_search(freq)
     if not frequencies:
         return None
 
@@ -60,7 +61,9 @@ class Comlink(Object):
                 else:
                     self.message_holder("There was a problem adding the frequency.  Contact a staff member.")
             else:
-                new_freq = create.create_channel(freq, typeclass="comlink.Frequency")
+                lockstring = "send:all();listen:all();"
+                new_freq = create.create_channel(freq, typeclass="comlink.Frequency", locks=lockstring)
+                CHANNELHANDLER.update()
                 if new_freq.connect(self):
                     self.message_holder("Frequency added.")
                 else:
