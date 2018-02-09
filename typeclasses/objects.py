@@ -161,3 +161,18 @@ class Object(DefaultObject):
 
      """
     pass
+
+
+class TestObject(Object):
+    def at_object_creation(self):
+        pass
+
+    def at_msg_receive(self, msg, from_obj=None, **kwargs):
+        message = ""
+        message += msg
+        message += " FROM: %s" % from_obj.key
+        message += " ARGS:"
+        for arg in kwargs:
+            message += " %s" % arg
+
+        self.location.msg(message)

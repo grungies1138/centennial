@@ -90,28 +90,28 @@ class Comlink(Object):
 
     def message_holder(self, message, speaker=False):
         prefix = "|rComlink:|n "
-        if self.location is Character:
+        if self.obj.location is Character:
             if speaker:
-                self.location.location.msg_contents(prefix + message)
+                self.obj.location.location.msg_contents(prefix + message)
             else:
-                self.location.msg(prefix + message)
+                self.obj.location.msg(prefix + message)
 
     def encrypt(self, freq, password):
         frequency = find_frequency(freq)
 
         if frequency:
             if frequency in self.frequencies():
-                self.db.passwords.append({"frequency": freq, "password": password})
+                self.obj.db.passwords.append({"frequency": freq, "password": password})
             else:
                 self.message_holder("That frequency is not saved on your comlink.")
         else:
             self.message_holder("There was a problem setting a password on that frequency.  Contact a staff member.")
 
     def decrypt(self, freq):
-        frequency = [fq for fq in self.db.passwords if fq.get("frequency") == freq]
+        frequency = [fq for fq in self.obj.db.passwords if fq.get("frequency") == freq]
 
         if frequency:
-            self.db.password.remove(frequency)
+            self.obj.db.password.remove(frequency)
             self.message_holder("Frequency decrypted.")
         else:
             self.message_holder("Frequency not found.")
@@ -172,7 +172,6 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 if self.parse_freq(self.args):
                     self.caller.msg("Parsed Frequency.")
                     self.obj.add_frequency(self.args)
-
                     return
                 else:
                     self.caller.msg("Invalid Frequency number.  Please try again.")
@@ -193,7 +192,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
             if "broadcast" in self.switches:
                 pass
             if "list" in self.switches:
-                table = evtable.EvTable("Frequency:", "Password", border="header", header_line_char="-")
+                table = evtable.EvTable("Frequency:", "Password:", border="header", header_line_char="-")
                 table.reformat_column(0, width=12)
                 for freq in self.obj.frequencies():
                     password = [pwd for pwd in self.obj.db.passwords if freq.get("password")]
