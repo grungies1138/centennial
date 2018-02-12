@@ -169,6 +169,7 @@ class TestObject(Object):
         pass
 
     def at_msg_receive(self, msg, from_obj=None, **kwargs):
+        print("Got message")
         message = ""
         message += msg
         message += " FROM: %s" % from_obj.key
