@@ -11,6 +11,7 @@ inheritance.
 
 """
 from evennia import DefaultObject
+from evennia.utils.utils import lazy_property
 
 
 class Object(DefaultObject):
@@ -176,3 +177,7 @@ class TestObject(Object):
             message += " %s" % arg
 
         self.location.msg(message)
+
+    @lazy_property
+    def is_connected(self):
+        return True
