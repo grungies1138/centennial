@@ -168,8 +168,8 @@ class TestObject(Object):
     def at_object_creation(self):
         pass
 
-    def at_msg_receive(self, text=None, source=None):
-        print(source.key)
+    def at_msg_receive(self, text=None, source=None, **kwargs):
+        print(str(kwargs))
         # message = ""
         # message += msg
         # message += " FROM: %s" % from_obj.key

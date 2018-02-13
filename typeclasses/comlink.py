@@ -205,7 +205,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 return
 
             if "slice" in self.switches:
-                self.caller.msg(comlink_prefix + "Not yet implemented.")
+                self.obj.message_holder("Not yet implemented.")
         else:
             if "=" in self.args:
                 pass
