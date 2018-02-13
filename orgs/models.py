@@ -20,7 +20,7 @@ class Org(models.Model):
     db_headquarters = models.ForeignKey("objects.ObjectDB", null=True)  # Reference to the org's headquarters
     db_branches = models.ManyToManyField("objects.ObjectDB", null=True) # References to any branches set up in different zones.
     db_desc = models.CharField(max_length=250)  # Description of the org
-    db_hidden = models.BooleanField(initial=False)
+    db_hidden = models.BooleanField(default=False)
 
 
 class OrgMember(models.Model):
