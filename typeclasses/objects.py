@@ -168,7 +168,6 @@ class TestObject(Object):
     def at_object_creation(self):
         pass
 
-    # def at_msg_receive(self, msg, from_obj=None, **kwargs):
     def at_msg_receive(self, text=None, source=None):
         print(text)
         # message = ""
@@ -178,7 +177,7 @@ class TestObject(Object):
         # for arg in kwargs:
         #     message += " %s" % arg
         #
-        # self.location.msg(message)
+        self.location.msg(text)
 
     @lazy_property
     def is_connected(self):
