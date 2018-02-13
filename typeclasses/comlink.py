@@ -45,8 +45,8 @@ class Comlink(Object):
         self.db.speaker = False
         self.db.passwords = []
 
-    def at_msg_receive(self, msg, from_obj=None, **kwargs):
-        pass
+    def at_msg_receive(self, text=None, source=None):
+        self.message_holder(text)
 
     def frequencies(self):
         return [freq for freq in Frequency.objects.all() if self in freq.subscriptions.all()]

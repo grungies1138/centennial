@@ -169,7 +169,7 @@ class TestObject(Object):
         pass
 
     def at_msg_receive(self, text=None, source=None):
-        print(text)
+        print(source.key)
         # message = ""
         # message += msg
         # message += " FROM: %s" % from_obj.key
