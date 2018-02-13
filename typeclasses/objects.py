@@ -168,16 +168,17 @@ class TestObject(Object):
     def at_object_creation(self):
         pass
 
-    def at_msg_receive(self, msg, from_obj=None, **kwargs):
-        print("Got message")
-        message = ""
-        message += msg
-        message += " FROM: %s" % from_obj.key
-        message += " ARGS:"
-        for arg in kwargs:
-            message += " %s" % arg
-
-        self.location.msg(message)
+    # def at_msg_receive(self, msg, from_obj=None, **kwargs):
+    def at_msg_receive(self, text=None, source=None):
+        print(text)
+        # message = ""
+        # message += msg
+        # message += " FROM: %s" % from_obj.key
+        # message += " ARGS:"
+        # for arg in kwargs:
+        #     message += " %s" % arg
+        #
+        # self.location.msg(message)
 
     @lazy_property
     def is_connected(self):

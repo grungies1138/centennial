@@ -29,8 +29,8 @@ class OrgCommand(default_cmds.MuxCommand):
 
 
 def menu_start_node(caller):
-    text = "Welcome to the Organization system.  Please choose an option below to begin.  If you wish to join an org, " \
-           "simply browse to it and the option will be available, if possible."
+    text = "Welcome to the Organization system.  Please choose an option below to begin.  If you wish to join an " \
+           "org, simply browse to it and the option will be available, if possible."
 
     options = ()
     if caller.locks.check_lockstring(caller, "dummy:perm(Admin)"):
@@ -298,7 +298,8 @@ def admin_set_add_leader(caller, caller_input):
 
 def admin_remove_leader(caller):
     selected_org = caller.ndb._menutree.selected_org
-    text = "Below are listed the leaders for %s.  Please select the leader you wish to remove from the org." % selected_org.db_key
+    text = "Below are listed the leaders for %s.  Please select the leader you wish to remove from the org." \
+           % selected_org.db_key
 
     options = ()
 
@@ -409,7 +410,8 @@ def admin_show_edit_member(caller):
 
 def admin_edit_member_rank(caller):
     selected_member = caller.ndb._menutree.selected_member
-    text = "|wCurrent Rank:|n %s\n\nPlease enter the rank you would like to set this member to." % selected_member.db_rank
+    text = "|wCurrent Rank:|n %s\n\nPlease enter the rank you would like to set this member to." \
+           % selected_member.db_rank
 
     options = ({"key": "_default",
                 "exec": admin_set_member_rank,
@@ -431,7 +433,8 @@ def admin_set_member_rank(caller, caller_input):
 
 def admin_edit_member_assignment(caller):
     selected_member = caller.ndb._menutree.selected_member
-    text = "|wCurrent Assignment:|n %s\n\nPlease enter the assignment you would like to set this member to." % selected_member.db_assignment
+    text = "|wCurrent Assignment:|n %s\n\nPlease enter the assignment you would like to set this member to." \
+           % selected_member.db_assignment
 
     options = ({"key": "_default",
                 "exec": admin_set_member_assignment,
@@ -487,7 +490,8 @@ def admin_set_add_member(caller, caller_input):
 
 def admin_remove_member(caller):
     selected_org = caller.ndb._menutree.selected_org
-    text = "Below are listed the members of %s.  Please select the member you wish to remove from the org." % selected_org.db_key
+    text = "Below are listed the members of %s.  Please select the member you wish to remove from the org." \
+           % selected_org.db_key
 
     options = ()
 
@@ -528,7 +532,8 @@ def admin_do_remove_member(caller):
 
 def admin_edit_credits(caller):
     selected_org = caller.ndb._menutree.selected_org
-    text = "|wCurrent Credits:|n %s\n\nPlease enter the amount you wish to set the org's credits to." % selected_org.db_credits
+    text = "|wCurrent Credits:|n %s\n\nPlease enter the amount you wish to set the org's credits to." \
+           % selected_org.db_credits
 
     options = ({"key": "_default",
                 "exec": admin_set_edit_credits,
@@ -549,7 +554,8 @@ def admin_set_edit_credits(caller, caller_input):
 
 def admin_edit_resources(caller):
     selected_org = caller.ndb._menutree.selected_org
-    text = "|wCurrent Resources:|n %s\n\nPlease enter the amount you wish to set the org's resources to." % selected_org.db_resources
+    text = "|wCurrent Resources:|n %s\n\nPlease enter the amount you wish to set the org's resources to." \
+           % selected_org.db_resources
 
     options = ({"key": "_default",
                 "exec": admin_set_edit_resources,
@@ -607,7 +613,8 @@ def admin_swap_status(caller):
 
 def admin_edit_motd(caller):
     selected_org = caller.ndb._menutree.selected_org
-    text = "|wCurrent Message of the Day:|n %s\n\nPlease enter the new MotD you wish to display.\n\n|yNote:|n Do not start the description with the word 'cancel'." % selected_org.db_motd
+    text = "|wCurrent Message of the Day:|n %s\n\nPlease enter the new MotD you wish to display.\n\n|yNote:|n Do not " \
+           "start the description with the word 'cancel'." % selected_org.db_motd
     options = ({"key": "_default",
                 "exec": admin_set_edit_motd,
                 "goto": "admin_edit_selected_org"},
@@ -637,20 +644,8 @@ def admin_edit_hq(caller):
 
 def admin_edit_hq_zone(caller):
     temp_planet = caller.ndb._menutree.hq_planet
-    # planet_rooms = evennia.search_tag(temp_planet)
-    # zones = []
-    # for planet in planet_rooms:
-    #     zone = planet.tags.get(category="zonemaster")
-    #     zones.append(zone)
-
     text = "Please select the zone on %s where the Organization is headquartered" % titlecase(temp_planet)
-
     options = _get_zones(caller, temp_planet)
-
-    # for zone in zones:
-    #     node_dict = {"desc": titlecase(zone), "goto": "admin_confirm_edit_hq", "exec": _wrapper(caller, "temp_org_hq", evennia.search_tag(zone, "zonemaster"))}
-    #     options += (node_dict,)
-
     return text, options
 
 
@@ -887,29 +882,15 @@ def admin_set_headquarters(caller):
     planets = Tag.objects.filter(db_category="planet")
 
     options = _get_planets(caller)
-
-    # for planet in planets:
-    #     node_dict = {"desc": titlecase(planet.db_key), "goto": "admin_set_hq_zone", "exec": _wrapper(caller, "hq_planet", planet.db_key)}
-    #     options += (node_dict,)
-
     return text, options
 
 
 def admin_set_hq_zone(caller):
     temp_planet = caller.ndb._menutree.hq_planet
-    # planet_rooms = evennia.search_tag(temp_planet)
-    # zones = []
-    # for planet in planet_rooms:
-    #     zone = planet.tags.get(category="zonemaster")
-    #     zones.append(zone)
 
     text = "Please select the zone on %s where the Organization is headquartered" % titlecase(temp_planet)
 
     options = _get_zones(caller, temp_planet)
-
-    # for zone in zones:
-    #     node_dict = {"desc": titlecase(zone), "goto": "admin_set_org_options", "exec": _wrapper(caller, "temp_org_hq", evennia.search_tag(zone, "zonemaster"))}
-    #     options += (node_dict,)
 
     return text, options
 
