@@ -213,6 +213,8 @@ def admin_edit_selected_org(caller):
 
     text += "\nDescription: %s" % selected_org.db_desc
 
+    text += "\nHidden: %s" % selected_org.db_hidden
+
     options = ({"desc": "Edit Leaders",
                 "goto": "admin_edit_leaders"},
                {"desc": "Edit Members",

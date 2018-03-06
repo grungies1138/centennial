@@ -12,8 +12,12 @@ from evennia import default_cmds, CmdSet, DefaultScript
 from evennia.comms.models import TempMsg
 from evennia.utils import create, evtable
 from evennia.comms.channelhandler import CHANNELHANDLER
-# from commands.library import header
+from evennia.utils import logger
+from evennia.utils.utils import make_iter
 import re
+
+
+FREQUENCIES_PER_COMLINK = 5
 
 
 def find_frequency(freq):
@@ -31,6 +35,103 @@ class Frequency(Channel):
     def channel_prefix(self, msg, emit=False):
         return "|=m<|n|045%s|n|=m>|n:" % self.key
 
+    def msg(self, msgobj, header=None, senders=None, sender_strings=None,
+            keep_log=None, online=False, emit=False, external=False):
+        """
+       Send the given message to all accounts connected to channel. Note that
+       no permission-checking is done here; it is assumed to have been
+       done before calling this method. The optional keywords are not used if
+       persistent is False.
+       Args:
+           msgobj (Msg, TempMsg or str): If a Msg/TempMsg, the remaining
+               keywords will be ignored (since the Msg/TempMsg object already
+               has all the data). If a string, this will either be sent as-is
+               (if persistent=False) or it will be used together with `header`
+               and `senders` keywords to create a Msg instance on the fly.
+           header (str, optional): A header for building the message.
+           senders (Object, Account or list, optional): Optional if persistent=False, used
+               to build senders for the message.
+           sender_strings (list, optional): Name strings of senders. Used for external
+               connections where the sender is not an account or object.
+               When this is defined, external will be assumed.
+           keep_log (bool or None, optional): This allows to temporarily change the logging status of
+               this channel message. If `None`, the Channel's `keep_log` Attribute will
+               be used. If `True` or `False`, that logging status will be used for this
+               message only (note that for unlogged channels, a `True` value here will
+               create a new log file only for this message).
+           online (bool, optional) - If this is set true, only messages people who are
+               online. Otherwise, messages all accounts connected. This can
+               make things faster, but may not trigger listeners on accounts
+               that are offline.
+           emit (bool, optional) - Signals to the message formatter that this message is
+               not to be directly associated with a name.
+           external (bool, optional): Treat this message as being
+               agnostic of its sender.
+       Returns:
+           success (bool): Returns `True` if message sending was
+               successful, `False` otherwise.
+       """
+        senders = make_iter(senders) if senders else []
+        if isinstance(msgobj, basestring):
+            # given msgobj is a string - convert to msgobject (always TempMsg)
+            if senders and hasattr(senders[0], "db"):
+                __channel_passwords = senders[0].db.__channel_passwords
+                if type(__channel_passwords) is dict:
+                    # password = __channel_passwords.get(self)
+                    # lockstring = "read:decrypt({})".format(password) if password else "read:true()"
+
+            msgobj = TempMsg(senders=senders, header=header, message=msgobj, channels=[self],
+                             lockstring=lockstring or "read:true()")
+        # we store the logging setting for use in distribute_message()
+        msgobj.keep_log = keep_log if keep_log is not None else self.db.keep_log
+
+        # start the sending
+        msgobj = self.pre_send_message(msgobj)
+        if not msgobj:
+            return False
+        msgobj = self.message_transform(msgobj, emit=emit,
+                                        sender_strings=sender_strings,
+                                        external=external)
+        self.distribute_message(msgobj, online=online)
+        self.post_send_message(msgobj)
+        return True
+
+    def distribute_message(self, msgobj, online=False, **kwargs):
+        """
+       Method for grabbing all listeners that a message should be
+       sent to on this channel, and sending them a message.
+       Args:
+           msgobj (Msg or TempMsg): Message to distribute.
+           online (bool): Only send to receivers who are actually online
+               (not currently used):
+           **kwargs (dict): Arbitrary, optional arguments for users
+               overriding the call (unused by default).
+       Notes:
+           This is also where logging happens, if enabled.
+       """
+        # get all accounts or objects connected to this channel and send to them
+        if online:
+            subs = self.subscriptions.online()
+        else:
+            subs = self.subscriptions.all()
+        for entity in subs:
+            # if the entity is muted, we don't send them a message
+            if entity in self.mutelist:
+                continue
+            try:
+                # note our addition of the from_channel keyword here. This could be checked
+                # by a custom account.msg() to treat channel-receives differently.
+                if msgobj.access(entity, "read"):
+                    entity.msg(msgobj.message, from_obj=msgobj.senders, options={"from_channel": self.id})
+                else:
+                    entity.msg("[scrambled message]", from_obj=msgobj.senders, options={"from_channel": self.id})
+            except AttributeError as e:
+                logger.log_trace("%s\nCannot send msg to '%s'." % (e, entity))
+
+        if msgobj.keep_log:
+            # log to file
+            logger.log_file(msgobj.message, self.attributes.get("log_file") or "channel_%s.log" % self.key)
+
 
 class ComlinkCmdSet(CmdSet):
     key = "ComlinkCmdSet"
@@ -43,7 +144,7 @@ class Comlink(Object):
     def at_object_creation(self):
         self.cmdset.add(ComlinkCmdSet)
         self.db.speaker = False
-        self.db.passwords = []
+        self.db.passwords = {}
 
     def at_msg_receive(self, text=None, source=None):
         self.message_holder(text)
@@ -52,7 +153,7 @@ class Comlink(Object):
         return [freq for freq in Frequency.objects.all() if self in freq.subscriptions.all()]
 
     def add_frequency(self, freq):
-        if len(self.frequencies()) < 5:
+        if len(self.frequencies()) < FREQUENCIES_PER_COMLINK:
             frequency = find_frequency(freq)
 
             if frequency is not None:
@@ -127,6 +228,12 @@ class ComlinkCmd(default_cmds.MuxCommand):
             separated list) or frequency selected. |yNOTE:|n the selected frequency must be in the frequency list
             on the comlink device.
 
+        |w+comlink/broadcast [: or ;]<message>|n - This sends an area-wide
+            message across all comlinks in your current zone.
+
+        |w+comlink [: or ;]<message>|n - Sends a message to the last sent to
+            location. (person or frequency)
+
         |w+comlink/add <0000-9999>|n - This adds the given frequency
             to the list of tuned frequencies for this comlink.  Up to 5
             frequencies can be saved at a time.
@@ -138,18 +245,9 @@ class ComlinkCmd(default_cmds.MuxCommand):
             specific frequency.  Also allows the device to receive encrypted
             message.
 
-        |w+comlink/decipher <0000-9999>=<password>|n - Set the password used to
-            decipher encrypted messages on an encrypted frequency.
-
         |w+comlink/decrypt <0000-9999>|n - Removes encryption from the
             frequency.  The device will no longer be able to send or receive
             encrypted messages on the specified frequency.
-
-        |w+comlink/broadcast [: or ;]<message>|n - This sends an area-wide
-            message across all comlinks in your current zone.
-
-        |w+comlink [: or ;]<message>|n - Sends a message to the last sent to
-            location. (person or frequency)
 
         |w+comlink/slice <0000-9999>|n - Attempt to force decryption of the
             messages on a specific frequency.
@@ -184,11 +282,26 @@ class ComlinkCmd(default_cmds.MuxCommand):
                     self.caller.msg("Invalid Frequency number.  Please try again.")
                     return
             if "encrypt" in self.switches:
-                pass
-            if "decipher" in self.switches:
-                pass
+                if not self.args or "=" not in self.args:
+                    self.caller.msg(comlink_prefix + "Usage: |w+comlink/encrypt <0000-9999>=<password>|n")
+                    return
+                if self.lhs not in self.obj.frequencies:
+                    self.caller.msg(comlink_prefix + "That frequency is not added to this Comlink.  Please add it "
+                                                     "before encrypting.")
+                    return
+                if self.parse_freq(self.lhs):
+                    self.obj.db.passwords[self.lhs] = self.rhs
+                    self.caller.msg(comlink_prefix + "Frequency encrypted successfully.")
             if "decrypt" in self.switches:
-                pass
+                if not self.args:
+                    self.caller.msg(comlink_prefix + "Usage: |w+comlink/decrypt <0000-9999>|n")
+                    return
+                if self.args not in self.obj.db.passwords.keys():
+                    self.caller.msg(comlink_prefix + "That frequency is not encrypted.")
+                    return
+                if self.parse_freq(self.args):
+                    self.obj.decrypt(self.args)
+                    return
             if "broadcast" in self.switches:
                 pass
             if "list" in self.switches:

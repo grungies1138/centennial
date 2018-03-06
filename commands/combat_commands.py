@@ -1,6 +1,6 @@
 from evennia import default_cmds
 from evennia.utils.evmenu import EvMenu
-from commands.library import titlecase, notify, node_formatter, options_formatter, exit_message
+from commands.library import titlecase, notify, node_formatter, options_formatter
 from typeclasses.characters import Character
 from world.rules import roll_skill
 
@@ -71,15 +71,20 @@ def menu_start_node(caller):
     text = "Please select your target."
     options = ()
 
-    for char in _online_characters(viewer=caller):
+    chars = _online_characters(viewer=caller)
+
+    for char in chars:
         node_dict = {"desc": char.name, "goto": "select_action", "exec": _wrapper(caller, "temp_target", char)}
         options += (node_dict,)
 
-    node_dict = {"desc": "Several", "goto": "select_targets", "exec": _wrapper(caller, "targets", "")}
-    options += (node_dict,)
+    if len(chars) > 0:
+        node_dict = {"desc": "Several", "goto": "select_targets", "exec": _wrapper(caller, "targets", "")}
+        options += (node_dict,)
 
-    node_dict = {"desc": "All", "goto": "select_action", "exec": _wrapper(caller, "temp_target", "all")}
-    options += (node_dict,)
+        node_dict = {"desc": "All", "goto": "select_action", "exec": _wrapper(caller, "temp_target", "all")}
+        options += (node_dict,)
+    else:
+        text += "\n\nNo targets are available.  Please exit the attack menu by pressing 'q'."
 
     return text, options
 
@@ -123,3 +128,6 @@ def _online_characters(viewer=None):
         characters = [char for char in characters if char != viewer]
 
     return characters
+
+def exit_message(caller, menu):
+    caller.msg("Exiting +attack")
