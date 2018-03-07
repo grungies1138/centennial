@@ -262,7 +262,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 if not self.args or "=" not in self.args:
                     self.caller.msg(comlink_prefix + "Usage: |w+comlink/encrypt <0000-9999>=<password>|n")
                     return
-                if self.lhs not in self.obj.frequencies:
+                if self.lhs not in self.obj.frequencies():
                     self.caller.msg(comlink_prefix + "That frequency is not added to this Comlink.  Please add it "
                                                      "before encrypting.")
                     return
