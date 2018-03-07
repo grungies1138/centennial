@@ -40,17 +40,6 @@ class Frequency(Channel):
     def msg(self, msgobj, header=None, senders=None, sender_strings=None,
             keep_log=None, online=False, emit=False, external=False):
         senders = make_iter(senders) if senders else []
-        if isinstance(msgobj, basestring):
-            password = ''
-            # given msgobj is a string - convert to msgobject (always TempMsg)
-            if senders and hasattr(senders[0], "db"):
-                __channel_passwords = senders[0].db.passwords
-                print("Passwords: %s" % str(__channel_passwords))
-                if type(__channel_passwords) is dict:
-                    password = __channel_passwords.get(self.key)
-
-            msgobj = Msg(senders=senders, header=header, message=msgobj, channels=[self])
-            msgobj.tags.add(password, category="password")
         # we store the logging setting for use in distribute_message()
         msgobj.keep_log = keep_log if keep_log is not None else self.db.keep_log
 
@@ -334,7 +323,9 @@ class ComlinkCmd(default_cmds.MuxCommand):
         else:
             if "=" in self.args:
                 msg = Msg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
+
                 frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
+                msg.tags.add(self.obj.db.passwords.get(frequency.key), category="password")
                 if frequency:
                     frequency.msg(msg)
                 else:
