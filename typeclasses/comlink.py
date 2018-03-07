@@ -117,7 +117,7 @@ class Comlink(Object):
 
     def msg(self, text="", from_obj=None, **kwargs):
         print("Message received: %s" % self.location.key)
-        msgobj = kwargs.get("options")
+        msgobj = kwargs.get("options").get("msgobj")
         print("Handling Message Object: %s" % str(msgobj))
         if msgobj:
             freq = msgobj.senders[0].key
