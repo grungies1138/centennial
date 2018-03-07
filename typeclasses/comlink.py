@@ -13,7 +13,6 @@ from evennia.comms.models import TempMsg
 from evennia.utils import create, evtable
 from evennia.comms.channelhandler import CHANNELHANDLER
 from evennia.utils import logger
-from evennia.utils.utils import make_iter, inherit_from
 import evennia
 import re
 
