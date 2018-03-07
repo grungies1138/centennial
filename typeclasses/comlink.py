@@ -151,7 +151,7 @@ class Comlink(Object):
             passwd = self.db.passwords.get(freq) or None
             print("Password: %s" % passwd)
             msg_pass = msgobj.tags.all() or None
-            print("Message Password: %s" % str(type(msgobj)))
+            print("Message Password: %s" % msg_pass)
             if passwd is not None:
                 if passwd == msg_pass:
                     self.at_msg_receive(text=msgobj.message)
