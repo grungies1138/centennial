@@ -76,7 +76,7 @@ class Frequency(Channel):
                 # note our addition of the from_channel keyword here. This could be checked
                 # by a custom account.msg() to treat channel-receives differently.
                 if msgobj.access(entity, "read"):
-                    entity.msg(msgobj.message, from_obj=msgobj.senders, options={"from_channel": self.id})
+                    entity.msg(msgobj.message, from_obj=msgobj.senders, options={"from_channel": self.id}, msgobj=msgobj)
                 else:
                     entity.msg("[scrambled message]", from_obj=msgobj.senders, options={"from_channel": self.id})
             except AttributeError as e:
@@ -103,7 +103,8 @@ class Comlink(Object):
     def at_msg_receive(self, text=None, source=None):
         self.message_holder(text)
 
-    def msg(self, msgobj, text="", from_obj=None, **kwargs):
+    def msg(self, text="", from_obj=None, **kwargs):
+        msgobj = kwargs.get("msgobj")
         if msgobj:
             freq = msgobj.senders[0].key
             passwd = self.db.passwords.get(freq) or None
