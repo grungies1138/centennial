@@ -287,7 +287,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 for freq in self.obj.frequencies():
                     password = self.obj.db.passwords.get(freq.key) or None
                     if password:
-                        table.add_row(freq.key, password[0])
+                        table.add_row(freq.key, password)
                     else:
                         table.add_row(freq.key, '')
 
