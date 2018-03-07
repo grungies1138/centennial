@@ -158,11 +158,11 @@ class Comlink(Object):
 
     def message_holder(self, message, speaker=False):
         prefix = "|rComlink:|n "
-        if self.obj.location is Character:
+        if self.location is Character:
             if speaker:
-                self.obj.location.location.msg_contents(prefix + message)
+                self.location.location.msg_contents(prefix + message)
             else:
-                self.obj.location.msg(prefix + message)
+                self.location.msg(prefix + message)
 
     def encrypt(self, freq, password):
         frequency = find_frequency(freq)
