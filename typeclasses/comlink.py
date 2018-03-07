@@ -299,8 +299,11 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 return
         else:
             if "=" in self.args:
+                print("= character found.")
                 msg = TempMsg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
+                print("Created Message: %s" % msg.message)
                 frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
+                print("Frequency Found: %s" % frequency.key)
                 if frequency:
                     frequency.msg(msg)
                 else:
