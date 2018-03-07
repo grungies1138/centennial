@@ -35,7 +35,7 @@ def find_frequency(freq):
 
 class Frequency(Channel):
     def channel_prefix(self, msg, emit=False):
-        return "|=m<|n|045%s|n|=m>|n:" % self.key
+        return "|=m<|n|045%s|n|=m>|n: " % self.key
 
     def msg(self, msgobj, header=None, senders=None, sender_strings=None,
             keep_log=None, online=False, emit=False, external=False):
@@ -201,7 +201,6 @@ class Comlink(Object):
             self.message_holder("You currently have no saved frequencies.")
 
     def message_holder(self, message, speaker=False):
-        prefix = "|rComlink:|n "
         if inherits_from(self.location, "typeclasses.characters.Character"):
             if speaker:
                 self.location.location.msg_contents(message)
