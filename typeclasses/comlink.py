@@ -49,7 +49,7 @@ class Frequency(Channel):
                     password = __channel_passwords.get(self)
 
             msgobj = Msg(senders=senders, header=header, message=msgobj, channels=[self])
-            msgobj.tags.add(password)
+            msgobj.tags.add(password, category="password")
         # we store the logging setting for use in distribute_message()
         msgobj.keep_log = keep_log if keep_log is not None else self.db.keep_log
 
@@ -123,7 +123,7 @@ class Comlink(Object):
         if msgobj:
             freq = msgobj.senders[0].key
             passwd = self.db.passwords.get(freq) or None
-            msg_pass = msgobj.tags.first() or None
+            msg_pass = msgobj.tags.get(category="password") or None
             if passwd is not None:
                 if passwd == msg_pass:
                     self.at_msg_receive(text=msgobj.message)
@@ -304,11 +304,8 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 return
         else:
             if "=" in self.args:
-                print("= character found.")
                 msg = Msg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
-                print("Created Message: %s" % msg.message)
                 frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
-                print("Frequency Found: %s" % frequency.key)
                 if frequency:
                     frequency.msg(msg)
                 else:
