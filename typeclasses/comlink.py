@@ -60,6 +60,7 @@ class Frequency(Channel):
         msgobj = self.message_transform(msgobj, emit=emit,
                                         sender_strings=sender_strings,
                                         external=external)
+        print(str(msgobj.tags.all()))
         self.distribute_message(msgobj, online=online)
         self.post_send_message(msgobj)
         return True
