@@ -44,9 +44,9 @@ class Frequency(Channel):
             password = ''
             # given msgobj is a string - convert to msgobject (always TempMsg)
             if senders and hasattr(senders[0], "db"):
-                __channel_passwords = senders[0].db.__channel_passwords
+                __channel_passwords = senders[0].db.passwords
                 if type(__channel_passwords) is dict:
-                    password = __channel_passwords.get(self)
+                    password = __channel_passwords.get(self.key)
 
             msgobj = Msg(senders=senders, header=header, message=msgobj, channels=[self])
             msgobj.tags.add(password, category="password")
@@ -145,13 +145,14 @@ class Comlink(Object):
         self.message_holder(text)
 
     def msg(self, text="", from_obj=None, **kwargs):
-        print("Message received: %s" % self.location.key)
         msgobj = kwargs.get("options").get("msgobj")
-        print("Handling Message Object: %s" % msgobj.message)
         if msgobj:
             freq = msgobj.senders[0].key
+            print("Freq: %s" % freq)
             passwd = self.db.passwords.get(freq) or None
+            print("Password: %s" % passwd)
             msg_pass = msgobj.tags.get(category="password") or None
+            print("Message Password: %s" % msg_pass)
             if passwd is not None:
                 if passwd == msg_pass:
                     self.at_msg_receive(text=msgobj.message)
