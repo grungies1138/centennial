@@ -169,7 +169,7 @@ class Comlink(Object):
 
         if frequency:
             if frequency in self.frequencies():
-                self.obj.db.passwords.append({"frequency": freq, "password": password})
+                self.db.passwords.append({"frequency": freq, "password": password})
             else:
                 self.message_holder("That frequency is not saved on your comlink.")
         else:
@@ -179,7 +179,7 @@ class Comlink(Object):
         frequency = [fq for fq in self.obj.db.passwords if fq.get("frequency") == freq]
 
         if frequency:
-            self.obj.db.password.remove(frequency)
+            self.db.password.remove(frequency)
             self.message_holder("Frequency decrypted.")
         else:
             self.message_holder("Frequency not found.")
@@ -235,7 +235,6 @@ class ComlinkCmd(default_cmds.MuxCommand):
                     self.caller.msg(comlink_prefix + "Usage: |w+comlink/add <0000-9999>")
                     return
                 if self.parse_freq(self.args):
-                    self.caller.msg("Parsed Frequency.")
                     self.obj.add_frequency(self.args)
                     return
                 else:
