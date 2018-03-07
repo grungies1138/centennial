@@ -37,51 +37,17 @@ class Frequency(Channel):
 
     def msg(self, msgobj, header=None, senders=None, sender_strings=None,
             keep_log=None, online=False, emit=False, external=False):
-        """
-       Send the given message to all accounts connected to channel. Note that
-       no permission-checking is done here; it is assumed to have been
-       done before calling this method. The optional keywords are not used if
-       persistent is False.
-       Args:
-           msgobj (Msg, TempMsg or str): If a Msg/TempMsg, the remaining
-               keywords will be ignored (since the Msg/TempMsg object already
-               has all the data). If a string, this will either be sent as-is
-               (if persistent=False) or it will be used together with `header`
-               and `senders` keywords to create a Msg instance on the fly.
-           header (str, optional): A header for building the message.
-           senders (Object, Account or list, optional): Optional if persistent=False, used
-               to build senders for the message.
-           sender_strings (list, optional): Name strings of senders. Used for external
-               connections where the sender is not an account or object.
-               When this is defined, external will be assumed.
-           keep_log (bool or None, optional): This allows to temporarily change the logging status of
-               this channel message. If `None`, the Channel's `keep_log` Attribute will
-               be used. If `True` or `False`, that logging status will be used for this
-               message only (note that for unlogged channels, a `True` value here will
-               create a new log file only for this message).
-           online (bool, optional) - If this is set true, only messages people who are
-               online. Otherwise, messages all accounts connected. This can
-               make things faster, but may not trigger listeners on accounts
-               that are offline.
-           emit (bool, optional) - Signals to the message formatter that this message is
-               not to be directly associated with a name.
-           external (bool, optional): Treat this message as being
-               agnostic of its sender.
-       Returns:
-           success (bool): Returns `True` if message sending was
-               successful, `False` otherwise.
-       """
         senders = make_iter(senders) if senders else []
         if isinstance(msgobj, basestring):
+            password = ''
             # given msgobj is a string - convert to msgobject (always TempMsg)
             if senders and hasattr(senders[0], "db"):
                 __channel_passwords = senders[0].db.__channel_passwords
                 if type(__channel_passwords) is dict:
-                    # password = __channel_passwords.get(self)
-                    # lockstring = "read:decrypt({})".format(password) if password else "read:true()"
+                    password = __channel_passwords.get(self)
 
-            msgobj = TempMsg(senders=senders, header=header, message=msgobj, channels=[self],
-                             lockstring=lockstring or "read:true()")
+            msgobj = TempMsg(senders=senders, header=header, message=msgobj, channels=[self])
+            msgobj.tags.add(password)
         # we store the logging setting for use in distribute_message()
         msgobj.keep_log = keep_log if keep_log is not None else self.db.keep_log
 
@@ -97,18 +63,6 @@ class Frequency(Channel):
         return True
 
     def distribute_message(self, msgobj, online=False, **kwargs):
-        """
-       Method for grabbing all listeners that a message should be
-       sent to on this channel, and sending them a message.
-       Args:
-           msgobj (Msg or TempMsg): Message to distribute.
-           online (bool): Only send to receivers who are actually online
-               (not currently used):
-           **kwargs (dict): Arbitrary, optional arguments for users
-               overriding the call (unused by default).
-       Notes:
-           This is also where logging happens, if enabled.
-       """
         # get all accounts or objects connected to this channel and send to them
         if online:
             subs = self.subscriptions.online()
@@ -148,6 +102,19 @@ class Comlink(Object):
 
     def at_msg_receive(self, text=None, source=None):
         self.message_holder(text)
+
+    def msg(self, msgobj):
+        if msgobj:
+            freq = msgobj.senders[0].key
+            passwd = self.db.passwords.get(freq) or None
+            msg_pass = msgobj.tags.first() or None
+            if passwd is not None:
+                if passwd == msg_pass:
+                    self.at_msg_receive(text=msgobj.message)
+                else:
+                    self.at_msg_receive(text="[scrambled message]")
+            else:
+                self.at_msg_receive(text=msgobj.message)
 
     def frequencies(self):
         return [freq for freq in Frequency.objects.all() if self in freq.subscriptions.all()]
