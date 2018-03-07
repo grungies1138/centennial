@@ -77,9 +77,11 @@ class Frequency(Channel):
                 # note our addition of the from_channel keyword here. This could be checked
                 # by a custom account.msg() to treat channel-receives differently.
                 if msgobj.access(entity, "read"):
-                    entity.msg(msgobj.message, from_obj=msgobj.senders, options={"from_channel": self.id}, msgobj=msgobj)
+                    entity.msg(msgobj.message, from_obj=msgobj.senders,
+                               options={"from_channel": self.id, "msgobj": msgobj})
                 else:
-                    entity.msg("[scrambled message]", from_obj=msgobj.senders, options={"from_channel": self.id})
+                    entity.msg("[scrambled message]", from_obj=msgobj.senders,
+                               options={"from_channel": self.id, "msgobj": msgobj})
             except AttributeError as e:
                 logger.log_trace("%s\nCannot send msg to '%s'." % (e, entity))
 
