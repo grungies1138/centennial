@@ -210,7 +210,7 @@ class Comlink(Object):
             self.message_holder("There was a problem setting a password on that frequency.  Contact a staff member.")
 
     def decrypt(self, freq):
-        frequency = [fq for fq in self.obj.db.passwords if fq.get("frequency") == freq]
+        frequency = [fq for fq in self.db.passwords if fq.get("frequency") == freq]
 
         if frequency:
             self.db.password.remove(frequency)
