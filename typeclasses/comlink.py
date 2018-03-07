@@ -103,19 +103,20 @@ class Frequency(Channel):
                 pose was performed or not (this must be analyzed by the
                 hook).
         """
-        pose = False
-        message = msgobj.message
-        message_start = message.lstrip()
-        if message_start.startswith((':', ';')):
-            pose = True
-            message = message[1:]
-            if not message.startswith((':', "'", ',')):
-                if not message.startswith(' '):
-                    message = ' ' + message
-        if pose:
-            return '%s%s' % (msgobj.senders[0], message)
-        else:
-            return '%s says, "%s"' % ("Ghost", message)
+        return msgobj.message
+        # pose = False
+        # message = msgobj.message
+        # message_start = message.lstrip()
+        # if message_start.startswith((':', ';')):
+        #     pose = True
+        #     message = message[1:]
+        #     if not message.startswith((':', "'", ',')):
+        #         if not message.startswith(' '):
+        #             message = ' ' + message
+        # if pose:
+        #     return '%s%s' % (msgobj.senders[0], message)
+        # else:
+        #     return '%s says, "%s"' % ("Ghost", message)
 
 
 class ComlinkCmdSet(CmdSet):
