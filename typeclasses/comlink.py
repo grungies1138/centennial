@@ -103,7 +103,7 @@ class Comlink(Object):
     def at_msg_receive(self, text=None, source=None):
         self.message_holder(text)
 
-    def msg(self, msgobj):
+    def msg(self, msgobj, text=""):
         if msgobj:
             freq = msgobj.senders[0].key
             passwd = self.db.passwords.get(freq) or None
