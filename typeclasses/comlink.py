@@ -9,7 +9,7 @@ from typeclasses.objects import Object
 from typeclasses.channels import Channel
 from typeclasses.characters import Character
 from evennia import default_cmds, CmdSet, DefaultScript
-from evennia.comms.models import TempMsg
+from evennia.comms.models import TempMsg, Msg
 from evennia.utils import create, evtable
 from evennia.comms.channelhandler import CHANNELHANDLER
 from evennia.utils import logger
@@ -48,7 +48,7 @@ class Frequency(Channel):
                 if type(__channel_passwords) is dict:
                     password = __channel_passwords.get(self)
 
-            msgobj = ComlinkMsg(senders=senders, header=header, message=msgobj, channels=[self])
+            msgobj = Msg(senders=senders, header=header, message=msgobj, channels=[self])
             msgobj.tags.add(password)
         # we store the logging setting for use in distribute_message()
         msgobj.keep_log = keep_log if keep_log is not None else self.db.keep_log
@@ -89,12 +89,6 @@ class Frequency(Channel):
         if msgobj.keep_log:
             # log to file
             logger.log_file(msgobj.message, self.attributes.get("log_file") or "channel_%s.log" % self.key)
-
-
-class ComlinkMsg(TempMsg):
-    @lazy_property
-    def tags(self):
-        return TagHandler(self)
 
 
 class ComlinkCmdSet(CmdSet):
@@ -311,7 +305,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
         else:
             if "=" in self.args:
                 print("= character found.")
-                msg = ComlinkMsg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
+                msg = Msg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
                 print("Created Message: %s" % msg.message)
                 frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
                 print("Frequency Found: %s" % frequency.key)
