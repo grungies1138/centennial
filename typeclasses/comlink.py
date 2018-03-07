@@ -90,6 +90,33 @@ class Frequency(Channel):
             # log to file
             logger.log_file(msgobj.message, self.attributes.get("log_file") or "channel_%s.log" % self.key)
 
+    def pose_transform(self, msgobj, sender_string):
+        """
+        Hook method. Detects if the sender is posing, and modifies the
+        message accordingly.
+        Args:
+            msgobj (Msg or TempMsg): The message to analyze for a pose.
+            sender_string (str): The name of the sender/poser.
+        Returns:
+            string (str): A message that combines the `sender_string`
+                component with `msg` in different ways depending on if a
+                pose was performed or not (this must be analyzed by the
+                hook).
+        """
+        pose = False
+        message = msgobj.message
+        message_start = message.lstrip()
+        if message_start.startswith((':', ';')):
+            pose = True
+            message = message[1:]
+            if not message.startswith((':', "'", ',')):
+                if not message.startswith(' '):
+                    message = ' ' + message
+        if pose:
+            return '%s%s' % (msgobj.senders[0], message)
+        else:
+            return '%s says, "%s"' % (msgobj.senders[0], message)
+
 
 class ComlinkCmdSet(CmdSet):
     key = "ComlinkCmdSet"
