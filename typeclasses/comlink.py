@@ -13,7 +13,8 @@ from evennia.comms.models import TempMsg
 from evennia.utils import create, evtable
 from evennia.comms.channelhandler import CHANNELHANDLER
 from evennia.utils import logger
-from evennia.utils.utils import make_iter
+from evennia.utils.utils import make_iter, inherit_from
+import evennia
 import re
 
 
@@ -99,6 +100,15 @@ class Comlink(Object):
         self.cmdset.add(ComlinkCmdSet)
         self.db.speaker = False
         self.db.passwords = {}
+        self.tags.add("comlink")
+
+    def at_drop(self, dropper):
+        tags = self.tags.get(category="comlink_holder")
+        for tag in tags:
+            self.tags.remove(tag, category="comlink_holder")
+
+    def at_get(self, getter):
+        self.tags.add(getter.key, category="comlink_holder")
 
     def at_msg_receive(self, text=None, source=None):
         self.message_holder(text)
@@ -286,9 +296,19 @@ class ComlinkCmd(default_cmds.MuxCommand):
 
             if "slice" in self.switches:
                 self.obj.message_holder("Not yet implemented.")
+                return
         else:
             if "=" in self.args:
-                pass
+                msg = TempMsg(senders=self.obj, message=self.parse_message(self.rhs))
+                frequency = [freq for freq in self.obj.frequencies if freq.key == self.lhs][0] or None
+                if frequency:
+                    frequency.msg(msg)
+                else:
+                    comm = evennia.search_tag(self.lhs, category="comlink_holder")[0] or None
+                    if comm:
+                        comm.msg(msgobj=msg)
+                    else:
+                        self.caller.msg(comlink_prefix + "No user or Frequency with that name.  Please try again.")
             else:
                 pass
 
@@ -302,3 +322,12 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 return False
             else:
                 return True
+
+    @staticmethod
+    def parse_message(message, sender):
+        if message[0] == ":":
+            return "%s %s" % (sender.key, message[1:])
+        elif message[0] == ";":
+            return "%s%s" % (sender.key, message[1:])
+        else:
+            return "%s says \"%s\"" % (sender.key, message[1:])
