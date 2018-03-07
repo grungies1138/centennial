@@ -285,7 +285,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 table = evtable.EvTable("Frequency:", "Password:", border="header", header_line_char="-")
                 table.reformat_column(0, width=12)
                 for freq in self.obj.frequencies():
-                    password = [pwd for pwd in self.obj.db.passwords if freq.get("password")]
+                    password = [pwd for pwd in self.obj.db.passwords if self.db.passwords.get(freq.key)]
                     if password:
                         table.add_row(freq.key, password[0])
                     else:
