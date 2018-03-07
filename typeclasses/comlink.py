@@ -115,7 +115,7 @@ class Frequency(Channel):
         if pose:
             return '%s%s' % (msgobj.senders[0], message)
         else:
-            return '%s says, "%s"' % (msgobj.senders[0], message)
+            return '%s says, "%s"' % ("Ghost", message)
 
 
 class ComlinkCmdSet(CmdSet):
@@ -203,9 +203,9 @@ class Comlink(Object):
         prefix = "|rComlink:|n "
         if inherits_from(self.location, "typeclasses.characters.Character"):
             if speaker:
-                self.location.location.msg_contents(prefix + message)
+                self.location.location.msg_contents(message)
             else:
-                self.location.msg(prefix + message)
+                self.location.msg(message)
 
     def encrypt(self, freq, password):
         frequency = find_frequency(freq)
@@ -362,4 +362,4 @@ class ComlinkCmd(default_cmds.MuxCommand):
         elif message[0] == ";":
             return "%s%s" % (sender.key, message[1:])
         else:
-            return "%s says \"%s\"" % (sender.key, message)
+            return "%s says, \"%s\"" % (sender.key, message)
