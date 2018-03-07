@@ -117,8 +117,8 @@ class Comlink(Object):
 
     def msg(self, text="", from_obj=None, **kwargs):
         print("Message received: %s" % self.location.key)
-        msgobj = kwargs.get("msgobj")
-        print("Handling Message Object: %s" % str(kwargs))
+        msgobj = kwargs.get("options")
+        print("Handling Message Object: %s" % str(msgobj))
         if msgobj:
             freq = msgobj.senders[0].key
             passwd = self.db.passwords.get(freq) or None
