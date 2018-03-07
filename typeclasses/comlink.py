@@ -13,7 +13,8 @@ from evennia.comms.models import TempMsg
 from evennia.utils import create, evtable
 from evennia.comms.channelhandler import CHANNELHANDLER
 from evennia.utils import logger
-from evennia.utils.utils import make_iter, inherits_from
+from evennia.utils.utils import make_iter, inherits_from, lazy_property
+from evennia.typeclasses.tags import Tag, TagHandler
 import evennia
 import re
 
@@ -47,7 +48,7 @@ class Frequency(Channel):
                 if type(__channel_passwords) is dict:
                     password = __channel_passwords.get(self)
 
-            msgobj = TempMsg(senders=senders, header=header, message=msgobj, channels=[self])
+            msgobj = ComlinkMsg(senders=senders, header=header, message=msgobj, channels=[self])
             msgobj.tags.add(password)
         # we store the logging setting for use in distribute_message()
         msgobj.keep_log = keep_log if keep_log is not None else self.db.keep_log
@@ -90,6 +91,12 @@ class Frequency(Channel):
             logger.log_file(msgobj.message, self.attributes.get("log_file") or "channel_%s.log" % self.key)
 
 
+class ComlinkMsg(TempMsg):
+    @lazy_property
+    def tags(self):
+        return TagHandler(self)
+
+
 class ComlinkCmdSet(CmdSet):
     key = "ComlinkCmdSet"
 
@@ -118,7 +125,7 @@ class Comlink(Object):
     def msg(self, text="", from_obj=None, **kwargs):
         print("Message received: %s" % self.location.key)
         msgobj = kwargs.get("options").get("msgobj")
-        print("Handling Message Object: %s" % str(msgobj))
+        print("Handling Message Object: %s" % msgobj.message)
         if msgobj:
             freq = msgobj.senders[0].key
             passwd = self.db.passwords.get(freq) or None
@@ -304,7 +311,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
         else:
             if "=" in self.args:
                 print("= character found.")
-                msg = TempMsg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
+                msg = ComlinkMsg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
                 print("Created Message: %s" % msg.message)
                 frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
                 print("Frequency Found: %s" % frequency.key)
