@@ -300,7 +300,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
         else:
             if "=" in self.args:
                 msg = TempMsg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
-                frequency = [freq for freq in self.obj.frequencies if freq.key == self.lhs][0] or None
+                frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
                 if frequency:
                     frequency.msg(msg)
                 else:
