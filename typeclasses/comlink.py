@@ -45,6 +45,7 @@ class Frequency(Channel):
             # given msgobj is a string - convert to msgobject (always TempMsg)
             if senders and hasattr(senders[0], "db"):
                 __channel_passwords = senders[0].db.passwords
+                print("Passwords: %s" % str(__channel_passwords))
                 if type(__channel_passwords) is dict:
                     password = __channel_passwords.get(self.key)
 
