@@ -50,7 +50,6 @@ class Frequency(Channel):
         msgobj = self.message_transform(msgobj, emit=emit,
                                         sender_strings=sender_strings,
                                         external=external)
-        print(str(msgobj.tags.all()))
         self.distribute_message(msgobj, online=online)
         self.post_send_message(msgobj)
         return True
@@ -143,7 +142,7 @@ class Comlink(Object):
             print("Password: %s" % passwd)
             msg_pass = msgobj.tags.all()[0] or None
             print("Message Password: %s" % msg_pass)
-            if passwd is not None:
+            if msg_pass:
                 if passwd == msg_pass:
                     self.at_msg_receive(text=msgobj.message)
                 else:
