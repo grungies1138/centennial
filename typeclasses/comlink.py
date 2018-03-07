@@ -114,6 +114,7 @@ class Comlink(Object):
         self.message_holder(text)
 
     def msg(self, text="", from_obj=None, **kwargs):
+        print("Message received: %s" % self.location.key)
         msgobj = kwargs.get("msgobj")
         if msgobj:
             freq = msgobj.senders[0].key
@@ -333,4 +334,4 @@ class ComlinkCmd(default_cmds.MuxCommand):
         elif message[0] == ";":
             return "%s%s" % (sender.key, message[1:])
         else:
-            return "%s says \"%s\"" % (sender.key, message[1:])
+            return "%s says \"%s\"" % (sender.key, message)
