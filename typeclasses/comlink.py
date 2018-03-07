@@ -148,11 +148,10 @@ class Comlink(Object):
         msgobj = kwargs.get("options").get("msgobj")
         if msgobj:
             freq = str(kwargs.get("options").get("from_channel"))
-            print("Freq: %s" % freq)
             passwd = self.db.passwords.get(freq) or None
-            # print("Password: %s" % passwd)
+            print("Password: %s" % passwd)
             msg_pass = msgobj.tags.get(category="password") or None
-            # print("Message Password: %s" % msg_pass)
+            print("Message Password: %s" % msg_pass)
             if passwd is not None:
                 if passwd == msg_pass:
                     self.at_msg_receive(text=msgobj.message)
