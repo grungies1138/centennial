@@ -20,7 +20,7 @@ import re
 
 
 FREQUENCIES_PER_COMLINK = 5
-
+SCRAMBLED_MESSAGE = "[scrambled message]"
 
 def find_frequency(freq):
     frequencies = Frequency.objects.channel_search(freq)
