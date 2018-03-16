@@ -330,7 +330,7 @@ class ComlinkCmd(default_cmds.MuxCommand):
             if "=" in self.args:
                 msg = Msg(senders=self.obj, message=self.parse_message(self.rhs, self.caller))
 
-                frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
+                frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs] or None
                 msg.tags.add(self.obj.db.passwords.get(frequency.key), category="password")
                 if frequency:
                     self.obj.db.last_msg = frequency
