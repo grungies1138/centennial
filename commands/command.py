@@ -949,10 +949,6 @@ class CmdPose(default_cmds.MuxCommand):
             return
 
         spoken = self.caller.db.spoken_lang
-
-        chars = []
-        speakers = []
-        nonspeakers = []
         chars = [char for char in self.caller.location.contents if char.is_typeclass(Character, exact=False)]
         speakers = [char for char in chars if spoken in char.db.languages]
         nonspeakers = [char for char in chars if char not in speakers]

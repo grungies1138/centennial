@@ -14,6 +14,11 @@ Language List:
     
 """
 
+
+def translate(text, language):
+    return rplanguage.obfuscate_language(text, language=language, level=1.0)
+
+
 def setup_languages():
     add_binary()
     add_ryl()

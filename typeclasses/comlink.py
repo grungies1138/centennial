@@ -7,20 +7,19 @@
 
 from typeclasses.objects import Object
 from typeclasses.channels import Channel
-from typeclasses.characters import Character
 from evennia import default_cmds, CmdSet, DefaultScript
 from evennia.comms.models import TempMsg, Msg
-from evennia.utils import create, evtable
+from evennia.utils import create, evtable, logger
 from evennia.comms.channelhandler import CHANNELHANDLER
-from evennia.utils import logger
 from evennia.utils.utils import make_iter, inherits_from, lazy_property
-from evennia.typeclasses.tags import Tag, TagHandler
+from world.languages import translate
 import evennia
 import re
 
 
 FREQUENCIES_PER_COMLINK = 5
 SCRAMBLED_MESSAGE = "[scrambled message]"
+
 
 def find_frequency(freq):
     frequencies = Frequency.objects.channel_search(freq)
@@ -137,16 +136,26 @@ class Comlink(Object):
     def msg(self, text="", from_obj=None, **kwargs):
         msgobj = kwargs.get("options").get("msgobj")
         if msgobj:
+            message = ""
             freq = str(kwargs.get("options").get("from_channel"))
             passwd = self.db.passwords.get(freq) or None
-            msg_pass = msgobj.tags.all()[0] or None
+            msg_pass = msgobj.tags.get(category="password") or None
+            language = msgobj.tags.get(category="language") or None
+            if language:
+                if hasattr(self.location, "db.languages"):
+                    if language in self.location.db.languages:
+                        message = msgobj.message
+                    else:
+                        message = translate(msgobj.message, language)
+            else:
+                message = msgobj.message
             if msg_pass:
                 if passwd == msg_pass:
-                    self.at_msg_receive(text=msgobj.message)
+                    self.at_msg_receive(text=message)
                 else:
-                    self.at_msg_receive(text="|=m<|n|045%s|n|=m>|n: [scrambled message]" % freq)
+                    self.at_msg_receive(text="|=m<|n|045%s|n|=m>|n: %s" % (freq, SCRAMBLED_MESSAGE))
             else:
-                self.at_msg_receive(text=msgobj.message)
+                self.at_msg_receive(text=message)
 
     def frequencies(self):
         return [freq for freq in Frequency.objects.all() if self in freq.subscriptions.all()]
@@ -324,15 +333,29 @@ class ComlinkCmd(default_cmds.MuxCommand):
                 frequency = [freq for freq in self.obj.frequencies() if freq.key == self.lhs][0] or None
                 msg.tags.add(self.obj.db.passwords.get(frequency.key), category="password")
                 if frequency:
+                    self.obj.db.last_msg = frequency
                     frequency.msg(msg)
                 else:
                     comm = evennia.search_tag(self.lhs, category="comlink_holder")[0] or None
                     if comm:
+                        self.obj.db.last_msg = comm
                         comm.msg(msgobj=msg)
                     else:
                         self.caller.msg(comlink_prefix + "No user or Frequency with that name.  Please try again.")
             else:
-                pass
+                msg = Msg(senders=self.obj, message=self.parse_message(self.args, self.caller))
+
+                last = self.obj.db.last_msg
+
+                if last:
+                    if last in self.obj.frequencies():
+                        msg.tags.add(self.obj.db.passwords.get(last.key), category="password")
+                        last.msg(msg)
+                    else:
+                        last.msg(msg)
+                else:
+                    self.caller.msg(comlink_prefix + "There is no previously defined Frequency or User.  Please select "
+                                                     "the message destination and try again.")
 
     @staticmethod
     def parse_freq(freq_string):
