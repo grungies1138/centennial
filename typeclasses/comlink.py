@@ -134,7 +134,10 @@ class Comlink(Object):
         self.message_holder(text)
 
     def msg(self, text="", from_obj=None, **kwargs):
-        msgobj = kwargs.get("options").get("msgobj")
+        if kwargs.get("options"):
+            msgobj = kwargs.get("options").get("msgobj")
+        else:
+            msgobj = None
         if msgobj:
             message = ""
             freq = str(kwargs.get("options").get("from_channel"))
