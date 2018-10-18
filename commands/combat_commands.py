@@ -35,7 +35,7 @@ class AttackCommand(default_cmds.MuxCommand):
                 if self.caller.db.wielding:
                     calculated_damage = calculated_damage + self.caller.db.wielding.damage()
                 else:
-                    calculated_damage = calculated_damage + self.caller.skills.get("melee") / 40
+                    calculated_damage = calculated_damage + roll_skill(self.caller, self.caller.skills.get("melee")) / 40
                 if target.db.wearing and not target.db.wearing.db.destroyed:
                     calculated_damage = calculated_damage - target.db.wearing.durability()
                     target.db.wearing.apply_damage(self.parse_hit(challenge, defense, calculated_damage))
