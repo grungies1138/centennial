@@ -122,6 +122,9 @@ class Comlink(Object):
         self.db.passwords = {}
         self.tags.add("comlink")
 
+    def return_appearance(self, looker):
+        return "See: |whelp +comlink|n"
+
     def at_drop(self, dropper):
         tags = self.tags.get(category="comlink_holder")
         for tag in tags:
@@ -235,8 +238,8 @@ class ComlinkCmd(default_cmds.MuxCommand):
     Usage:
         |w+comlink <character list or frequency>=[: or ;]<message>|n - this
             command sends a message to the character or characters (space
-            separated list) or frequency selected. |yNOTE:|n the selected frequency must be in the frequency list
-            on the comlink device.
+            separated list) or frequency selected. |yNOTE:|n the selected frequency must be in the frequency list on
+            the comlink device.
 
         |w+comlink/broadcast [: or ;]<message>|n - This sends an area-wide
             message across all comlinks in your current zone.
@@ -272,6 +275,11 @@ class ComlinkCmd(default_cmds.MuxCommand):
 
     def func(self):
         comlink_prefix = "|rComlink:|n "
+
+        if not aelf.args:
+            self.caller.msg("See: |whelp +comlink|n")
+            return
+
         if self.switches:
             if "add" in self.switches:
                 if not self.args:

@@ -49,6 +49,7 @@ class CombatHandler(DefaultScript):
 
     def at_stop(self):
         "Called just before the script is stopped/destroyed."
+
         for character in list(self.db.characters.values()):
             # note: the list() call above disconnects list from database
             self._cleanup_character(character)

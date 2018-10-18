@@ -25,7 +25,7 @@ class AttackCommand(default_cmds.MuxCommand):
                 self.caller.msg("That is not a valid combat target.")
                 return
 
-            challenge = roll_skill(self.caller, self.caller.db.wielding.db.skill)
+            challenge = roll_skill(self.caller, self.caller.db.wielding.db.skill or 'athletics')
             defense = roll_skill(target, "dodge")
             # self.caller.location.msg_contents("%s attacks %s" % (self.caller.key, target.key))
             if challenge > defense:
