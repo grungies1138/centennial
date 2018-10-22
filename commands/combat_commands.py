@@ -48,11 +48,12 @@ class AttackCommand(default_cmds.MuxCommand):
             else:
                 self.caller.location.msg_contents("%s has attacked %s and missed." % (self.caller.key, target.key))
         else:
-            EvMenu(self.caller, "commands.combat_commands",
-                   startnode="menu_start_node",
-                   node_formatter=node_formatter,
-                   options_formatter=options_formatter,
-                   cmd_on_exit=exit_message)
+            self.caller.msg("You must select a valid target.")
+            # EvMenu(self.caller, "commands.combat_commands",
+            #        startnode="menu_start_node",
+            #        node_formatter=node_formatter,
+            #        options_formatter=options_formatter,
+            #        cmd_on_exit=exit_message)
 
     def parse_hit(self, challenge, defense, damage):
         difference = challenge - defense
