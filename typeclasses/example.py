@@ -11,3 +11,8 @@ class Human(Mammal):
         Mammal.__init__(self)
         self.hair = hair
 
+class Dog(Mammal):
+    self.legs = 4
+    self.arms=0
+    def __init__(self):
+        pass
