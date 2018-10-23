@@ -5,8 +5,9 @@ class Mammal:
     def __init__(self):
         pass
 
-class Human:
+class Human(Mammal):
     self.hair = ""
     def __init__(self, hair):
+        Mammal.__init__(self)
         self.hair = hair
 
