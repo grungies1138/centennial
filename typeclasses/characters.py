@@ -80,16 +80,12 @@ class Character(DefaultCharacter):
             return
         visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
 
-        message = []
-        message.append(header(self.key))
-        message.append(self.db.desc)
-        message.append(header())
-        message.append("Carrying:")
+        message = [header(self.key), self.db.desc, header(), "Carrying:"]
         for con in visible:
             if self.db.wearing == con:
-                message.append("%s |230[Wearing]|n" % con.key)
+                message.append(f"{con.key} |230[Wearing]|n")
             elif self.db.wielding == con:
-                message.append("%s |230[Wielding]|n" % con.key)
+                message.append(f"{con.key} |230[Wielding]|n")
             else:
                 message.append(con.key)
         return "\n".join(message)

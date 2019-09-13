@@ -1,12 +1,3 @@
-#######################################################################################
-#
-#  ToDo:
-#   1. Add Talent nodes to menu
-#   2. Adjust finalize node to reflect new skill handler
-#    a. ensure health is calculated accurately
-#
-#######################################################################################
-
 import operator
 from evennia import default_cmds
 from evennia.utils.evmenu import EvMenu
@@ -133,7 +124,7 @@ def askLanguageSelect(caller):
 
     options += ({"desc": "Go Back",
                 "key": "back",
-                "goto": "menu_start_node"},)
+                 "goto": "menu_start_node"},)
 
     return text, options
 
@@ -224,7 +215,8 @@ def askTalentSelect(caller):
     for talent in _parse_talents(caller):
         text += titlecase(talent).strip() + ", "
 
-    text += "\n\nPlease type the name of the talent you wish to purchase or type |wback|n to return to the previous menu."
+    text += "\n\nPlease type the name of the talent you wish to purchase or type |wback|n to return to the previous " \
+            "menu."
 
     options = ({"key": "_default",
                 "exec": purchase_talent,
@@ -254,7 +246,7 @@ def purchase_talent(caller, caller_input):
     talent = all_talents.get(selected_talent)
 
     if "boost" in talent:
-        for skill, value in talent.get("boost").iteritems():
+        for skill, value in talent.get("boost").items():
             caller.skills.improve(skill, value)
     if "command" in talent:
         caller.cmdset.add(talent.get("command"))
@@ -272,7 +264,7 @@ def _parse_talents(caller):
         talents.update(FORCE_TALENTS)
 
     available_talents = []
-    for key, value in talents.iteritems():
+    for key, value in talents.items():
         if key in caller.db.talents:
             continue
         available = False
@@ -281,7 +273,7 @@ def _parse_talents(caller):
         _talents = {}
         if "skills" in requirements:
             _skills = requirements.get("skills")
-            for skill, value in _skills.iteritems():
+            for skill, val in _skills.items():
                 char_skill = caller.skills.get(skill)
 
                 if char_skill:
@@ -289,12 +281,7 @@ def _parse_talents(caller):
                         available = True
         if "talent" in requirements:
             _talents = requirements.get("talent")
-            # talent_count = len(_talents.split())
-            approved_talents = 0
             if _talents in caller.db.talents:
-                # print _talents
-                # approved_talents += 1
-                # if approved_talents == talent_count:
                 available = True
 
         if available:
@@ -416,8 +403,8 @@ def reset_chargen(caller):
 
 
 def askSpecies(caller):
-    text = "Please select the species you would like your character to be. type |whelp list species|n to see the list " \
-           "of available species.  |whelp <species>|n to read about a specific selection."
+    text = "Please select the species you would like your character to be. type |whelp list species|n to see the " \
+           "list of available species.  |whelp <species>|n to read about a specific selection."
 
     options = ({"key": "_default",
                 "exec": setSpecies,
@@ -567,7 +554,6 @@ def _wrapper(caller, i):
 
 def askLevelSelect(caller):
     xp = caller.db.xp
-    num_levels = 0
     if caller.db.destiny == "experience":
         num_levels = xp / 90
     else:
@@ -657,10 +643,8 @@ def get_levels(caller):
         if skill.base >= 50:
             prestige_attributes.append(skill.name)
 
-    prestige_classes = []
-
     for item in classes.BASE_PRESTIGE:
-        prime_attribute = max(classes.BASE_PRESTIGE[item].iteritems(), key=operator.itemgetter(1))[0]
+        prime_attribute = max(classes.BASE_PRESTIGE[item].items(), key=operator.itemgetter(1))[0]
         if prime_attribute in prestige_attributes:
             classes_to_return.append(item)
 

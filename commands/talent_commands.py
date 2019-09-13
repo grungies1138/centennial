@@ -31,7 +31,8 @@ class AnticipateCommand(default_cmds.MuxCommand):
 
 class AssassinateCommand(default_cmds.MuxCommand):
     """
-    This command makes a surprise attack against a target from stealth, causing increased damage and having increased accuracy.
+    This command makes a surprise attack against a target from stealth, causing increased damage and having increased
+        accuracy.
     This is an EPIC level talent and its use requires a Destiny Point.
 
     ** NOTE ** Using tihs command is considered a Dark act and will cause an alignment shift.
@@ -62,7 +63,8 @@ class BombCommand(default_cmds.MuxCommand):
 
 class BombardCommand(default_cmds.MuxCommand):
     """
-    This command allows you to use a vehicles weapons to cause massive damage to an adjacent area, hitting all targets there.
+    This command allows you to use a vehicles weapons to cause massive damage to an adjacent area, hitting all targets
+        there.
     This is an EPIC level talent and its use requires a Destiny Point.
     """
 

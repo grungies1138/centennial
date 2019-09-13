@@ -320,7 +320,7 @@ def admin_confirm_remove_leader(caller):
     leader_to_remove = caller.ndb._menutree.leader_to_remove
 
     text = "Are you sure that you wish to remove %s from %s?  This action cannot be undone." % (
-    leader_to_remove.db_member.name, selected_org.db_key)
+        leader_to_remove.db_member.name, selected_org.db_key)
 
     options = ({"desc": "Confirm",
                 "exec": admin_do_remove_leader,
@@ -396,7 +396,7 @@ def admin_show_edit_member(caller):
             asset_string = asset.key
 
     text = "|wName:|n %s\n|wRank:|n %s\n|wAssignment:|n %s\n|wAssigned Assets:|n %s" % (
-    selected_member.db_member.name, selected_member.db_rank, selected_member.db_assignment, asset_string)
+        selected_member.db_member.name, selected_member.db_rank, selected_member.db_assignment, asset_string)
 
     options = ({"desc": "Edit Rank",
                 "goto": "admin_edit_member_rank"},
@@ -457,7 +457,7 @@ def admin_set_member_assignment(caller, caller_input):
 
 
 def admin_edit_member_assets(caller):
-    ###################  NOT IMPLEMENTED YET ##########################
+    # TODO: Must be implemented
     pass
 
 
@@ -512,7 +512,7 @@ def admin_confirm_remove_member(caller):
     member_to_remove = caller.ndb._menutree.member_to_remove
 
     text = "Are you sure that you wish to remove %s from %s?  This action cannot be undone." % (
-    member_to_remove.db_member.name, selected_org.db_key)
+        member_to_remove.db_member.name, selected_org.db_key)
 
     options = ({"desc": "Confirm",
                 "exec": admin_do_remove_member,
@@ -549,8 +549,8 @@ def admin_edit_credits(caller):
 
 def admin_set_edit_credits(caller, caller_input):
     selected_org = caller.ndb._menutree.selected_org
-    credits = int(caller_input.strip())
-    selected_org.db_credits = credits
+    cred = int(caller_input.strip())
+    selected_org.db_credits = cred
     selected_org.save()
 
 
@@ -655,7 +655,7 @@ def admin_confirm_edit_hq(caller):
     selected_org = caller.ndb._menutree.selected_org
     new_hq = caller.ndb._menutree.temp_org_hq
     text = "Are you sure you with to change the Headquarters of %s from %s to %s?" % (
-    selected_org.db_key, selected_org.db_headquarters, new_hq[0].key)
+        selected_org.db_key, selected_org.db_headquarters, new_hq[0].key)
 
     options = ({"desc": "Confirm",
                 "exec": admin_set_new_hq,

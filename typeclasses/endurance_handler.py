@@ -23,6 +23,8 @@ class EnduranceHandler(DefaultScript):
             self.db.endurance = self.db.max_endurance
 
     def decrement(self, value):
+        if self.db.endurance - value <= (self.db.max_endurance / 2) * -1:
+            raise EnduranceException("Endurance is drained.  Action cannot be performed.")
         self.db.endurance -= value
 
     def set_character(self, char):
@@ -35,3 +37,7 @@ class EnduranceHandler(DefaultScript):
     def at_repeat(self):
         if self.db.endurance < self.db.max_endurance:
             self.increment(self.db.max_endurance / 10)
+
+
+class EnduranceException(Exception):
+    pass

@@ -57,10 +57,6 @@ def get_skill_name(skill, value):
     return skill_desc
 
 
-def parse_skill_check():
-    pass
-
-
 def price_haggle_check(character, cost):
     # Function for evaluating the business skill and applying a price reduction based on the success of the roll.
     haggle_score = roll_skill(character, "business")

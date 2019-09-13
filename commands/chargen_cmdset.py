@@ -1,6 +1,7 @@
 from evennia import CmdSet
 from commands import chargen, chargen_menu
 
+
 class ChargenCmdSet(CmdSet):
     def at_cmdset_creation(self):
         """

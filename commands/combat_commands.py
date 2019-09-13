@@ -5,6 +5,8 @@ from typeclasses.characters import Character
 from world.rules import roll_skill
 
 
+# DAMAGE = Weapon Damage - (Weapon Damage * % END)
+
 class AttackCommand(default_cmds.MuxCommand):
     """
     Command used to initiate combat with another character, NPC, or Army
@@ -29,13 +31,12 @@ class AttackCommand(default_cmds.MuxCommand):
             else:
                 challenge = roll_skill(self.caller, 'athletics')
             defense = roll_skill(target, "dodge")
-            # self.caller.location.msg_contents("%s attacks %s" % (self.caller.key, target.key))
+            
             if challenge > defense:
-                calculated_damage = 0
                 if self.caller.db.wielding:
-                    calculated_damage = calculated_damage + self.caller.db.wielding.damage()
+                    calculated_damage = self.caller.db.wielding.damage()
                 else:
-                    calculated_damage = calculated_damage + roll_skill(self.caller, self.caller.skills.get("melee")) / 40
+                    calculated_damage = roll_skill(self.caller, self.caller.skills.get("melee")) / 40
                 if target.db.wearing and not target.db.wearing.db.destroyed:
                     calculated_damage = calculated_damage - target.db.wearing.durability()
                     target.db.wearing.apply_damage(self.parse_hit(challenge, defense, calculated_damage))
@@ -131,6 +132,7 @@ def _online_characters(viewer=None):
         characters = [char for char in characters if char != viewer]
 
     return characters
+
 
 def exit_message(caller, menu):
     caller.msg("Exiting +attack")

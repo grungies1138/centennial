@@ -236,7 +236,7 @@ class DeletePostCommand(default_cmds.MuxCommand):
     help_category = HELP_CATEGORY
 
     def func(self):
-        if not self.args or not "/" in self.args:
+        if not (self.args and "/" in self.args):
             self.caller.msg("You must supply a Board & Post ID to delete a post")
             return
         board, post = self.args.split("/", 1)
@@ -332,20 +332,12 @@ class ReadBoardCommand(default_cmds.MuxCommand):
             post_to_read.db_has_read.add(self.caller)
             self.caller.msg("Likes: {}".format(post_to_read.db_likes))
 
-            post_form = []
-            post_form.append(HEAD_CHAR * 78)
-            post_form.append(board_to_read.db_key.center(78))
-            post_form.append(SUB_HEAD_CHAR * 78)
-            post_form.append("{wSubject:{n %s  {wPosted By:{n %s  {wDate Posted:{n %s" %
-                             (post_to_read.db_key, post_to_read.db_sender,
-                              post_to_read.db_date_posted.strftime("%m/%d/%Y %H:%M:%S")))
-            post_form.append(SUB_HEAD_CHAR * 78)
-            post_form.append(post_to_read.db_message)
-            post_form.append("-" * 78)
-            post_form.append(
-                "{wComments:{n %s  {wLikes:{n %s" % (post_to_read.db_comments.count(), str(post_to_read.db_likes)))
-            post_form.append(HEAD_CHAR * 78)
-            post_form.append("")
+            post_form = [HEAD_CHAR * 78, board_to_read.db_key.center(78), SUB_HEAD_CHAR * 78,
+                         f"|wSubject:|n {post_to_read.db_key}  |wPosted By:|n {post_to_read.db_sender}  "
+                         f"|wDate Posted:|n {post_to_read.db_date_posted.strftime('%m/%d/%Y %H:%M:%S')}",
+                         SUB_HEAD_CHAR * 78, post_to_read.db_message, "-" * 78,
+                         f"|wComments:|n {post_to_read.db_comments.count()}  |wLikes:|n "
+                         f"{str(post_to_read.db_likes)}", HEAD_CHAR * 78, ""]
 
             comment_count = 0
             for comment in post_to_read.db_comments.all():
@@ -360,7 +352,6 @@ class ReadBoardCommand(default_cmds.MuxCommand):
 
             evmore.msg(self.caller, "\n".join(post_form))
             # self.caller.msg("\n".join(post_form))
-
 
         else:
             board = self.lhs
@@ -454,7 +445,7 @@ class AddPostCommentCommand(default_cmds.MuxCommand):
             if not board_to_read:
                 self.caller.msg("That is not a valid board.  Please try again.")
                 return
-            conn = board_to_read.db_posts.through.objects.filter(post__id=post)[0];
+            conn = board_to_read.db_posts.through.objects.filter(post__id=post)[0]
             if conn:
                 post_to_read = conn.post
 
@@ -498,7 +489,7 @@ class LikeCommand(default_cmds.MuxCommand):
         post = None
         comment = None
 
-        if not "/" in self.lhs:
+        if "/" not in self.lhs:
             self.caller.msg("Invalid argument.  Check the help file and try again.")
             return
         else:
@@ -518,7 +509,7 @@ class LikeCommand(default_cmds.MuxCommand):
                     comment_to_read = comment_conn.comment
 
             if comment_to_read:
-                if not self.caller in comment_to_read.db_has_liked.all():
+                if self.caller not in comment_to_read.db_has_liked.all():
                     comment_to_read.db_likes += 1
 
                     comment_to_read.db_has_liked.add(self.caller)
@@ -526,7 +517,7 @@ class LikeCommand(default_cmds.MuxCommand):
                     self.caller.msg("Successfully liked Comment %s on Post %s on %s" %
                                     (comment_to_read.id, post_to_read.id, board_to_read.db_key))
             elif post_to_read:
-                if not self.caller in post_to_read.db_has_liked.all():
+                if self.caller not in post_to_read.db_has_liked.all():
                     post_to_read.db_likes += 1
 
                     post_to_read.db_has_liked.add(self.caller)
@@ -559,7 +550,8 @@ class BBSCommand(default_cmds.MuxCommand):
 
 
 def menu_start_node(caller):
-    text = "Welcome to GhostBBS.  Here you will be able to view, post and reply to posts made on a variety of bulliten boards.  Feel free to look over the options listed below and enjoy."
+    text = "Welcome to GhostBBS.  Here you will be able to view, post and reply to posts made on a variety of " \
+           "bulletin boards.  Feel free to look over the options listed below and enjoy."
 
     options = ({"desc": "Boards",
                 "goto": "list_boards"},)

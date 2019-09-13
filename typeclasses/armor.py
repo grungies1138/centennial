@@ -23,21 +23,16 @@ class Armor(Item):
         return self.db.mass
 
     def return_appearance(self, looker):
-        message = []
-
-        message.append("|y%s|n" % self.key)
-        message.append(self.db.description)
-        message.append(header())
-        message.append("|wHealth:|n %s" % parse_item_health(self))
-        message.append("|wDurability:|n %s" % parse_damage(self.db.durability))
-        types = "%s" % ', '.join(t for t in self.protection_types())
-        message.append("|wProtection Types:|n %s" % types)
-        message.append("|wMass:|n %s" % self.db.mass)
-        message.append(header())
-        message2 = []
-        for line in message:
-            message2.append(unicode(line))
-        return "\n".join(message2)
+        message = [f"|y{self.key}|n",
+                   self.db.description,
+                   header(),
+                   f"|wHealth:|n {parse_item_health(self)}",
+                   f"|wDurability:|n {parse_damage(self.db.durability)}",
+                   f"|wProtection Types:|n {', '.join(t for t in self.protection_types())}",
+                   f"|wMass:|n {self.db.mass}",
+                   header()
+                   ]
+        return "\n".join([str(m) for m in message])
 
     def at_drop(self, dropper):
         if dropper.db.wearing == self:
@@ -49,7 +44,7 @@ class Armor(Item):
             self.db.health = 0
             self.db.destroyed = True
         else:
-            self.db.health = self.db.health - value
+            self.db.health -= value
 
     def repair(self, value):
         if (self.db.health + value) >= self.db.max_health:

@@ -53,19 +53,16 @@ class Room(DefaultRoom):
             colored_objects.append("|135%s|n" % obj.key)
         exits = []
         if self.exits:
-            for exit in self.exits:
-                if exit.access(looker, "view"):
-                    exits.append("|w<|n|b%s|n|w>|n - %s" % (exit.key, exit.destination))
+            for ex in self.exits:
+                if ex.access(looker, "view"):
+                    exits.append("|w<|n|b%s|n|w>|n - %s" % (ex.key, ex.destination))
         table = evtable.EvTable("|wCharacters and Objects:|n", "|wExits:|n", table=[chars + colored_objects, exits],
                                 border=None)
         table.reformat_column(0, width=39, align="l")
         message.append(table)
         message.append("\n")
 
-        message2 = []
-        for line in message:
-            message2.append(unicode(line))
-        return "\n".join(message2)
+        return "\n".join([str(m) for m in message])
 
     def list_characters(self):
         return sorted([char for char in self.contents if char.is_typeclass(Character, exact=False)])

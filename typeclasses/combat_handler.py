@@ -1,6 +1,5 @@
-import random, uuid
+import uuid
 from evennia import DefaultScript
-from world.rules import challenge_skill
 
 
 class CombatHandler(DefaultScript):
@@ -48,7 +47,7 @@ class CombatHandler(DefaultScript):
             self._init_character(character)
 
     def at_stop(self):
-        "Called just before the script is stopped/destroyed."
+        """Called just before the script is stopped/destroyed."""
 
         for character in list(self.db.characters.values()):
             # note: the list() call above disconnects list from database
@@ -70,7 +69,7 @@ class CombatHandler(DefaultScript):
     # Combat-handler methods
 
     def add_character(self, character):
-        "Add combatant to handler"
+        """Add combatant to handler"""
         dbref = character.id
         self.db.characters[dbref] = character
         self.db.action_count[dbref] = 0
@@ -80,7 +79,7 @@ class CombatHandler(DefaultScript):
         self._init_character(character)
 
     def remove_character(self, character):
-        "Remove combatant from handler"
+        """Remove combatant from handler"""
         if character.id in self.db.characters:
             self._cleanup_character(character)
         if not self.db.characters:
@@ -88,7 +87,7 @@ class CombatHandler(DefaultScript):
             self.stop()
 
     def msg_all(self, message):
-        "Send message to all combatants"
+        """Send message to all combatants"""
         for character in self.db.characters.values():
             character.msg(message)
 
@@ -145,14 +144,14 @@ class CombatHandler(DefaultScript):
                                                       ("defend", character, None)]
             self.msg_all("Next turn begins ...")
 
-
-            ## 1. Attacker makes attack.
-            ## 2. If it is a surprise attack (unarmed without previous attack || quickdraw etc.) Defender options == pass
-            ##      else
-            ##      Defender Options given
-            ##
-            ##      Attacker takes stamina penalty.  Successive Attacks without defense action increase rate of Stamina penalty (This is to protect
-            ##      against overuse of attacks without others attacking back.)
-            ##      Rolls and Results applied
-            ##
-            ##      Combat concludes when attacks cease due to withdrawl or KO or Escape
+            # 1. Attacker makes attack.
+            # 2. If it is a surprise attack (unarmed without previous attack || quickdraw etc.) Defender options == pass
+            #      else
+            #      Defender Options given
+            #
+            #      Attacker takes stamina penalty.  Successive Attacks without defense action increase rate of
+            #           Stamina penalty (This is to protect
+            #      against overuse of attacks without others attacking back.)
+            #      Rolls and Results applied
+            #
+            #      Combat concludes when attacks cease due to withdrawal or KO or Escape

@@ -61,7 +61,6 @@ class Channel(DefaultChannel):
     """
 
     def channel_prefix(self, msg, emit=False):
-        prefix_string = ""
         if self.key in COLORS:
             prefix_string = "[%s] " % COLORS.get(self.key)
         else:

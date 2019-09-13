@@ -37,17 +37,17 @@ def menu_start_node(caller):
     if caller.locks.check_lockstring(caller, "dummy:perm(Admin)"):
         new_jobs = Job.objects.filter(db_status__in=['N']).filter(db_viewers__in=[caller])
         options += ({"desc": "View open jobs (%s)" % len(new_jobs),
-                                "goto": "jobs_start"},
-                             {"desc": "Add a new Job",
-                              "goto": "add_job"},
-                             {"desc": "Administration",
-                              "goto": "admin_start"},)
+                     "goto": "jobs_start"},
+                    {"desc": "Add a new Job",
+                     "goto": "add_job"},
+                    {"desc": "Administration",
+                     "goto": "admin_start"},)
     else:
         new_jobs = Job.objects.filter(db_status__in=['N']).filter(db_viewers__in=[caller])
         options += ({"desc": "View open jobs (%s)" % len(new_jobs),
-                              "goto": "jobs_start"},
-                             {"desc": "Add a new Job",
-                              "goto": "add_job"})
+                     "goto": "jobs_start"},
+                    {"desc": "Add a new Job",
+                     "goto": "add_job"})
 
     return text, options
 
@@ -97,8 +97,8 @@ def admin_jobs_start(caller):
 
 
 def _set_admin_view_job(caller, caller_input):
-    input = caller_input.strip()
-    selected_job = Job.objects.exclude(db_status__in=['C']).filter(id=input)
+    inp = caller_input.strip()
+    selected_job = Job.objects.exclude(db_status__in=['C']).filter(id=inp)
     setattr(caller.ndb._menutree, 'selected_job', selected_job)
 
 
@@ -110,8 +110,8 @@ def admin_view_job(caller):
                 selected_job.db_bucket.db_key)
         for message in selected_job.db_messages.all():
             text += "-" * 78 + "\nSender: %s   Date Sent: %s \n\n%s\n\n" % \
-                               (message.db_sender.all().first(), message.db_date_sent.strftime("%m/%d/%y %H:%M"),
-                                message.db_message)
+                    (message.db_sender.all().first(), message.db_date_sent.strftime("%m/%d/%y %H:%M"),
+                     message.db_message)
 
         if selected_job.db_rolls.count() > 0:
             text += "Rolls".center(78, "-")
@@ -154,7 +154,8 @@ def _set_admin_assign_job(caller, caller_input):
     if assignee and caller.locks.check_lockstring(assignee, "dummy:perm(Helper)"):
         selected_job.db_assigned_to.add(assignee)
     else:
-        caller.msg("That user either does not exist or does not have appropriate permissions to accept job assignments.")
+        caller.msg("That user either does not exist or does not have appropriate permissions to accept job "
+                   "assignments.")
 
 
 def admin_job_status(caller):
@@ -199,8 +200,8 @@ def jobs_start(caller):
     table = evtable.EvTable("ID", "Job Summary", "Msgs", "Rolls", "Assigned To", "Opened", "Stat",
                             border="header", header_line_char='-')
     for job in jobs:
-        table.add_row(job.id,job.db_key[:20], job.db_messages.count(), job.db_rolls.count(),
-                      job.db_assigned_to.all().first(),job.db_opened_date.strftime("%m/%d/%y %H:%M"), job.db_status)
+        table.add_row(job.id, job.db_key[:20], job.db_messages.count(), job.db_rolls.count(),
+                      job.db_assigned_to.all().first(), job.db_opened_date.strftime("%m/%d/%y %H:%M"), job.db_status)
 
     table.reformat_column(0, width=5)
     table.reformat_column(1, width=20)
@@ -226,7 +227,7 @@ def add_job(caller):
     table = evtable.EvTable("ID", "Name", "Description", border="header", header_line_char='-')
     bucket_list = Bucket.objects.all()
     for bucket in bucket_list:
-        table.add_row(bucket.id,bucket.db_key, bucket.db_description)
+        table.add_row(bucket.id, bucket.db_key, bucket.db_description)
 
     table.reformat_column(0, width=6, valign="t", pad_bottom=1)
     table.reformat_column(1, width=25, valign="t", pad_bottom=1)
@@ -326,8 +327,8 @@ def _create_job(caller):
 
 
 def _set_view_job(caller, caller_input):
-    input = caller_input.strip()
-    selected_job = Job.objects.filter(db_viewers__in=[caller]).exclude(db_status__in=['C']).filter(id=input)
+    inp = caller_input.strip()
+    selected_job = Job.objects.filter(db_viewers__in=[caller]).exclude(db_status__in=['C']).filter(id=inp)
     setattr(caller.ndb._menutree, 'selected_job', selected_job)
 
 
@@ -335,11 +336,12 @@ def view_job(caller):
     selected_job = caller.ndb._menutree.selected_job.first()
     if selected_job:
         text = '|wJob Summary:|n %s \n|wAssigned To:|n %s\n|wStatus:|n %s\n|wBucket:|n %s\n' % \
-            (selected_job.db_key, selected_job.db_assigned_to.first(), parse_status(selected_job.db_status), selected_job.db_bucket.db_key)
+               (selected_job.db_key, selected_job.db_assigned_to.first(), parse_status(selected_job.db_status),
+                selected_job.db_bucket.db_key)
         for message in selected_job.db_messages.all():
             text += "-" * 78 + "\nSender: %s   Date Sent: %s \n\n%s\n\n" % \
-                               (message.db_sender.all().first(), message.db_date_sent.strftime("%m/%d/%y %H:%M"),
-                                message.db_message)
+                    (message.db_sender.all().first(), message.db_date_sent.strftime("%m/%d/%y %H:%M"),
+                     message.db_message)
 
         if selected_job.db_rolls.count() > 0:
             text += "Rolls".center(78, "-")
@@ -438,12 +440,12 @@ def delete_bucket(caller):
 
 
 def attempt_bucket_delete(caller, caller_input):
-    input = int(caller_input.strip())
-    if input:
-        bucket_to_delete = Bucket.objects.filter(id=input).first()
+    inp = int(caller_input.strip())
+    if inp:
+        bucket_to_delete = Bucket.objects.filter(id=inp).first()
         if bucket_to_delete.db_jobs and bucket_to_delete.db_jobs.exclude(db_status__in=['C']).count() > 0:
-                caller.msg("|r*** WARNING ***|n You cannot delete a bucket with open jobs.  Close those jobs and try "
-                           "again.")
+            caller.msg("|r*** WARNING ***|n You cannot delete a bucket with open jobs.  Close those jobs and try "
+                       "again.")
         else:
             bucket_to_delete.delete()
 

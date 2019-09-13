@@ -12,7 +12,6 @@ class Board(models.Model):
     db_members = models.ManyToManyField("objects.ObjectDB")
     db_posts = models.ManyToManyField("Post")
 
-
     @lazy_property
     def locks(self):
         return LockHandler(self)

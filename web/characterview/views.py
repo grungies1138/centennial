@@ -5,6 +5,7 @@ from django.conf import settings
 from evennia.utils.search import object_search
 from evennia.utils.utils import inherits_from
 
+
 def sheet(request, object_id):
     object_id = '#' + object_id
     try:

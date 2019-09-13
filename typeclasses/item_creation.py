@@ -246,7 +246,7 @@ def create_item_select_comp_type(caller):
     caller.ndb._menutree.optional_count = template.get("optional_count")
     if not hasattr(caller.ndb._menutree, "required"):
         required = {}
-        for item, value in template.get("required").iteritems():
+        for item, value in template.get("required").items():
             component_list = []
             for i in range(value):
                 component_list.append(None)
@@ -256,7 +256,7 @@ def create_item_select_comp_type(caller):
     if "optional" in template:
         if not hasattr(caller.ndb._menutree, "optional"):
             optional = {}
-            for item, value in template.get("optional").iteritems():
+            for item, value in template.get("optional").items():
                 component_list = []
                 for i in range(value):
                     component_list.append(None)
@@ -268,12 +268,12 @@ def create_item_select_comp_type(caller):
 
     text += "\n\n|wCurrent |rRequired|w item slots:|n\n"
 
-    for item, slots in caller.ndb._menutree.required.iteritems():
+    for item, slots in caller.ndb._menutree.required.items():
         text += "%s: %s\n" % (titlecase(item), str(slots))
 
     if "optional" in template:
         text += "\n\n|wCurrent Optional item slots:|n\n"
-        for item, slots in caller.ndb._menutree.optional.iteritems():
+        for item, slots in caller.ndb._menutree.optional.items():
             text += "%s: %s\n" % (titlecase(item), str(slots))
 
         text += "Available optional slots: %s" % template.get("optional_count")
@@ -284,13 +284,13 @@ def create_item_select_comp_type(caller):
 
     options = ()
 
-    for item, slots in caller.ndb._menutree.required.iteritems():
+    for item, slots in caller.ndb._menutree.required.items():
         node_dict = {"desc": titlecase(item), "goto": "select_comp_slot",
                      "exec": _wrapper(caller, "selected_slot", item)}
         options += (node_dict,)
 
     if "optional" in template:
-        for item, slots in caller.ndb._menutree.optional.iteritems():
+        for item, slots in caller.ndb._menutree.optional.items():
             node_dict = {"desc": titlecase(item), "goto": "select_comp_slot",
                          "exec": _wrapper(caller, "selected_slot", item)}
             options += (node_dict,)
@@ -360,7 +360,7 @@ def install_comp(caller):
 
                 if position <= len(opt_slot):
                     optional_item_list = []
-                    for item, value in caller.ndb._menutree.optional.iteritems():
+                    for item, value in caller.ndb._menutree.optional.items():
                         for thing in value:
                             if thing is not None:
                                 optional_item_list.append(item)

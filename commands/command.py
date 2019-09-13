@@ -73,7 +73,6 @@ class SheetCommand(BaseCommand):
         talents_table.reformat_column(0, width=26)
         talents_table.reformat_column(1, width=26)
 
-
         self.caller.msg("\n".join(message))
         self.caller.msg(table)
         self.caller.msg(row_separator)
@@ -85,7 +84,6 @@ class SheetCommand(BaseCommand):
                                                                       self.caller.endurance.db.max_endurance))
         self.caller.msg("|wWielding:|n %s|-|-|wWearing:|n %s" % (self.caller.db.wielding, self.caller.db.wearing))
         self.caller.msg(row_separator)
-
 
     @staticmethod
     def parse_health(target):
@@ -558,15 +556,14 @@ class TimeCommand(default_cmds.MuxCommand):
         years = int(current / base_year)
         remainder = int(current % base_year)
         date_string = self.parse_date(remainder)
-        year, month, week, day, hour, min, sec = custom_gametime.custom_gametime(absolute=True)
+        year, month, week, day, hour, minute, sec = custom_gametime.custom_gametime(absolute=True)
         message = []
         message.append("\n")
         message.append("|wCurrent Date & Time|n")
-        message.append("|-{:0>2d}:{:0>2d}:{:0>2d} {}".format(hour, min, sec, date_string))
+        # message.append("|-{:0>2d}:{:0>2d}:{:0>2d} {}".format(hour, minute, sec, date_string))
+        message.append(f"|-{hour:02}:{minute:02}:{sec:02} {date_string}")
         message.append("|wYears since:|n")
-
-        old_republic = "{:,}".format((OLD_REPUBLIC / base_year) + years)
-        message.append("|-Founding of the Old Republic: |051%s|n" % old_republic)
+        message.append(f"|-Founding of the Old Republic: |051{(OLD_REPUBLIC / base_year) + years}|n")
 
         treaty = "{:,}".format((TREAT_OF_CORUSCANT / base_year) + years)
         message.append("|-Signing of the Treaty of Coruscant: |051%s|n" % treaty)
@@ -606,7 +603,7 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days
 
-        elif calculated_days >= 36 and calculated_days <= 70:
+        elif 36 <= calculated_days <= 70:
             month = "Kelona"
             day_of_week_remainder = (calculated_days - 35) % 5
             if day_of_week_remainder == 1:
@@ -622,10 +619,10 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 35
 
-        elif calculated_days >= 71 and calculated_days <= 71:
+        elif 71 <= calculated_days <= 71:
             day = "Tapani Day"
 
-        elif calculated_days >= 72 and calculated_days <= 107:
+        elif 72 <= calculated_days <= 107:
             month = "Selona"
             day_of_week_remainder = (calculated_days - 71) % 5
             if day_of_week_remainder == 1:
@@ -641,7 +638,7 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 71
 
-        elif calculated_days >= 108 and calculated_days <= 112:
+        elif 108 <= calculated_days <= 112:
             week = "Expansion Week"
             day_of_week_remainder = (calculated_days - 107) % 5
             if day_of_week_remainder == 1:
@@ -655,7 +652,7 @@ class TimeCommand(default_cmds.MuxCommand):
             else:
                 day = "Benduday"
 
-        elif calculated_days >= 113 and calculated_days <= 147:
+        elif 113 <= calculated_days <= 147:
             month = "Telona"
             day_of_week_remainder = (calculated_days - 112) % 5
             if day_of_week_remainder == 1:
@@ -671,7 +668,7 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 112
 
-        elif calculated_days >= 148 and calculated_days <= 182:
+        elif 148 <= calculated_days <= 182:
             month = "Nelona"
             day_of_week_remainder = (calculated_days - 147) % 5
             if day_of_week_remainder == 1:
@@ -687,10 +684,10 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 147
 
-        elif calculated_days >= 183 and calculated_days <= 183:
+        elif 183 <= calculated_days <= 183:
             day = "Tapani Day"
 
-        elif calculated_days >= 184 and calculated_days <= 217:
+        elif 184 <= calculated_days <= 217:
             month = "Helona"
             day_of_week_remainder = (calculated_days - 183) % 5
             if day_of_week_remainder == 1:
@@ -706,7 +703,7 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 183
 
-        elif calculated_days >= 218 and calculated_days <= 222:
+        elif 218 <= calculated_days <= 222:
             week = "Shelova Week"
             day_of_week_remainder = (calculated_days - 217) % 5
             if day_of_week_remainder == 1:
@@ -720,7 +717,7 @@ class TimeCommand(default_cmds.MuxCommand):
             else:
                 day = "Benduday"
 
-        elif calculated_days >= 223 and calculated_days <= 257:
+        elif 223 <= calculated_days <= 257:
             month = "Melona"
             day_of_week_remainder = (calculated_days - 222) % 5
             if day_of_week_remainder == 1:
@@ -736,7 +733,7 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 222
 
-        elif calculated_days >= 258 and calculated_days <= 292:
+        elif 258 <= calculated_days <= 292:
             month = "Yelona"
             day_of_week_remainder = (calculated_days - 257) % 5
             if day_of_week_remainder == 1:
@@ -752,10 +749,10 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 257
 
-        elif calculated_days >= 293 and calculated_days <= 293:
+        elif 293 <= calculated_days <= 293:
             day = "Harvest Day"
 
-        elif calculated_days >= 294 and calculated_days <= 327:
+        elif 294 <= calculated_days <= 327:
             month = "Relona"
             day_of_week_remainder = (calculated_days - 293) % 5
             if day_of_week_remainder == 1:
@@ -771,7 +768,7 @@ class TimeCommand(default_cmds.MuxCommand):
 
             date = calculated_days - 293
 
-        elif calculated_days >= 328 and calculated_days <= 362:
+        elif 328 <= calculated_days <= 362:
             month = "Welona"
             day_of_week_remainder = (calculated_days - 327) % 5
             if day_of_week_remainder == 1:
@@ -801,9 +798,7 @@ class TimeCommand(default_cmds.MuxCommand):
             else:
                 day = "Benduday"
 
-
         date_string = "%s" % day
-
 
         if date:
             date_string += ", %s of " % date

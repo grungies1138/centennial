@@ -179,7 +179,8 @@ class CmdMail(default_cmds.MuxCommand):
                         if all_mail[mind]:
                             old_message = all_mail[mind]
                             self.send_mail(old_message.senders, "RE: " + old_message.header,
-                                           self.rhs + "\n---- Original Message ----\n" + old_message.message, self.caller)
+                                           self.rhs + "\n---- Original Message ----\n" + old_message.message,
+                                           self.caller)
                             old_message.tags.remove("u", category="mail")
                             old_message.tags.add("r", category="mail")
                             return

@@ -34,15 +34,15 @@ from evennia.settings_default import *
 # This is the name of your game. Make it catchy!
 SERVERNAME = "Star Wars: Centennial"
 
-INSTALLED_APPS = INSTALLED_APPS + ("bbs", "jobs", "orgs", "web.character",)
+INSTALLED_APPS += "bbs", "jobs", "orgs", "web.character",
 
 INLINEFUNC_ENABLED = True
 MULTISESSION_MODE = 1
 
 DEBUG = True
 
-PROTOTYPE_MODULES = ["world.prototypes", "world.weapon_prototypes", "world.armor_prototypes", "world.equipment_prototypes",
-                     "world.consumable_prototypes"]
+PROTOTYPE_MODULES = ["world.prototypes", "world.weapon_prototypes", "world.armor_prototypes",
+                     "world.equipment_prototypes", "world.consumable_prototypes"]
 
 GUEST_ENABLED = True
 GUEST_LIST = ['Guest1', 'Guest2', 'Guest3', 'Guest4', 'Guest5', 'Guest6', 'Guest7', 'Guest8', 'Guest9']
