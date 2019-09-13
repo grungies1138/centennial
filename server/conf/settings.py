@@ -34,7 +34,7 @@ from evennia.settings_default import *
 # This is the name of your game. Make it catchy!
 SERVERNAME = "Star Wars: Centennial"
 
-INSTALLED_APPS += "bbs", "jobs", "orgs", "web.character",
+# INSTALLED_APPS += "bbs", "jobs", "orgs", "web.character",
 
 INLINEFUNC_ENABLED = True
 MULTISESSION_MODE = 1
