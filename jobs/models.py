@@ -45,14 +45,14 @@ class Job(models.Model):
 
 
 class Roll(models.Model):
-    db_job = models.ForeignKey(Job)
+    db_job = models.ForeignKey(Job, on_delete=models.CASCADE)
     db_roller = models.ManyToManyField("objects.ObjectDB")
     db_skill = models.CharField(max_length=50)
     db_roll = models.IntegerField()
 
 
 class JobMessage(models.Model):
-    db_job = models.ForeignKey(Job)
+    db_job = models.ForeignKey(Job, on_delete=models.CASCADE)
     db_sender = models.ManyToManyField("objects.ObjectDB")
     db_date_sent = models.DateTimeField()
     db_message = models.TextField()
