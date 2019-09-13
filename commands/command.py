@@ -9,7 +9,7 @@ import time
 from evennia import Command as BaseCommand
 from evennia import default_cmds, search_object
 from evennia.utils import create, utils, evtable, evform, gametime, inherits_from, delay
-from library import titlecase, header
+from commands.library import titlecase, header
 from world import rules
 from evennia.server.sessionhandler import SESSIONS
 from evennia import search_object
