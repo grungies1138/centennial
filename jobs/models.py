@@ -24,7 +24,7 @@ class Job(models.Model):
         ('W', 'WAITING'),
         ('C', 'CLOSED')
     )
-    db_bucket = models.ForeignKey(Bucket)
+    db_bucket = models.ForeignKey(Bucket, on_delete=models.CASCADE)
     db_key = models.CharField(max_length=50, db_index=True)
     db_messages = models.ManyToManyField("JobMessage")
     db_rolls = models.ManyToManyField("Roll", null=True)

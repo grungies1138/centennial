@@ -157,7 +157,7 @@ pay
 
 
 class OrgMember(models.Model):
-    db_member = models.ForeignKey("objects.ObjectDB", null=True)
+    db_member = models.ForeignKey("objects.ObjectDB", null=True, on_delete=models.CASCADE)
     db_rank = models.CharField(max_length=50, null=True)
     db_assignment = models.CharField(max_length=50, null=True)
     db_assigned_assets = models.ManyToManyField("objects.ObjectDB", null=True)
