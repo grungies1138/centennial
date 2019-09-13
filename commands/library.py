@@ -33,7 +33,7 @@ def header(header_text=None, width=MAX_WIDTH, fill_char=HEAD_CHAR):
     if header_text and len(header_text) < width:
         header_repeat = (width - len(header_text)) // 2
         header_string = fill_char * header_repeat + header_text + fill_char * header_repeat
-        if header_string < width:
+        if len(header_string) < width:
             header_string += fill_char * (width - len(header_string))
 
     else:
