@@ -66,7 +66,7 @@ class Org(models.Model):
     db_parent = models.ForeignKey("Org", on_delete=models.CASCADE, null=True)
 
     # db_start = models.BooleanField()
-    db_headquarters = models.ForeignKey("objects.ObjectDB", null=True)  # Reference to the org's headquarters
+    db_headquarters = models.ForeignKey("objects.ObjectDB", null=True, on_delete=models.SET_NULL)  # Reference to the org's headquarters
 
     # References to any branches set up in different zones.
     db_branches = models.ManyToManyField("objects.ObjectDB", null=True)
