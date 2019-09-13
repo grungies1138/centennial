@@ -267,4 +267,7 @@ FORCE_TALENTS = {
 
 }
 
-TALENTS = dict(PASSIVE_TALENTS.items() + ACTIVE_TALENTS.items() + MENU_TALENTS.items())
+TALENTS = {}
+TALENTS.update(PASSIVE_TALENTS.items())
+TALENTS.update(ACTIVE_TALENTS.items())
+TALENTS.update(MENU_TALENTS.items())
