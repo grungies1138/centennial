@@ -38,6 +38,7 @@ class Character(DefaultCharacter):
         self.db.level = 0
         self.db.read_posts = []
         self.db.talents = []
+        self.db.destiny_pool = 0
         self.scripts.delete(key='endurance')
         self.scripts.delete(key='health')
         self.scripts.delete(key='force')
