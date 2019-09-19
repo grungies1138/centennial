@@ -555,9 +555,9 @@ def _wrapper(caller, i):
 def askLevelSelect(caller):
     xp = caller.db.xp
     if caller.db.destiny == "experience":
-        num_levels = xp / 90
+        num_levels = xp // 90
     else:
-        num_levels = xp / 100
+        num_levels = xp // 100
 
     options = ()
     text = "You currently have |w%s|n xp.  You have enough for |y%s|n levels.  Please choose the class that you wish " \
