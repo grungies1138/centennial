@@ -469,7 +469,7 @@ def askDestiny(caller):
 
 
 def setDestiny(caller, raw_string):
-    if caller.db.levels > 0:
+    if caller.db.level > 0:
         caller.msg("|rYou cannot change your Destiny attribute after you have selected levels.|n")
         return
 
