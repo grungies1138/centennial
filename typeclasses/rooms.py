@@ -65,7 +65,8 @@ class Room(DefaultRoom):
         return "\n".join([str(m) for m in message])
 
     def list_characters(self):
-        return sorted([char for char in self.contents if char.is_typeclass(Character, exact=False)])
+        return sorted([char for char in self.contents if char.is_typeclass("typeclasses.characters.Character",
+                                                                           exact=False)])
 
     def online_characters(self, viewer=None):
         characters = [char for char in self.list_characters() if char.sessions]
