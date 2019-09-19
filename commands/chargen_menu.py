@@ -414,7 +414,7 @@ def askSpecies(caller):
 
 
 def setSpecies(caller, raw_string):
-    if caller.db.levels > 0:
+    if caller.db.level > 0:
         caller.msg("You may not change your species after you select levels.  Please use the reset option if you wish "
                    "to start over.")
         return
