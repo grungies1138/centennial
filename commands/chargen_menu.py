@@ -594,14 +594,12 @@ def set_class(caller):
     if not caller.ndb._menutree.selected_level:
         caller.msg("There was a problem.  Report this issue to the admins.")
     else:
-        all_classes = dict(classes.BASE_CLASSES.items() + classes.BASE_PRESTIGE.items() +
-                           classes.FORCE_BASE_CLASSES.items() +
-                           classes.FORCE_PRESTIGE_CLASSES.items() + classes.FORCE_MASTER_CLASSES.items())
+        base_classes = {**classes.BASE_CLASSES, **classes.BASE_PRESTIGE}
 
-        base_classes = dict(classes.BASE_CLASSES.items() + classes.BASE_PRESTIGE.items())
+        force_classes = {**classes.FORCE_BASE_CLASSES, **classes.FORCE_PRESTIGE_CLASSES, **classes.FORCE_MASTER_CLASSES}
 
-        force_classes = dict(classes.FORCE_BASE_CLASSES.items() +
-                             classes.FORCE_PRESTIGE_CLASSES.items() + classes.FORCE_MASTER_CLASSES.items())
+        all_classes = {**base_classes, **force_classes}
+
         class_to_level = all_classes[caller.ndb._menutree.selected_level]
 
         if class_to_level:
