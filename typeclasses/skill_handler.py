@@ -22,7 +22,7 @@ class SkillHandler(DefaultScript):
         """
         Returns a list of skills
         """
-        return sorted(self.db.skills, key=lambda skill: skill[0])
+        return sorted(self.db.skills, key=lambda skill: skill.name)
 
     def add(self, **kwargs):
         if 'name' not in kwargs:
