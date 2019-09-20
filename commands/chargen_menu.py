@@ -274,8 +274,6 @@ def _parse_talents(caller):
         if "skills" in requirements:
             _skills = requirements.get("skills")
             for skill, val in _skills.items():
-                caller.msg(f"Skill: {skill}")
-                caller.msg(f"Value: {val}")
                 char_skill = caller.skills.get(skill)
 
                 if char_skill:
