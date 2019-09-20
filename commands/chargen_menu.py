@@ -230,7 +230,7 @@ def askTalentSelect(caller):
 
 def purchase_talent(caller, caller_input):
     selected_talent = caller_input.lower().strip()
-    all_talents = dict(TALENTS.items() + FORCE_TALENTS.items())
+    all_talents = {**TALENTS, **FORCE_TALENTS}
 
     if selected_talent not in all_talents:
         caller.msg("That is not a valid talent.  Please try again.")
