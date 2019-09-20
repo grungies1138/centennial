@@ -259,7 +259,7 @@ def purchase_talent(caller, caller_input):
 
 
 def _parse_talents(caller):
-    talents = dict(TALENTS)
+    talents = TALENTS
     if caller.db.destiny == "force":
         talents.update(FORCE_TALENTS)
 
@@ -274,6 +274,8 @@ def _parse_talents(caller):
         if "skills" in requirements:
             _skills = requirements.get("skills")
             for skill, val in _skills.items():
+                caller.msg(f"Skill: {skill}")
+                caller.msg(f"Value: {value}")
                 char_skill = caller.skills.get(skill)
 
                 if char_skill:
