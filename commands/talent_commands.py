@@ -35,7 +35,7 @@ class AssassinateCommand(default_cmds.MuxCommand):
         accuracy.
     This is an EPIC level talent and its use requires a Destiny Point.
 
-    ** NOTE ** Using tihs command is considered a Dark act and will cause an alignment shift.
+    ** NOTE ** Using this command is considered a Dark act and will cause an alignment shift.
     """
 
     key = "+assassinate"

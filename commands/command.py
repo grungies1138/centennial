@@ -972,7 +972,7 @@ class CmdSpeak(default_cmds.MuxCommand):
     Sets the currently spoken languages.
 
     Usage:
-
+        +speak <language>
     """
 
     key = "+speak"

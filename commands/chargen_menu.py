@@ -387,13 +387,13 @@ def reset_chargen(caller):
     caller.db.xp = 0
     caller.db.level = 0
     del caller.db.age
-    del caller.db.credits
+    caller.db.credits = 0
     del caller.db.affiliation
     del caller.db.species
     del caller.db.fullname
     del caller.db.destiny
-    del caller.db.destiny_pool
-    del caller.db.max_dp
+    caller.db.destiny_pool = 0
+    caller.db.max_dp = 0
     caller.db.talents = []
     caller.skills.clear_skills()
     caller.db.languages = []

@@ -549,11 +549,11 @@ def _set_bucket_locks(caller, caller_input):
 
 
 def ask_bucket_confirm(caller):
-    text = "Name: %s \nDescription: %s\nSLA: %s\nLocks: %s\n\nPlease review the above information.  " \
-           "If it is accurate, type Y to confirm and create your new bucket.  If not, type N and you will be" \
-           "redirected back to the beginning and the bucket information will be cleared." \
-           % (caller.ndb._menutree.bucket_name, caller.ndb._menutree.bucket_desc,
-              caller.ndb._menutree.bucket_sla, caller.ndb._menutree.bucket_locks)
+    text = f"Name: {caller.ndb._menutree.bucket_name} \nDescription: {caller.ndb._menutree.bucket_desc}" \
+           f"\nSLA: {caller.ndb._menutree.bucket_sla}\nLocks: {caller.ndb._menutree.bucket_locks}" \
+           f"\n\nPlease review the above information.  If it is accurate, type Y to confirm and create your new " \
+           f"bucket.  If not, type N and you will be redirected back to the beginning and the bucket information " \
+           f"will be cleared." \
 
     options = ({"desc": "Yes",
                 "key": "Y",
